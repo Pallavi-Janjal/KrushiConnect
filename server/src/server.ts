@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { connectDB } from './config/db';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -76,10 +77,23 @@ app.use('/api/smart-match', smartMatchRoutes);
 app.use('/api/mandi', mandiRoutes);
 app.use('/api/upload', uploadRoutes);
 
+// Serve compiled frontend in production if present
+const frontendDist = path.join(__dirname, '../../dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
 // Global Error Handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Krushi Connect Express Server running on port ${PORT}`);
-  console.log(`📡 API Base URL: http://localhost:${PORT}/api`);
+const listenPort = Number(PORT) || 5000;
+app.listen(listenPort, '0.0.0.0', () => {
+  console.log(`🚀 Krushi Connect Express Server running on port ${listenPort}`);
+  console.log(`📡 API Base URL: http://0.0.0.0:${listenPort}/api`);
 });

@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
 const db_1 = require("./config/db");
 const errorHandler_1 = require("./middleware/errorHandler");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -71,9 +72,21 @@ app.use('/api/receipts', receiptRoutes_1.default);
 app.use('/api/smart-match', smartMatchRoutes_1.default);
 app.use('/api/mandi', mandiRoutes_1.default);
 app.use('/api/upload', uploadRoutes_1.default);
+// Serve compiled frontend in production if present
+const frontendDist = path_1.default.join(__dirname, '../../dist');
+if (fs_1.default.existsSync(frontendDist)) {
+    app.use(express_1.default.static(frontendDist));
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+            return next();
+        }
+        res.sendFile(path_1.default.join(frontendDist, 'index.html'));
+    });
+}
 // Global Error Handler
 app.use(errorHandler_1.errorHandler);
-app.listen(PORT, () => {
-    console.log(`🚀 Krushi Connect Express Server running on port ${PORT}`);
-    console.log(`📡 API Base URL: http://localhost:${PORT}/api`);
+const listenPort = Number(PORT) || 5000;
+app.listen(listenPort, '0.0.0.0', () => {
+    console.log(`🚀 Krushi Connect Express Server running on port ${listenPort}`);
+    console.log(`📡 API Base URL: http://0.0.0.0:${listenPort}/api`);
 });
