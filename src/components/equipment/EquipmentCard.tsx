@@ -19,15 +19,20 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
 
   const handleRentNow = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!user) {
+      saveReturnIntent({
+        returnTo: `/equipment/${equipment.id}`,
+        action: 'RENT_NOW',
+        equipmentId: equipment.id
+      });
+      navigate('/login');
+      return;
+    }
+
     if (onRentClick) {
       onRentClick(equipment);
     } else {
-      if (!user) {
-        saveReturnIntent({ returnTo: `/equipment/${equipment.id}`, action: 'RENT_NOW', equipmentId: equipment.id });
-        navigate('/login');
-      } else {
-        navigate(`/equipment/${equipment.id}`);
-      }
+      navigate(`/equipment/${equipment.id}`);
     }
   };
 

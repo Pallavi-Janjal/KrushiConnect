@@ -79,6 +79,7 @@ export const Header: React.FC = () => {
 
             <Link 
               to="/mandi" 
+              onClick={(e) => handleProtectedNavClick(e, '/mandi')}
               className={`flex items-center gap-1 transition-colors hover:text-[#166534] ${location.pathname === '/mandi' || location.pathname === '/farmer/mandi' ? 'text-[#166534] font-bold border-b-2 border-[#166534] pb-1' : 'text-slate-600'}`}
             >
               <TrendingUp className="w-4 h-4 text-emerald-600" />

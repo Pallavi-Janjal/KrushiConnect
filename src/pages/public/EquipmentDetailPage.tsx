@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { equipmentService } from '../../services/equipmentService';
 import { reviewService } from '../../services/reviewService';
 import { RatingStars } from '../../components/common/RatingStars';
@@ -15,6 +15,7 @@ import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModa
 export const EquipmentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, saveReturnIntent } = useAuth();
   const { t } = useLanguage();
 
@@ -57,6 +58,12 @@ export const EquipmentDetailPage: React.FC = () => {
       setEquipment(null);
     }).finally(() => setLoadingPage(false));
   }, [id]);
+
+  useEffect(() => {
+    if (user && equipment && (location.state as any)?.autoOpenBooking) {
+      setIsBookingOpen(true);
+    }
+  }, [user, equipment, location.state]);
 
   if (loadingPage) {
     return (

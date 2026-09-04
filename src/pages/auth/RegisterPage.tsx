@@ -111,8 +111,9 @@ export const RegisterPage: React.FC = () => {
 
       if (returnIntent && returnIntent.returnTo) {
         const dest = returnIntent.returnTo;
+        const isRentIntent = returnIntent.action === 'RENT_NOW' || returnIntent.action === 'BOOK';
         clearReturnIntent();
-        navigate(dest);
+        navigate(dest, { state: { autoOpenBooking: isRentIntent } });
       } else {
         if (user.role === 'FARMER') {
           navigate('/farmer/dashboard');

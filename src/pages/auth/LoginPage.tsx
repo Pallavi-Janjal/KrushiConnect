@@ -35,11 +35,12 @@ export const LoginPage: React.FC = () => {
       setError(null);
       const user = await login(normalizedEmail, password);
 
-      // Check if user came from a high-intent return action (e.g. Smart Match or Mandi)
+      // Check if user came from a high-intent return action (e.g. Smart Match, Mandi, or Rent Now)
       if (returnIntent && returnIntent.returnTo) {
         const dest = returnIntent.returnTo;
+        const isRentIntent = returnIntent.action === 'RENT_NOW' || returnIntent.action === 'BOOK';
         clearReturnIntent();
-        navigate(dest);
+        navigate(dest, { state: { autoOpenBooking: isRentIntent } });
       } else {
         // Navigate based on role
         if (user.role === 'FARMER') {
@@ -70,6 +71,14 @@ export const LoginPage: React.FC = () => {
         <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl text-xs flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>Please log in first to access <strong>Mandi Intelligence & Price Trends</strong>.</span>
+        </div>
+      );
+    }
+    if (returnIntent.returnTo.includes('equipment') || returnIntent.action === 'RENT_NOW' || returnIntent.action === 'BOOK') {
+      return (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl text-xs flex items-center gap-2">
+          <Tractor className="w-4 h-4 text-[#166534] shrink-0" />
+          <span>Please log in to complete your <strong>Equipment Rental Booking</strong>.</span>
         </div>
       );
     }
