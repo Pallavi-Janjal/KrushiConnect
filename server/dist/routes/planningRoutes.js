@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const planningController_1 = require("../controllers/planningController");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/', auth_1.authenticate, planningController_1.getFarmerPlans);
+router.post('/', auth_1.authenticate, planningController_1.createFarmPlan);
+router.delete('/:id', auth_1.authenticate, planningController_1.deleteFarmPlan);
+exports.default = router;
