@@ -80,3 +80,34 @@ export const deleteFarmPlan = async (req: AuthRequest, res: Response): Promise<v
     res.status(500).json({ message: error.message || 'Failed to delete farm plan.' });
   }
 };
+
+export const updateFarmPlanStatus = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const { status } = req.body;
+    const plan = await FarmPlan.findById(req.params.id);
+    if (!plan) {
+      res.status(404).json({ message: 'Plan not found' });
+      return;
+    }
+
+    if (plan.farmerId.toString() !== req.user.userId) {
+      res.status(403).json({ message: 'Forbidden' });
+      return;
+    }
+
+    if (status) {
+      plan.status = status;
+    }
+    await plan.save();
+
+    res.json(plan.toJSON());
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Failed to update farm plan status.' });
+  }
+};
+

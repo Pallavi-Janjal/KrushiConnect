@@ -24,9 +24,11 @@ const bookingSchema = new mongoose_1.Schema({
     purpose: { type: String, default: '' },
     status: {
         type: String,
-        enum: ['PENDING', 'APPROVED', 'REJECTED', 'ACTIVE', 'COMPLETED', 'CANCELLED'],
+        enum: ['PENDING', 'APPROVED', 'REJECTED', 'ACTIVE', 'WORK_COMPLETED', 'COMPLETED', 'CANCELLED'],
         default: 'PENDING'
     },
+    workCompleted: { type: Boolean, default: false },
+    otpRequested: { type: Boolean, default: false },
     paymentStatus: {
         type: String,
         enum: ['PENDING', 'PAID'],

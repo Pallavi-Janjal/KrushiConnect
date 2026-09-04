@@ -11,13 +11,24 @@ const createReview = async (req, res) => {
             return;
         }
         const { bookingId, equipmentId, rating, comment } = req.body;
-        if (!bookingId || !equipmentId || !rating || !comment) {
-            res.status(400).json({ message: 'Booking ID, equipment ID, rating, and comment are required.' });
+        if (!equipmentId || !rating || !comment) {
+            res.status(400).json({ message: 'Equipment ID, rating, and comment are required.' });
             return;
         }
-        const existingReview = await Review_1.Review.findOne({ bookingId, farmerId: req.user.userId });
+        // Prevent equipment owner from reviewing their own equipment
+        const equipment = await Equipment_1.Equipment.findById(equipmentId);
+        if (!equipment) {
+            res.status(404).json({ message: 'Equipment not found.' });
+            return;
+        }
+        if (equipment.ownerId.toString() === req.user.userId) {
+            res.status(403).json({ message: 'You cannot review your own equipment.' });
+            return;
+        }
+        // Check if user already reviewed this equipment (one review per user per equipment)
+        const existingReview = await Review_1.Review.findOne({ equipmentId, farmerId: req.user.userId });
         if (existingReview) {
-            res.status(400).json({ message: 'You have already submitted a review for this rental booking.' });
+            res.status(400).json({ message: 'You have already reviewed this equipment.' });
             return;
         }
         const farmer = await User_1.User.findById(req.user.userId);

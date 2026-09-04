@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { analyticsService } from '../../services/analyticsService';
+import { analyticsService, OwnerAnalyticsSummary } from '../../services/analyticsService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const defaultAnalytics: OwnerAnalyticsSummary = {
+  totalEarnings: 0,
+  monthlyEarnings: 0,
+  activeBookingsCount: 0,
+  totalEquipmentCount: 0,
+  utilizationRate: 0,
+  monthlyRevenueData: [],
+  equipmentPerformanceData: []
+};
 
 export const AnalyticsPage: React.FC = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
-  const analytics = analyticsService.getOwnerAnalytics(user?.id || '');
+  const [analytics, setAnalytics] = useState<OwnerAnalyticsSummary>(defaultAnalytics);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    analyticsService.getOwnerAnalytics(user.id)
+      .then(data => setAnalytics(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [user]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

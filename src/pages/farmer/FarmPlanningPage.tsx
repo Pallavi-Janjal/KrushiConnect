@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { planningService } from '../../services/planningService';
@@ -9,7 +9,16 @@ import { Link } from 'react-router-dom';
 export const FarmPlanningPage: React.FC = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
-  const [plans, setPlans] = useState<FarmPlan[]>(() => user ? planningService.getFarmerPlans(user.id) : []);
+  const [plans, setPlans] = useState<FarmPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    planningService.getFarmerPlans(user.id)
+      .then(data => setPlans(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [user]);
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [cropName, setCropName] = useState('Wheat (PBW 550)');

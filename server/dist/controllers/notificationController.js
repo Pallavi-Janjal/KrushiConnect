@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.markAllAsRead = exports.markAsRead = exports.getUserNotifications = void 0;
+exports.deleteNotification = exports.markAllAsRead = exports.markAsRead = exports.getUserNotifications = void 0;
 const Notification_1 = require("../models/Notification");
 const getUserNotifications = async (req, res) => {
     try {
@@ -54,3 +54,26 @@ const markAllAsRead = async (req, res) => {
     }
 };
 exports.markAllAsRead = markAllAsRead;
+const deleteNotification = async (req, res) => {
+    try {
+        if (!req.user) {
+            res.status(401).json({ message: 'Unauthorized' });
+            return;
+        }
+        const item = await Notification_1.Notification.findById(req.params.id);
+        if (!item) {
+            res.status(404).json({ message: 'Notification not found' });
+            return;
+        }
+        if (item.userId.toString() !== req.user.userId) {
+            res.status(403).json({ message: 'Forbidden' });
+            return;
+        }
+        await Notification_1.Notification.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Notification deleted successfully' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message || 'Failed to delete notification.' });
+    }
+};
+exports.deleteNotification = deleteNotification;

@@ -45,6 +45,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
   const platformFee = Math.round(subtotal * 0.03);
   const grandTotal = subtotal + platformFee;
 
+  const diffTime = Math.abs(new Date(endDate).getTime() - new Date(startDate).getTime());
+  const diffDays = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {

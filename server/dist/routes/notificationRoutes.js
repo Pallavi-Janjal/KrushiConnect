@@ -7,4 +7,5 @@ const router = (0, express_1.Router)();
 router.get('/', auth_1.authenticate, notificationController_1.getUserNotifications);
 router.patch('/read-all', auth_1.authenticate, notificationController_1.markAllAsRead);
 router.patch('/:id/read', auth_1.authenticate, notificationController_1.markAsRead);
+router.delete('/:id', auth_1.authenticate, notificationController_1.deleteNotification);
 exports.default = router;

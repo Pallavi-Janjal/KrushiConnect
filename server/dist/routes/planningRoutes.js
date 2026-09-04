@@ -7,4 +7,5 @@ const router = (0, express_1.Router)();
 router.get('/', auth_1.authenticate, planningController_1.getFarmerPlans);
 router.post('/', auth_1.authenticate, planningController_1.createFarmPlan);
 router.delete('/:id', auth_1.authenticate, planningController_1.deleteFarmPlan);
+router.patch('/:id/status', auth_1.authenticate, planningController_1.updateFarmPlanStatus);
 exports.default = router;

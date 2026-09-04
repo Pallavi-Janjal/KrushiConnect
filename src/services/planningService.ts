@@ -19,5 +19,12 @@ export const planningService = {
 
   deletePlan: async (id: string): Promise<void> => {
     await apiRequest(`/planning/${id}`, { method: 'DELETE' });
+  },
+
+  updatePlanStatus: async (id: string, status: FarmPlan['status']): Promise<FarmPlan> => {
+    return await apiRequest<FarmPlan>(`/planning/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
+    });
   }
 };

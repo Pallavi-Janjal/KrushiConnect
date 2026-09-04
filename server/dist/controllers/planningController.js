@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFarmPlan = exports.createFarmPlan = exports.getFarmerPlans = void 0;
+exports.updateFarmPlanStatus = exports.deleteFarmPlan = exports.createFarmPlan = exports.getFarmerPlans = void 0;
 const FarmPlan_1 = require("../models/FarmPlan");
 const getFarmerPlans = async (req, res) => {
     try {
@@ -68,3 +68,30 @@ const deleteFarmPlan = async (req, res) => {
     }
 };
 exports.deleteFarmPlan = deleteFarmPlan;
+const updateFarmPlanStatus = async (req, res) => {
+    try {
+        if (!req.user) {
+            res.status(401).json({ message: 'Unauthorized' });
+            return;
+        }
+        const { status } = req.body;
+        const plan = await FarmPlan_1.FarmPlan.findById(req.params.id);
+        if (!plan) {
+            res.status(404).json({ message: 'Plan not found' });
+            return;
+        }
+        if (plan.farmerId.toString() !== req.user.userId) {
+            res.status(403).json({ message: 'Forbidden' });
+            return;
+        }
+        if (status) {
+            plan.status = status;
+        }
+        await plan.save();
+        res.json(plan.toJSON());
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message || 'Failed to update farm plan status.' });
+    }
+};
+exports.updateFarmPlanStatus = updateFarmPlanStatus;

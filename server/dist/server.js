@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const errorHandler_1 = require("./middleware/errorHandler");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -20,6 +21,7 @@ const analyticsRoutes_1 = __importDefault(require("./routes/analyticsRoutes"));
 const receiptRoutes_1 = __importDefault(require("./routes/receiptRoutes"));
 const smartMatchRoutes_1 = __importDefault(require("./routes/smartMatchRoutes"));
 const mandiRoutes_1 = __importDefault(require("./routes/mandiRoutes"));
+const uploadRoutes_1 = __importDefault(require("./routes/uploadRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
@@ -42,7 +44,10 @@ app.use((0, cors_1.default)({
     },
     credentials: true
 }));
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: '50mb' }));
+app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
+// Serve uploaded equipment images
+app.use('/uploads', express_1.default.static(path_1.default.join(process.cwd(), 'uploads')));
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {
     res.json({
@@ -65,6 +70,7 @@ app.use('/api/analytics', analyticsRoutes_1.default);
 app.use('/api/receipts', receiptRoutes_1.default);
 app.use('/api/smart-match', smartMatchRoutes_1.default);
 app.use('/api/mandi', mandiRoutes_1.default);
+app.use('/api/upload', uploadRoutes_1.default);
 // Global Error Handler
 app.use(errorHandler_1.errorHandler);
 app.listen(PORT, () => {

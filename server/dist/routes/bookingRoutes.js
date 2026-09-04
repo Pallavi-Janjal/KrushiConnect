@@ -9,6 +9,8 @@ router.get('/my', auth_1.authenticate, bookingController_1.getFarmerBookings);
 router.get('/owner', auth_1.authenticate, bookingController_1.getOwnerBookings);
 router.get('/:id', auth_1.authenticate, bookingController_1.getBookingById);
 router.put('/:id/status', auth_1.authenticate, bookingController_1.updateBookingStatus);
+router.post('/:id/request-otp', auth_1.authenticate, bookingController_1.requestCompletionOtp);
 router.post('/:id/verify-otp', auth_1.authenticate, bookingController_1.verifyOtpAndComplete);
 router.post('/:id/pay', auth_1.authenticate, bookingController_1.processPayment);
+router.post('/:id/confirm-payment', auth_1.authenticate, bookingController_1.confirmPaymentReceived);
 exports.default = router;
