@@ -78,15 +78,25 @@ app.use('/api/mandi', mandiRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Serve compiled frontend in production if present
-const frontendDist = path.join(__dirname, '../../dist');
-if (fs.existsSync(frontendDist)) {
+const candidateDists = [
+  path.join(__dirname, '../../dist'),
+  path.join(process.cwd(), 'dist'),
+  path.join(process.cwd(), '../dist')
+];
+
+let frontendDist = candidateDists.find(dir => fs.existsSync(dir) && fs.existsSync(path.join(dir, 'index.html')));
+
+if (frontendDist) {
+  console.log(`📦 Serving frontend static assets from: ${frontendDist}`);
   app.use(express.static(frontendDist));
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
       return next();
     }
-    res.sendFile(path.join(frontendDist, 'index.html'));
+    res.sendFile(path.join(frontendDist!, 'index.html'));
   });
+} else {
+  console.warn('⚠️ Frontend dist folder not found. API routes are active.');
 }
 
 // Global Error Handler

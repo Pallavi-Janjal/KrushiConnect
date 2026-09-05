@@ -73,8 +73,14 @@ app.use('/api/smart-match', smartMatchRoutes_1.default);
 app.use('/api/mandi', mandiRoutes_1.default);
 app.use('/api/upload', uploadRoutes_1.default);
 // Serve compiled frontend in production if present
-const frontendDist = path_1.default.join(__dirname, '../../dist');
-if (fs_1.default.existsSync(frontendDist)) {
+const candidateDists = [
+    path_1.default.join(__dirname, '../../dist'),
+    path_1.default.join(process.cwd(), 'dist'),
+    path_1.default.join(process.cwd(), '../dist')
+];
+let frontendDist = candidateDists.find(dir => fs_1.default.existsSync(dir) && fs_1.default.existsSync(path_1.default.join(dir, 'index.html')));
+if (frontendDist) {
+    console.log(`📦 Serving frontend static assets from: ${frontendDist}`);
     app.use(express_1.default.static(frontendDist));
     app.get('*', (req, res, next) => {
         if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
@@ -82,6 +88,9 @@ if (fs_1.default.existsSync(frontendDist)) {
         }
         res.sendFile(path_1.default.join(frontendDist, 'index.html'));
     });
+}
+else {
+    console.warn('⚠️ Frontend dist folder not found. API routes are active.');
 }
 // Global Error Handler
 app.use(errorHandler_1.errorHandler);
