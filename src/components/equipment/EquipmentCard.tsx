@@ -44,24 +44,26 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
       
       {/* Equipment Image & Badge Overlay */}
       <div className="relative h-48 w-full overflow-hidden bg-slate-100">
-        <img
-          src={resolveImageUrl(equipment.images?.[0])}
-          alt={equipment.name}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
-          }}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+        <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
+          <img
+            src={resolveImageUrl(equipment.images?.[0])}
+            alt={equipment.name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+            }}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </Link>
         
         {/* Category Pill Badge */}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 pointer-events-none">
           <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#166534] text-white shadow-xs tracking-wide">
             {translatedCategory}
           </span>
         </div>
 
         {/* Availability Badge */}
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 pointer-events-none">
           {equipment.isAvailable ? (
             <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
               {t('market.available')}

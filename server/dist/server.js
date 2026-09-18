@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("./config/db");
 const errorHandler_1 = require("./middleware/errorHandler");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -101,12 +102,30 @@ if (!fs_1.default.existsSync(defaultUploadDir)) {
     catch { }
 }
 app.use('/uploads', express_1.default.static(defaultUploadDir));
-// API Health check endpoint
-app.get('/api/health', (_req, res) => {
+// API Health check endpoint with diagnostic MongoDB connection info
+app.get('/api/health', async (_req, res) => {
+    const readyStates = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+    const dbState = readyStates[mongoose_1.default.connection.readyState] || 'unknown';
+    const dbName = mongoose_1.default.connection.name || 'none';
+    let equipmentCount = 0;
+    let userCount = 0;
+    try {
+        if (mongoose_1.default.connection.readyState === 1 && mongoose_1.default.connection.db) {
+            equipmentCount = await mongoose_1.default.connection.db.collection('equipment').countDocuments();
+            userCount = await mongoose_1.default.connection.db.collection('users').countDocuments();
+        }
+    }
+    catch (err) {
+        console.warn('Count check error:', err?.message);
+    }
     res.json({
         status: 'OK',
         service: 'Krushi Connect API',
         database: 'MongoDB Atlas',
+        dbConnectionState: dbState,
+        connectedDatabaseName: dbName,
+        equipmentCount,
+        userCount,
         timestamp: new Date().toISOString()
     });
 });
