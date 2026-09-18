@@ -126,6 +126,8 @@ app.use('/api/mandi', mandiRoutes_1.default);
 app.use('/api/upload', uploadRoutes_1.default);
 // Serve compiled frontend in production if present
 const candidateDists = [
+    path_1.default.join(process.cwd(), 'server', 'public'),
+    path_1.default.join(__dirname, '../public'),
     path_1.default.join(__dirname, '../../dist'),
     path_1.default.join(process.cwd(), 'dist'),
     path_1.default.join(process.cwd(), '../dist')

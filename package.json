@@ -10,7 +10,7 @@
     "dev:server": "npm --prefix server run dev",
     "build:client": "tsc -b && vite build",
     "build:server": "cd server && npm install && npm run build",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:client && npm run build:server && node scripts/copy-dist.js",
     "lint": "oxlint",
     "preview": "vite preview --host 0.0.0.0",
     "start": "node server/dist/server.js"

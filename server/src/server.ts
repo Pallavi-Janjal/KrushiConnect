@@ -129,6 +129,8 @@ app.use('/api/upload', uploadRoutes);
 
 // Serve compiled frontend in production if present
 const candidateDists = [
+  path.join(process.cwd(), 'server', 'public'),
+  path.join(__dirname, '../public'),
   path.join(__dirname, '../../dist'),
   path.join(process.cwd(), 'dist'),
   path.join(process.cwd(), '../dist')
