@@ -1,6 +1,7 @@
 export const getApiBaseUrl = (): string => {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '' && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+    return envUrl;
   }
   return '/api';
 };
@@ -45,7 +46,8 @@ export async function apiRequest<T = any>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+  const baseUrl = getApiBaseUrl();
+  const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
   const response = await fetch(url, {
     ...options,
