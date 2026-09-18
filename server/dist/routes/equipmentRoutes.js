@@ -5,8 +5,8 @@ const equipmentController_1 = require("../controllers/equipmentController");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 router.get('/', equipmentController_1.getAllEquipment);
+router.get('/owner/:ownerId', equipmentController_1.getOwnerEquipment); // Must be before /:id to avoid shadowing
 router.get('/:id', equipmentController_1.getEquipmentById);
-router.get('/owner/:ownerId', equipmentController_1.getOwnerEquipment);
 router.post('/', auth_1.authenticate, (0, auth_1.requireRole)(['EQUIPMENT_OWNER', 'equipment_owner']), equipmentController_1.createEquipment);
 router.put('/:id', auth_1.authenticate, (0, auth_1.requireRole)(['EQUIPMENT_OWNER', 'equipment_owner']), equipmentController_1.updateEquipment);
 router.delete('/:id', auth_1.authenticate, (0, auth_1.requireRole)(['EQUIPMENT_OWNER', 'equipment_owner']), equipmentController_1.deleteEquipment);

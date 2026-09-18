@@ -29,26 +29,64 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB Atlas
 (0, db_1.connectDB)();
 // CORS & Middleware
+// CLIENT_URL can be a single URL or comma-separated list of allowed origins
+const rawClientUrls = process.env.CLIENT_URL || 'http://localhost:5173';
 const allowedOrigins = [
-    process.env.CLIENT_URL || 'http://localhost:5173',
+    ...rawClientUrls.split(',').map(u => u.trim()).filter(Boolean),
+    'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175'
 ];
+// Startup env check — helps diagnose missing vars on the host
+console.log('🔧 Environment check:');
+console.log(`   MONGODB_URI : ${process.env.MONGODB_URI ? '✅ set' : '❌ MISSING — DB will not connect!'}`);
+console.log(`   JWT_SECRET  : ${process.env.JWT_SECRET ? '✅ set' : '⚠️  using fallback (insecure)'}`);
+console.log(`   CLIENT_URL  : ${rawClientUrls}`);
+console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
-            callback(null, true);
+        // Allow requests with no origin (mobile apps, Postman, curl)
+        if (!origin)
+            return callback(null, true);
+        // Allow any localhost origin during development
+        if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+            return callback(null, true);
         }
-        else {
-            callback(null, true); // Permissive for local dev
+        // Allow whitelisted production origins
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
         }
+        // In production, reject unknown origins; in dev, allow all
+        if (process.env.NODE_ENV === 'production') {
+            return callback(new Error(`CORS: origin '${origin}' not allowed`), false);
+        }
+        return callback(null, true);
     },
     credentials: true
 }));
 app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
-// Serve uploaded equipment images
-app.use('/uploads', express_1.default.static(path_1.default.join(process.cwd(), 'uploads')));
+// Serve uploaded equipment images (support root uploads or server/uploads)
+const candidateUploadDirs = [
+    path_1.default.join(process.cwd(), 'uploads'),
+    path_1.default.join(process.cwd(), 'server', 'uploads'),
+    path_1.default.join(__dirname, '../uploads'),
+    path_1.default.join(__dirname, '../../uploads')
+];
+for (const dir of candidateUploadDirs) {
+    if (fs_1.default.existsSync(dir)) {
+        app.use('/uploads', express_1.default.static(dir));
+    }
+}
+// Ensure default uploads directory exists
+const defaultUploadDir = path_1.default.join(process.cwd(), 'uploads');
+if (!fs_1.default.existsSync(defaultUploadDir)) {
+    try {
+        fs_1.default.mkdirSync(defaultUploadDir, { recursive: true });
+    }
+    catch { }
+}
+app.use('/uploads', express_1.default.static(defaultUploadDir));
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {
     res.json({

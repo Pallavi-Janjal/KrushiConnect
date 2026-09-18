@@ -1,27 +1,50 @@
 import mongoose from 'mongoose';
-import dns from 'dns';
+
+let retryCount = 0;
+const MAX_RETRIES = 10;
 
 export const connectDB = async (): Promise<void> => {
+  const connString = process.env.MONGODB_URI;
+
+  if (!connString) {
+    console.error('❌ MONGODB_URI is not set in environment variables.');
+    console.error('   → On Render/Railway: add MONGODB_URI in the "Environment" tab.');
+    console.error('   → On local: make sure server/.env exists with MONGODB_URI=...');
+    // Retry in case env vars load late (some platforms have a brief delay)
+    if (retryCount < MAX_RETRIES) {
+      retryCount++;
+      console.error(`   Retrying in 5s... (attempt ${retryCount}/${MAX_RETRIES})`);
+      setTimeout(connectDB, 5000);
+    } else {
+      console.error('   ❌ Max retries reached. Server is running without a DB connection.');
+    }
+    return;
+  }
+
   try {
-    // Configure public DNS servers to prevent Windows querySrv ECONNREFUSED issues
-    try {
-      dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
-    } catch (dnsErr) {
-      console.warn('DNS server override notice:', dnsErr);
+    const conn = await mongoose.connect(connString, {
+      serverSelectionTimeoutMS: 15000,
+      socketTimeoutMS: 45000
+    });
+    retryCount = 0; // Reset on successful connection
+    console.log(`✅ Connected to MongoDB Atlas: "${conn.connection.name}" at ${conn.connection.host}`);
+  } catch (error: any) {
+    console.error('❌ Failed to connect to MongoDB Atlas:', error?.message || error);
+
+    // Common causes hint
+    if (error?.message?.includes('ECONNREFUSED') || error?.message?.includes('querySrv') || error?.message?.includes('getaddrinfo')) {
+      console.error('   → Check: MongoDB Atlas Network Access → IP Whitelist must include 0.0.0.0/0');
+    }
+    if (error?.message?.includes('Authentication failed') || error?.message?.includes('bad auth')) {
+      console.error('   → Check: MongoDB Atlas username/password in MONGODB_URI is correct');
     }
 
-    const connString = process.env.MONGODB_URI;
-    if (!connString) {
-      throw new Error('MONGODB_URI is missing in environment variables');
+    if (retryCount < MAX_RETRIES) {
+      retryCount++;
+      console.error(`   Retrying in 5s... (attempt ${retryCount}/${MAX_RETRIES})`);
+      setTimeout(connectDB, 5000);
+    } else {
+      console.error('   ❌ Max retries reached. Check your MONGODB_URI and Atlas Network Access settings.');
     }
-    
-    const conn = await mongoose.connect(connString, {
-      serverSelectionTimeoutMS: 10000
-    });
-    console.log(`✅ Connected to MongoDB Atlas database: "${conn.connection.name}" at ${conn.connection.host}`);
-  } catch (error) {
-    console.error('❌ Failed to connect to MongoDB Atlas:', error);
-    // Retry connection after 5 seconds instead of crashing server
-    setTimeout(connectDB, 5000);
   }
 };

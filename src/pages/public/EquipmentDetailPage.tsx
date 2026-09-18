@@ -11,6 +11,7 @@ import { MapPin, UserCheck, ShieldCheck, Zap, Fuel, ArrowLeft, MessageSquare, Ph
 import { useDynamicTranslation } from '../../hooks/useDynamicTranslation';
 import { TranslatedText } from '../../components/common/TranslatedText';
 import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModal';
+import { resolveImageUrl } from '../../services/api';
 
 export const EquipmentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -149,8 +150,11 @@ export const EquipmentDetailPage: React.FC = () => {
           <div className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs relative">
             <div className="h-96 w-full bg-slate-100">
               <img
-                src={equipment.images[activeImageIndex] || equipment.images[0]}
+                src={resolveImageUrl(equipment.images[activeImageIndex] || equipment.images[0])}
                 alt={equipment.name}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -174,7 +178,14 @@ export const EquipmentDetailPage: React.FC = () => {
                     activeImageIndex === idx ? 'border-[#166534] ring-2 ring-[#166534]/20' : 'border-slate-200 opacity-70'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={resolveImageUrl(img)}
+                    alt=""
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                    }}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>

@@ -36,8 +36,7 @@ const uploadBufferToCloudinary = (buffer: Buffer, originalname: string): Promise
         }
         const filePath = path.join(uploadsDir, filename);
         fs.writeFileSync(filePath, buffer);
-        const port = process.env.PORT || 5000;
-        return resolve(`http://localhost:${port}/uploads/${filename}`);
+        return resolve(`/uploads/${filename}`);
       } catch (e) {
         console.error('Local save error:', e);
         // last resort tiny placeholder if file write fails

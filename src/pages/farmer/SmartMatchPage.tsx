@@ -7,6 +7,7 @@ import { BookingModal } from '../../components/booking/BookingModal';
 import { RatingStars } from '../../components/common/RatingStars';
 import { Sparkles, Tractor, CheckCircle2, ArrowRight, MapPin, Zap } from 'lucide-react';
 import { INDIAN_STATES, STATE_DISTRICTS_MAP } from '../../data/indiaLocations';
+import { resolveImageUrl } from '../../services/api';
 
 export const SmartMatchPage: React.FC = () => {
   const { equipment } = useApp();
@@ -204,7 +205,14 @@ export const SmartMatchPage: React.FC = () => {
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     
                     <div className="flex items-center gap-4">
-                      <img src={item.images[0]} alt="" className="w-20 h-20 rounded-xl object-cover bg-slate-100 shrink-0" />
+                      <img
+                        src={resolveImageUrl(item.images?.[0])}
+                        alt=""
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                        }}
+                        className="w-20 h-20 rounded-xl object-cover bg-slate-100 shrink-0"
+                      />
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300">

@@ -30,6 +30,14 @@ equipmentSchema.set('toJSON', {
         ret.id = ret._id.toString();
         if (ret.ownerId)
             ret.ownerId = ret.ownerId.toString();
+        if (Array.isArray(ret.images)) {
+            ret.images = ret.images.map((img) => {
+                if (typeof img === 'string' && img.includes('/uploads/')) {
+                    return '/uploads/' + img.split('/uploads/')[1];
+                }
+                return img;
+            });
+        }
         delete ret.__v;
         return ret;
     }

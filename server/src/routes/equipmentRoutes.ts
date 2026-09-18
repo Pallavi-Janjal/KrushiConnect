@@ -13,8 +13,8 @@ import { authenticate, requireRole } from '../middleware/auth';
 const router = Router();
 
 router.get('/', getAllEquipment);
+router.get('/owner/:ownerId', getOwnerEquipment); // Must be before /:id to avoid shadowing
 router.get('/:id', getEquipmentById);
-router.get('/owner/:ownerId', getOwnerEquipment);
 
 router.post('/', authenticate, requireRole(['EQUIPMENT_OWNER', 'equipment_owner']), createEquipment);
 router.put('/:id', authenticate, requireRole(['EQUIPMENT_OWNER', 'equipment_owner']), updateEquipment);

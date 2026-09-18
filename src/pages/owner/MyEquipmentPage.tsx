@@ -8,6 +8,7 @@ import { Equipment } from '../../types';
 import { Tractor, PlusCircle, Trash2, ToggleLeft, ToggleRight, MapPin, Zap, Pencil } from 'lucide-react';
 import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModal';
 import { RatingStars } from '../../components/common/RatingStars';
+import { resolveImageUrl } from '../../services/api';
 
 export const MyEquipmentPage: React.FC = () => {
   const { user } = useAuth();
@@ -104,7 +105,14 @@ export const MyEquipmentPage: React.FC = () => {
               
               <div>
                 <div className="relative h-44 w-full bg-slate-100">
-                  <img src={item.images[0] || 'https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?auto=format&fit=crop&q=80&w=600'} alt={item.name} className="w-full h-full object-cover" />
+                  <img
+                    src={resolveImageUrl(item.images?.[0])}
+                    alt={item.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?auto=format&fit=crop&q=80&w=600';
+                    }}
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#166534] text-white">
                       {t(`cat.${item.category}`) || item.category}

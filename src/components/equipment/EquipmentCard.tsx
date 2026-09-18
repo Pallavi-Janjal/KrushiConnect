@@ -6,6 +6,7 @@ import { MapPin, Zap, UserCheck, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslatedText } from '../common/TranslatedText';
+import { resolveImageUrl } from '../../services/api';
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -44,8 +45,11 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
       {/* Equipment Image & Badge Overlay */}
       <div className="relative h-48 w-full overflow-hidden bg-slate-100">
         <img
-          src={equipment.images[0] || 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80'}
+          src={resolveImageUrl(equipment.images?.[0])}
           alt={equipment.name}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+          }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
