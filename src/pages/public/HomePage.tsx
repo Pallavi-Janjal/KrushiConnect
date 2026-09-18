@@ -8,7 +8,7 @@ import { BookingModal } from '../../components/booking/BookingModal';
 import { Search, ArrowRight, Sparkles } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const { equipment, refreshEquipment } = useApp();
+  const { equipment, refreshEquipment, loading } = useApp();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -135,6 +135,7 @@ export const HomePage: React.FC = () => {
         {/* Equipment Cards Grid */}
         <EquipmentGrid
           equipment={filteredEquipment}
+          loading={loading}
           onRentClick={(eq) => setSelectedEquipmentForBooking(eq)}
         />
 

@@ -9,6 +9,7 @@ import { Tractor, PlusCircle, Trash2, ToggleLeft, ToggleRight, MapPin, Zap, Penc
 import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModal';
 import { RatingStars } from '../../components/common/RatingStars';
 import { resolveImageUrl } from '../../services/api';
+import { EquipmentSkeleton } from '../../components/common/EquipmentSkeleton';
 
 export const MyEquipmentPage: React.FC = () => {
   const { user } = useAuth();
@@ -86,7 +87,7 @@ export const MyEquipmentPage: React.FC = () => {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-64 bg-slate-100 animate-pulse rounded-2xl border border-slate-200" />
+            <EquipmentSkeleton key={n} />
           ))}
         </div>
       ) : ownerEquipment.length === 0 ? (

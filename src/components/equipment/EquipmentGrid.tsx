@@ -1,10 +1,12 @@
 import React from 'react';
 import { Equipment } from '../../types';
 import { EquipmentCard } from './EquipmentCard';
+import { LoadingEquipmentSection } from '../common/EquipmentSkeleton';
 import { SearchX } from 'lucide-react';
 
 interface EquipmentGridProps {
   equipment: Equipment[];
+  loading?: boolean;
   onRentClick?: (equipment: Equipment) => void;
   emptyTitle?: string;
   emptySubtitle?: string;
@@ -12,10 +14,15 @@ interface EquipmentGridProps {
 
 export const EquipmentGrid: React.FC<EquipmentGridProps> = ({
   equipment,
+  loading = false,
   onRentClick,
   emptyTitle = 'No Agricultural Equipment Found',
   emptySubtitle = 'Try adjusting your search query or filter parameters to discover available machinery.'
 }) => {
+  if (loading) {
+    return <LoadingEquipmentSection count={6} message="Fetching machinery from database..." />;
+  }
+
   if (equipment.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center my-6 max-w-xl mx-auto shadow-xs">

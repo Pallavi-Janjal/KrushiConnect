@@ -63,6 +63,7 @@ export const MarketplacePage: React.FC = () => {
 
         <EquipmentGrid
           equipment={filteredEquipment}
+          loading={loadingEq}
           onRentClick={(eq) => setSelectedEquipmentForBooking(eq)}
         />
       </div>
