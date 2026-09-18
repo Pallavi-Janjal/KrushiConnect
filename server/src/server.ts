@@ -20,6 +20,19 @@ import smartMatchRoutes from './routes/smartMatchRoutes';
 import mandiRoutes from './routes/mandiRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 
+// Load environment variables from possible .env locations
+const envPaths = [
+  path.join(process.cwd(), '.env'),
+  path.join(process.cwd(), 'server', '.env'),
+  path.join(__dirname, '../.env'),
+  path.join(__dirname, '../../.env')
+];
+for (const envPath of envPaths) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    break;
+  }
+}
 dotenv.config();
 
 const app = express();

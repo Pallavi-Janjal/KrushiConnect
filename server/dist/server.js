@@ -23,6 +23,19 @@ const receiptRoutes_1 = __importDefault(require("./routes/receiptRoutes"));
 const smartMatchRoutes_1 = __importDefault(require("./routes/smartMatchRoutes"));
 const mandiRoutes_1 = __importDefault(require("./routes/mandiRoutes"));
 const uploadRoutes_1 = __importDefault(require("./routes/uploadRoutes"));
+// Load environment variables from possible .env locations
+const envPaths = [
+    path_1.default.join(process.cwd(), '.env'),
+    path_1.default.join(process.cwd(), 'server', '.env'),
+    path_1.default.join(__dirname, '../.env'),
+    path_1.default.join(__dirname, '../../.env')
+];
+for (const envPath of envPaths) {
+    if (fs_1.default.existsSync(envPath)) {
+        dotenv_1.default.config({ path: envPath });
+        break;
+    }
+}
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
