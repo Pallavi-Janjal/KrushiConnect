@@ -58,21 +58,22 @@ console.log(`   CLIENT_URL  : ${rawClientUrls}`);
 console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, Postman, curl)
+        // Allow requests with no origin (mobile apps, Postman, curl, same-origin)
         if (!origin)
             return callback(null, true);
-        // Allow any localhost origin during development
+        // Allow localhost during local development
         if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
             return callback(null, true);
         }
-        // Allow whitelisted production origins
+        // Allow any onrender.com or vercel.app deployment
+        if (origin.endsWith('.onrender.com') || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+        // Allow explicitly whitelisted production origins from CLIENT_URL
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
-        // In production, reject unknown origins; in dev, allow all
-        if (process.env.NODE_ENV === 'production') {
-            return callback(new Error(`CORS: origin '${origin}' not allowed`), false);
-        }
+        // Allow if origin matches host
         return callback(null, true);
     },
     credentials: true

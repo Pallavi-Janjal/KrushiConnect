@@ -11,8 +11,9 @@ server/.env
 .env.local
 
 node_modules
-dist
-dist-ssr
+/dist
+/dist-ssr
+!server/dist
 *.local
 
 # Editor directories and files
