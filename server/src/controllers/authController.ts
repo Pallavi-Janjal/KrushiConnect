@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { User } from '../models/User';
+import { Otp } from '../models/Otp';
+import { sendOtpEmail } from '../services/emailService';
 import { generateToken } from '../utils/jwt';
 import { AuthRequest } from '../middleware/auth';
 
@@ -11,7 +13,7 @@ const NAME_REGEX = /^[a-zA-Z\s'.]{2,50}$/;
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, password, phone, role, location } = req.body;
+    const { name, email, password, phone, role, location, otp } = req.body;
 
     // Check presence of required fields
     if (!name || !email || !password || !phone || !role || !location) {
@@ -30,6 +32,25 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const normalizedEmail = String(email).trim().toLowerCase();
     if (!EMAIL_REGEX.test(normalizedEmail)) {
       res.status(400).json({ message: 'Please provide a valid email address (e.g. user@example.com).' });
+      return;
+    }
+
+    // OTP constraint: Must be 6 digits
+    const trimmedOtp = String(otp || '').trim();
+    if (!trimmedOtp || trimmedOtp.length !== 6) {
+      res.status(400).json({ message: 'Please enter the 6-digit verification code sent to your email.' });
+      return;
+    }
+
+    // Verify OTP against MongoDB
+    const validOtp = await Otp.findOne({
+      email: normalizedEmail,
+      otp: trimmedOtp,
+      expiresAt: { $gt: new Date() }
+    });
+
+    if (!validOtp) {
+      res.status(400).json({ message: 'Invalid or expired verification code. Please request a new code.' });
       return;
     }
 
@@ -92,6 +113,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       location: trimmedLocation,
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(trimmedName)}`
     });
+
+    // Delete verified OTP so it cannot be reused
+    await Otp.deleteMany({ email: normalizedEmail });
 
     const token = generateToken({
       userId: newUser.id,
@@ -175,5 +199,85 @@ export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
 
 export const logout = (_req: Request, res: Response): void => {
   res.json({ message: 'Logged out successfully' });
+};
+
+export const sendEmailOtp = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      res.status(400).json({ message: 'Email address is required to send verification code.' });
+      return;
+    }
+
+    const normalizedEmail = String(email).trim().toLowerCase();
+    if (!EMAIL_REGEX.test(normalizedEmail)) {
+      res.status(400).json({ message: 'Please provide a valid email address.' });
+      return;
+    }
+
+    // Check if an account already exists with this email
+    const existing = await User.findOne({ email: normalizedEmail });
+    if (existing) {
+      res.status(400).json({ message: 'An account with this email already exists. Please login instead.' });
+      return;
+    }
+
+    // Generate random 6-digit numeric OTP code
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    // Delete existing OTPs for this email to prevent multiple valid codes
+    await Otp.deleteMany({ email: normalizedEmail });
+
+    // Store new OTP
+    await Otp.create({
+      email: normalizedEmail,
+      otp: otpCode,
+      expiresAt
+    });
+
+    // Send email using Nodemailer
+    const emailResult = await sendOtpEmail(normalizedEmail, otpCode);
+
+    if (!emailResult.success) {
+      res.status(500).json({ message: emailResult.message });
+      return;
+    }
+
+    res.json({
+      success: true,
+      message: emailResult.message || 'Verification code sent to your email address.'
+    });
+  } catch (error: any) {
+    console.error('Send OTP error:', error);
+    res.status(500).json({ message: error.message || 'Failed to dispatch verification code.' });
+  }
+};
+
+export const verifyOtp = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      res.status(400).json({ message: 'Email and 6-digit verification code are required.' });
+      return;
+    }
+
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const validOtp = await Otp.findOne({
+      email: normalizedEmail,
+      otp: String(otp).trim(),
+      expiresAt: { $gt: new Date() }
+    });
+
+    if (!validOtp) {
+      res.status(400).json({ message: 'Invalid or expired verification code. Please request a new one.' });
+      return;
+    }
+
+    res.json({ success: true, message: 'Email verified successfully.' });
+  } catch (error: any) {
+    console.error('Verify OTP error:', error);
+    res.status(500).json({ message: error.message || 'Verification failed.' });
+  }
 };
 

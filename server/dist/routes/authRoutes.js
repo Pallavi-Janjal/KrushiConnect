@@ -6,6 +6,8 @@ const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 router.post('/register', authController_1.register);
 router.post('/login', authController_1.login);
+router.post('/send-otp', authController_1.sendEmailOtp);
+router.post('/verify-otp', authController_1.verifyOtp);
 router.get('/me', auth_1.authenticate, authController_1.getMe);
 router.post('/logout', authController_1.logout);
 exports.default = router;

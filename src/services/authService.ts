@@ -55,6 +55,20 @@ export const authService = {
     return response.user;
   },
 
+  sendOtp: async (email: string): Promise<{ success: boolean; message: string }> => {
+    return apiRequest<{ success: boolean; message: string }>('/auth/send-otp', {
+      method: 'POST',
+      body: JSON.stringify({ email })
+    });
+  },
+
+  verifyOtp: async (email: string, otp: string): Promise<{ success: boolean; message: string }> => {
+    return apiRequest<{ success: boolean; message: string }>('/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ email, otp })
+    });
+  },
+
   register: async (userData: {
     name: string;
     email: string;
@@ -62,6 +76,7 @@ export const authService = {
     role: UserRole;
     location: string;
     password?: string;
+    otp?: string;
   }): Promise<User> => {
     const response = await apiRequest<{ user: User; token: string }>('/auth/register', {
       method: 'POST',

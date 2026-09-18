@@ -3,9 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.getMe = exports.login = exports.register = void 0;
+exports.verifyOtp = exports.sendEmailOtp = exports.logout = exports.getMe = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = require("../models/User");
+const Otp_1 = require("../models/Otp");
+const emailService_1 = require("../services/emailService");
 const jwt_1 = require("../utils/jwt");
 // Helper regexes
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -13,7 +15,7 @@ const PHONE_REGEX = /^[6-9]\d{9}$/;
 const NAME_REGEX = /^[a-zA-Z\s'.]{2,50}$/;
 const register = async (req, res) => {
     try {
-        const { name, email, password, phone, role, location } = req.body;
+        const { name, email, password, phone, role, location, otp } = req.body;
         // Check presence of required fields
         if (!name || !email || !password || !phone || !role || !location) {
             res.status(400).json({ message: 'Please fill in all required fields: name, email, phone, location, role, and password.' });
@@ -29,6 +31,22 @@ const register = async (req, res) => {
         const normalizedEmail = String(email).trim().toLowerCase();
         if (!EMAIL_REGEX.test(normalizedEmail)) {
             res.status(400).json({ message: 'Please provide a valid email address (e.g. user@example.com).' });
+            return;
+        }
+        // OTP constraint: Must be 6 digits
+        const trimmedOtp = String(otp || '').trim();
+        if (!trimmedOtp || trimmedOtp.length !== 6) {
+            res.status(400).json({ message: 'Please enter the 6-digit verification code sent to your email.' });
+            return;
+        }
+        // Verify OTP against MongoDB
+        const validOtp = await Otp_1.Otp.findOne({
+            email: normalizedEmail,
+            otp: trimmedOtp,
+            expiresAt: { $gt: new Date() }
+        });
+        if (!validOtp) {
+            res.status(400).json({ message: 'Invalid or expired verification code. Please request a new code.' });
             return;
         }
         // Phone constraint: strip +91, spaces, dashes, parentheses
@@ -83,6 +101,8 @@ const register = async (req, res) => {
             location: trimmedLocation,
             avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(trimmedName)}`
         });
+        // Delete verified OTP so it cannot be reused
+        await Otp_1.Otp.deleteMany({ email: normalizedEmail });
         const token = (0, jwt_1.generateToken)({
             userId: newUser.id,
             role: newUser.role,
@@ -161,3 +181,74 @@ const logout = (_req, res) => {
     res.json({ message: 'Logged out successfully' });
 };
 exports.logout = logout;
+const sendEmailOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            res.status(400).json({ message: 'Email address is required to send verification code.' });
+            return;
+        }
+        const normalizedEmail = String(email).trim().toLowerCase();
+        if (!EMAIL_REGEX.test(normalizedEmail)) {
+            res.status(400).json({ message: 'Please provide a valid email address.' });
+            return;
+        }
+        // Check if an account already exists with this email
+        const existing = await User_1.User.findOne({ email: normalizedEmail });
+        if (existing) {
+            res.status(400).json({ message: 'An account with this email already exists. Please login instead.' });
+            return;
+        }
+        // Generate random 6-digit numeric OTP code
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+        // Delete existing OTPs for this email to prevent multiple valid codes
+        await Otp_1.Otp.deleteMany({ email: normalizedEmail });
+        // Store new OTP
+        await Otp_1.Otp.create({
+            email: normalizedEmail,
+            otp: otpCode,
+            expiresAt
+        });
+        // Send email using Nodemailer
+        const emailResult = await (0, emailService_1.sendOtpEmail)(normalizedEmail, otpCode);
+        if (!emailResult.success) {
+            res.status(500).json({ message: emailResult.message });
+            return;
+        }
+        res.json({
+            success: true,
+            message: emailResult.message || 'Verification code sent to your email address.'
+        });
+    }
+    catch (error) {
+        console.error('Send OTP error:', error);
+        res.status(500).json({ message: error.message || 'Failed to dispatch verification code.' });
+    }
+};
+exports.sendEmailOtp = sendEmailOtp;
+const verifyOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) {
+            res.status(400).json({ message: 'Email and 6-digit verification code are required.' });
+            return;
+        }
+        const normalizedEmail = String(email).trim().toLowerCase();
+        const validOtp = await Otp_1.Otp.findOne({
+            email: normalizedEmail,
+            otp: String(otp).trim(),
+            expiresAt: { $gt: new Date() }
+        });
+        if (!validOtp) {
+            res.status(400).json({ message: 'Invalid or expired verification code. Please request a new one.' });
+            return;
+        }
+        res.json({ success: true, message: 'Email verified successfully.' });
+    }
+    catch (error) {
+        console.error('Verify OTP error:', error);
+        res.status(500).json({ message: error.message || 'Verification failed.' });
+    }
+};
+exports.verifyOtp = verifyOtp;
