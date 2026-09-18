@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm --prefix server run dev\" \"vite --host 0.0.0.0\"",
+    "dev": "node scripts/start.js",
+    "dev:local": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm --prefix server run dev\" \"vite --host 0.0.0.0\"",
     "dev:client": "vite --host 0.0.0.0",
     "dev:server": "npm --prefix server run dev",
     "build:client": "tsc -b && vite build",
