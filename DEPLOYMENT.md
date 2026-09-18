@@ -1,4 +1,4 @@
-﻿# KrushiConnect — Deployment & MongoDB Atlas Troubleshooting Guide
+# KrushiConnect — Deployment & MongoDB Atlas Troubleshooting Guide
 
 We inspected your **MongoDB Atlas** database directly:
 - **Connected Database**: `krushi_connect`
@@ -46,6 +46,12 @@ Both React Frontend and Express Backend run on the **same service**.
    | `JWT_SECRET` | `Kc9!vR2xP7@Lm4$Qz8^Nw6&Ty1*Hs5` |
    | `CLIENT_URL` | `https://<your-render-service-name>.onrender.com` |
    | `NODE_ENV` | `production` |
+   | `SMTP_HOST` | `smtp.gmail.com` |
+   | `SMTP_PORT` | `587` |
+   | `SMTP_SECURE` | `false` |
+   | `SMTP_USER` | `hondaleshivani@gmail.com` |
+   | `SMTP_PASS` | `xehxxddjnbggbsci` |
+   | `EMAIL_FROM` | `"KrushiConnect <hondaleshivani@gmail.com>"` |
    | `CLOUDINARY_CLOUD_NAME` | `dcujnbj0u` |
    | `CLOUDINARY_API_KEY` | `528688469629972` |
    | `CLOUDINARY_API_SECRET` | `JLlDm82FkqwVW-r_7zTDf397DCQ` |
