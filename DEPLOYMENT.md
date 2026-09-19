@@ -42,20 +42,20 @@ Both React Frontend and Express Backend run on the **same service**.
 4. Add **Environment Variables** in Render:
    | Variable | Value |
    |---|---|
-   | `MONGODB_URI` | `mongodb+srv://pallavijanjal30_db_user:ZBnsl5hzxCPR9mXB@krushiconnect1.jwhvmnd.mongodb.net/krushi_connect?retryWrites=true&w=majority&appName=KrushiConnect1` |
-   | `JWT_SECRET` | `Kc9!vR2xP7@Lm4$Qz8^Nw6&Ty1*Hs5` |
+   | `MONGODB_URI` | `mongodb+srv://<username>:<passsword>@krushiconnect1.mongodb.net/krushi_connect?retryWrites=true&w=majority&appName=KrushiConnect1` |
+   | `JWT_SECRET` | `random secret` |
    | `CLIENT_URL` | `https://<your-render-service-name>.onrender.com` |
    | `NODE_ENV` | `production` |
    | `SMTP_HOST` | `smtp.gmail.com` |
    | `SMTP_PORT` | `587` |
    | `SMTP_SECURE` | `false` |
-   | `SMTP_USER` | `hondaleshivani@gmail.com` |
-   | `SMTP_PASS` | `xehxxddjnbggbsci` |
-   | `EMAIL_FROM` | `"KrushiConnect <hondaleshivani@gmail.com>"` |
-   | `CLOUDINARY_CLOUD_NAME` | `dcujnbj0u` |
-   | `CLOUDINARY_API_KEY` | `528688469629972` |
-   | `CLOUDINARY_API_SECRET` | `JLlDm82FkqwVW-r_7zTDf397DCQ` |
-   | `MANDI_API_KEY` | `579b464db66ec23bdd00000198a3453aaf284442786c9aee5b4ac6be` |
+   | `SMTP_USER` | `xyz@gmail.com` |
+   | `SMTP_PASS` | `password` |
+   | `EMAIL_FROM` | `"KrushiConnect <xyz@gmail.com>"` |
+   | `CLOUDINARY_CLOUD_NAME` | `cloud name` |
+   | `CLOUDINARY_API_KEY` | `key` |
+   | `CLOUDINARY_API_SECRET` | `secret` |
+   | `MANDI_API_KEY` | `key` |
 
 ---
 
@@ -68,8 +68,8 @@ If you deployed the frontend on Vercel and backend on Render:
    - **Build Command**: `npm install && npm run build`
    - **Start Command**: `node dist/server.js`
    - **Environment Variables**:
-     - `MONGODB_URI`: `mongodb+srv://pallavijanjal30_db_user:ZBnsl5hzxCPR9mXB@krushiconnect1.jwhvmnd.mongodb.net/krushi_connect?retryWrites=true&w=majority&appName=KrushiConnect1`
-     - `JWT_SECRET`: `Kc9!vR2xP7@Lm4$Qz8^Nw6&Ty1*Hs5`
+     - `MONGODB_URI`: `mongodb+srv://<username>:<password>@krushiconnect1.mongodb.net/krushi_connect?retryWrites=true&w=majority&appName=KrushiConnect1`
+     - `JWT_SECRET`: `secret`
      - `CLIENT_URL`: `https://<your-frontend-domain>.vercel.app`
 
 2. **In Vercel (Frontend Project)**:
