@@ -1,9 +1,13 @@
 🔴 Problem Statement
 
 Farmers often face difficulties in getting agricultural equipment such as tractors, harvesters, pumps and other machinery when they need them, especially during important farming periods.
+
 At the same time, equipment owners may have machinery available for rental but may not have an effective way to make its availability visible to nearby farmers.
+
 This creates a gap:
+
 Farmer needs equipment → Equipment owner has equipment → But they cannot easily find each other.
+
 Farmers may also need updated information about crop market prices before deciding where and when to sell their produce.
 
 
@@ -15,28 +19,46 @@ KrushiConnect is a web-based platform designed to connect:
 Equipment owners can list their agricultural machinery with relevant information such as:
 
 Equipment type
+
 Availability
+
 Location
+
 Rental details
+
 Farmers can search for suitable equipment according to their requirements.
+
 The platform also provides crop market price information to help farmers access market information while making selling decisions.
 
 
 ✨ Key Features
 
 👨‍🌾 For Farmers
+
 🔍 Search for agricultural equipment
+
 🚜 Find tractors, harvesters, pumps and other machinery
+
 📅 Check equipment availability
+
 💰 View rental information
+
 📊 Access crop market price information
+
 🚜 For Equipment Owners
+
 ➕ List agricultural machinery
+
 📝 Add equipment details
+
 📍 Add equipment location
+
 📅 Update availability
+
 💰 Add rental details
+
 👨‍🌾 Make available machinery visible to farmers
+
 🧑‍🌾 Farm planning 
 
 
