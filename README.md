@@ -135,30 +135,14 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
 
 📰 News & Recent Reports
 
-1. ICAR – Integrated Farmer Support Initiative     at Tekmal FPO
-   ICAR reported the launch of a Custom Hiring     Centre and farmer-support initiative to         improve access to farm mechanization and        advisory services.
+1. Times of India – Gujarat Farmers Turn to Technology to Address Labour Shortage (July 2026)
+The report highlights the adoption of farm machinery, digital tools, drones and other technologies to address agricultural labour shortages. 
 
-   "Read on ICAR" (https://reference-url-           citation.invalid/9)
+   https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
-2. PIB – National Farm Mechanisation Policy
-   Government of India information on farm         mechanisation and support for Custom Hiring     Centres under agricultural mechanisation        initiatives.
-
-   "Read on PIB" (https://reference-url-           citation.invalid/10)
-
-3. Moneycontrol – Farm Labour Shortage and         Tractor Demand
-
-   A 2026 report discussing how farm labour        shortages are contributing to demand for
-
-   agricultural mechanisation and tractors.
-
-   "Read on Moneycontrol" (https://reference-       url-citation.invalid/11)
-
-4. Times of India – New Centres to Provide Farm    Equipment
-   
-   A report on the establishment of new centres    aimed at improving farmers' access to           agricultural equipment.
-
-   "Read on Times of India" (https://reference-     url-citation.invalid/12)
-
+2.Indian Express — Small Farmers & Custom Hiring Centre
+The article includes an actual Express Photo of a farmer and describes a CHC operated by small and marginal farmers, with machinery available through an affordable rental model. 
+ https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
 # React + TypeScript + Vite
 
