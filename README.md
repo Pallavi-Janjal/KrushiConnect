@@ -138,7 +138,7 @@ The e-NAM platform provides live price information with state, commodity and APM
 1. ICAR – Integrated Farmer Support Initiative     at Tekmal FPO
    ICAR reported the launch of a Custom Hiring     Centre and farmer-support initiative to         improve access to farm mechanization and        advisory services.
 
-"Read on ICAR" (https://reference-url-citation.invalid/9)
+   "Read on ICAR" (https://reference-url-           citation.invalid/9)
 
 2. PIB – National Farm Mechanisation Policy
    Government of India information on farm         mechanisation and support for Custom Hiring     Centres under agricultural mechanisation        initiatives.
