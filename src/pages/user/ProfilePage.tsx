@@ -46,12 +46,6 @@ export const ProfilePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [comingSoonToast, setComingSoonToast] = useState<string | null>(null);
-
-  const showComingSoon = (feature: string) => {
-    setComingSoonToast(feature);
-    setTimeout(() => setComingSoonToast(null), 3000);
-  };
 
   // Initialize form with current user data
   useEffect(() => {
@@ -238,15 +232,19 @@ export const ProfilePage: React.FC = () => {
         {/* Profile Card */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
-          {/* Green Profile Header Banner with White Name & Badges */}
-          <div className="bg-gradient-to-r from-[#166534] via-emerald-700 to-[#004C22] p-6 sm:p-8 text-white relative">
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
+          {/* Profile Header Background */}
+          <div className="h-32 bg-gradient-to-r from-[#166534] via-emerald-700 to-[#004C22] relative">
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-10" />
+          </div>
 
-            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div className="flex items-center gap-5">
-                {/* Avatar Image with Camera Upload Button */}
-                <div className="relative group shrink-0">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white p-1 shadow-xl ring-4 ring-white/30 overflow-hidden">
+          {/* Avatar Section */}
+          <div className="px-6 sm:px-8 pb-6 relative -mt-16">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pb-6 border-b border-slate-100">
+              
+              <div className="flex items-end gap-5">
+                {/* Avatar Image with Upload Overlay */}
+                <div className="relative group">
+                  <div className="w-28 h-28 rounded-2xl bg-white p-1 shadow-lg ring-4 ring-emerald-500/20 overflow-hidden">
                     <div className="w-full h-full rounded-xl bg-emerald-100 flex items-center justify-center overflow-hidden">
                       {avatar ? (
                         <img
@@ -265,18 +263,18 @@ export const ProfilePage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Camera Upload Button */}
+                  {/* Camera Upload Overlay Button */}
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploadingPhoto}
-                    className="absolute -bottom-1 -right-1 p-2.5 rounded-xl bg-white text-[#166534] hover:bg-emerald-50 shadow-md transition-all group-hover:scale-105 disabled:opacity-50 border border-slate-200 cursor-pointer"
+                    className="absolute -bottom-2 -right-2 p-2.5 rounded-xl bg-[#166534] hover:bg-[#004C22] text-white shadow-md transition-all group-hover:scale-105 disabled:opacity-50"
                     title="Upload profile picture"
                   >
                     {isUploadingPhoto ? (
-                      <Loader2 className="w-4 h-4 animate-spin text-[#166534]" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
-                      <Camera className="w-4 h-4 text-[#166534]" />
+                      <Camera className="w-4 h-4" />
                     )}
                   </button>
 
@@ -289,51 +287,49 @@ export const ProfilePage: React.FC = () => {
                   />
                 </div>
 
-                {/* User Name in WHITE font on green layer */}
-                <div className="space-y-1.5">
-                  <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight drop-shadow-xs">
+                {/* User Name & Role Pill */}
+                <div className="pb-1">
+                  <h1 className="text-2xl font-black text-white leading-tight drop-shadow-sm">
                     {name || user.name}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-white/20 text-white backdrop-blur-xs border border-white/20">
-                      {role === 'EQUIPMENT_OWNER' ? <Wrench className="w-3.5 h-3.5 text-emerald-200" /> : <Tractor className="w-3.5 h-3.5 text-emerald-200" />}
-                      <span>{role === 'EQUIPMENT_OWNER' ? 'Equipment Owner' : 'Farmer'}</span>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-sm">
+                      {role === 'EQUIPMENT_OWNER' ? <Wrench className="w-3 h-3" /> : <Tractor className="w-3 h-3" />}
+                      {role === 'EQUIPMENT_OWNER' ? 'Equipment Owner' : 'Farmer'}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-xs text-emerald-100 bg-black/15 px-2.5 py-1 rounded-lg border border-white/10">
-                      <MapPin className="w-3.5 h-3.5 text-emerald-300" />
-                      <span>{selectedDistrict ? `${selectedDistrict}, ${selectedState}` : user.location}</span>
+                    <span className="text-xs text-white/80 font-medium">
+                      {selectedDistrict ? `${selectedDistrict}, ${selectedState}` : user.location}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Photo Action Buttons on Green Layer */}
-              <div className="flex items-center gap-2 self-start sm:self-center">
+              {/* Avatar Action Buttons */}
+              <div className="flex items-center gap-2 self-start sm:self-end">
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploadingPhoto}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white text-[#166534] hover:bg-emerald-50 shadow-sm transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5"
                 >
-                  <Camera className="w-3.5 h-3.5 text-[#166534]" />
+                  <Camera className="w-3.5 h-3.5 text-slate-500" />
                   <span>Upload Photo</span>
                 </button>
                 <button
                   type="button"
                   onClick={handleGenerateAvatar}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/15 hover:bg-white/25 text-white border border-white/30 backdrop-blur-xs transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 border border-emerald-200 text-[#166534] hover:bg-emerald-100 transition-colors inline-flex items-center gap-1.5"
                   title="Generate a unique avatar"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-200" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>Random Avatar</span>
                 </button>
               </div>
-            </div>
-          </div>
 
-          {/* Profile Edit Form */}
-          <div className="p-6 sm:p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            </div>
+
+            {/* Profile Edit Form */}
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
 
               <div>
                 <h2 className="text-base font-bold text-slate-900">Personal Information</h2>
@@ -540,60 +536,40 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Quick Navigation */}
-        {comingSoonToast && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 bg-slate-800 text-white text-sm font-medium rounded-xl shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3">
-            <Sparkles className="w-4 h-4 text-yellow-400" />
-            <span><strong>{comingSoonToast}</strong> — Coming Soon! This feature is under development.</span>
-          </div>
-        )}
-        <div className="mt-6">
-          <h2 className="text-base font-bold text-slate-800 mb-3 px-1">Quick Navigation</h2>
+        {/* Quick Links Card */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+          <h3 className="text-sm font-bold text-slate-900 mb-3">Quick Navigation</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-
-            {/* Dashboard — real route exists */}
-            <button
-              type="button"
-              onClick={() => navigate(role === 'EQUIPMENT_OWNER' ? '/owner/dashboard' : '/farmer/dashboard')}
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
+            <Link
+              to={user.role === 'FARMER' ? '/farmer/dashboard' : '/owner/dashboard'}
+              className="p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 text-center transition-all group"
             >
-              <span className="text-sm font-bold text-slate-800">Dashboard</span>
-              <span className="text-xs text-blue-500 mt-1">View activity</span>
-            </button>
-
-            {/* My Rentals — real route exists for Farmer; Coming Soon for Owner */}
-            <button
-              type="button"
-              onClick={() => {
-                if (role === 'FARMER') navigate('/farmer/rentals');
-                else showComingSoon('My Rentals');
-              }}
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#166534] block">Dashboard</span>
+              <span className="text-[10px] text-slate-500">View activity</span>
+            </Link>
+            <Link
+              to={user.role === 'FARMER' ? '/farmer/rentals' : '/owner/equipment'}
+              className="p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 text-center transition-all group"
             >
-              <span className="text-sm font-bold text-slate-800">My Rentals</span>
-              <span className="text-xs text-teal-500 mt-1">Manage listings</span>
-            </button>
-
-            {/* Receipts — real route exists for both roles */}
-            <button
-              type="button"
-              onClick={() => navigate(role === 'EQUIPMENT_OWNER' ? '/owner/receipts' : '/farmer/receipts')}
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#166534] block">
+                {user.role === 'FARMER' ? 'My Rentals' : 'My Equipment'}
+              </span>
+              <span className="text-[10px] text-slate-500">Manage listings</span>
+            </Link>
+            <Link
+              to={user.role === 'FARMER' ? '/farmer/receipts' : '/owner/receipts'}
+              className="p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 text-center transition-all group"
             >
-              <span className="text-sm font-bold text-slate-800">Receipts</span>
-              <span className="text-xs text-violet-500 mt-1">Billing records</span>
-            </button>
-
-            {/* Marketplace — real public route exists */}
-            <button
-              type="button"
-              onClick={() => navigate('/equipment')}
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#166534] block">Receipts</span>
+              <span className="text-[10px] text-slate-500">Billing records</span>
+            </Link>
+            <Link
+              to="/equipment"
+              className="p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 text-center transition-all group"
             >
-              <span className="text-sm font-bold text-slate-800">Marketplace</span>
-              <span className="text-xs text-orange-400 mt-1">Browse machines</span>
-            </button>
-
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#166534] block">Marketplace</span>
+              <span className="text-[10px] text-slate-500">Browse machines</span>
+            </Link>
           </div>
         </div>
 
