@@ -20,10 +20,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'nav.smartFarming': 'Smart Farming',
 
     // ─── Hero Section ────────────────────────────────────────────────────
-    'hero.tagline': 'Smart Farming Starts with the Right Equipment.',
-    'hero.headline': 'Rent Modern Machinery.',
-    'hero.headlineSpan': 'Farm Efficiently. Earn & Grow.',
-    'hero.subtitle': 'Krushi Connect connects farmers with verified equipment owners for affordable, hassle-free rental sharing.',
+    'hero.tagline': 'Trusted Farm Equipment Rentals',
+    'hero.headline': 'Rent Farm Machinery.',
+    'hero.headlineSpan': 'Grow More.',
+    'hero.subtitle': 'Find affordable tractors and agricultural equipment from verified owners near you.',
     'hero.searchPlaceholder': 'Search tractors, harvesters, rotavators, seeders...',
     'hero.findBtn': 'Find Machinery',
     'hero.statVerified': 'Verified Machines',

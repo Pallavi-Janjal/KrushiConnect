@@ -56,3 +56,34 @@
   font-size: 0.75rem;
   font-weight: 600;
 }
+
+/* Green glow flash on hero section outline */
+@keyframes greenGlowFlash {
+  0% {
+    border-color: rgba(22, 101, 52, 0.2);
+    box-shadow:
+      inset 0 0 20px rgba(34, 197, 94, 0.05),
+      0 0 15px rgba(34, 197, 94, 0.1),
+      0 0 30px rgba(34, 197, 94, 0.05);
+  }
+  50% {
+    border-color: rgba(34, 197, 94, 0.6);
+    box-shadow:
+      inset 0 0 30px rgba(34, 197, 94, 0.1),
+      0 0 25px rgba(34, 197, 94, 0.3),
+      0 0 50px rgba(34, 197, 94, 0.15),
+      0 0 80px rgba(34, 197, 94, 0.08);
+  }
+  100% {
+    border-color: rgba(22, 101, 52, 0.2);
+    box-shadow:
+      inset 0 0 20px rgba(34, 197, 94, 0.05),
+      0 0 15px rgba(34, 197, 94, 0.1),
+      0 0 30px rgba(34, 197, 94, 0.05);
+  }
+}
+
+.hero-glow-border {
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  animation: greenGlowFlash 3s ease-in-out infinite;
+}

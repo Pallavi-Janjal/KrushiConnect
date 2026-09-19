@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Tractor, Shield, PhoneCall, Mail, MapPin } from 'lucide-react';
+import { Tractor, Shield } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-900 text-slate-300 pt-12 pb-8 border-t border-slate-800 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-slate-800">
           
           {/* Brand Info */}
           <div className="space-y-4">
@@ -58,25 +58,6 @@ export const Footer: React.FC = () => {
               <li><Link to="/owner/dashboard" className="hover:text-emerald-400 transition-colors">{t('nav.dashboard')}</Link></li>
               <li><Link to="/owner/maintenance" className="hover:text-emerald-400 transition-colors">{t('footer.maintenance')}</Link></li>
               <li><Link to="/owner/analytics" className="hover:text-emerald-400 transition-colors">{t('footer.analytics')}</Link></li>
-            </ul>
-          </div>
-
-          {/* Contact Information */}
-          <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">{t('footer.contact')}</h4>
-            <ul className="space-y-3 text-sm text-slate-400">
-              <li className="flex items-center gap-2.5">
-                <PhoneCall className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>+91 1800 123 4567 (Toll Free)</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>support@krushi.com</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                <span>AgriTech Innovation Hub, India</span>
-              </li>
             </ul>
           </div>
 
