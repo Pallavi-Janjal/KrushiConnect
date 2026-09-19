@@ -70,8 +70,8 @@ The e-NAM platform provides live price information with state, commodity and APM
 
 📚 Research Reference
 
-1.Research Paper: Status of Farm Mechanization     in India: An Analytical Study
-Author: Meghna Verma (2026)
+1.Research Paper: Status of Farm Mechanization     in India: An Analytical 
+Study Author: Meghna Verma (2026)
 
 Page 7 – Current Status
 
@@ -102,6 +102,7 @@ DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
 2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
+
 Source: Tractor Manufacturers Association
 
 Page 2
@@ -116,7 +117,6 @@ Technologies such as GPS, sensors, robotics and precision agriculture can improv
 
 Data can help reduce wastage and make farming more cost-effective.
 
-Tractor Manufacturers Association
 
 📄 Page 3
 
