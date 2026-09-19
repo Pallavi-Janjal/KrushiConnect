@@ -68,70 +68,33 @@ KrushiConnect provides crop market price information so that farmers can check a
 
 The e-NAM platform provides live price information with state, commodity and APMC-wise data, including minimum, modal and maximum prices.
 
-📚 References
+📚 Research Reference
 
-1. ICAR – Indian Council of Agricultural           Research
-   Custom Hiring Centre and farmer-support         initiatives.
-   https://www.icar.gov.in/
+Research Paper: Status of Farm Mechanization     in India: An Analytical Study
+Author: Meghna Verma (2026)
 
-2. ICAR – Indian Institute of Millets Research
-   Integrated Farmer Support Initiative with       Custom Hiring Centre, 24 February 2026.
-   https://www.icar.gov.in/en/icar-iimr-           launches-integrated-farmer-support-             initiative-tekmal-fpo-chc-and-scientific-       advisory
+Page 7 – Current Status
 
-3. Press Information Bureau (PIB), Government      of India
-   National Farm Mechanisation Policy and          Custom Hiring Centres, 11 August 2026.
-   https://www.pib.gov.in/
+Farm mechanization in India is developing but varies across regions and farm sizes.
 
-4. e-NAM – National Agriculture Market
-   Agricultural market information and online      trading platform.
-   https://enam.gov.in/
+Small and marginal farmers face difficulties in accessing agricultural machinery.
 
-5. e-NAM FAQs
-   Information about e-NAM, mandis and online      price discovery.
-   https://www.enam.gov.in/web/resources/FAQs-     of-eNam
+Custom Hiring Centres (CHCs) can improve farmers' access to machinery without requiring individual ownership. 
 
-6. ICAR – AICRP on Farm Implements and Machinery
-   Research and development related to farm        implements, machinery and custom hiring.
-   https://icar.gov.in/en/aicrp-farm-implements-and-machinery
 
-7. JFarm Services
-   Farmer-to-farmer agricultural equipment         rental platform.
-   https://www.jfarmservices.in/
+Page 9 – Challenges
 
-8. Custom Hiring: The Catalyst for Inclusive       Farm Mechanization and Viksit Bharat
-   Indian Farming, ICAR, 2025.
+High machinery cost is a major barrier for small and marginal farmers.
 
-   This paper explains how custom hiring can       reduce the capital burden on farmers,           improve machinery utilization and support       timely farm operations.
+Small and fragmented landholdings make machinery use difficult.
 
-   "Research Paper – ICAR Indian Farming"          (https://reference-url-citation.invalid/1)
+Limited access to Custom Hiring Centres, repair facilities and suitable machinery affects mechanization.
 
-9. Need for Real-Time Monitoring in Custom         Hiring Centers (CHCs)
-   Discover Internet of Things, Springer           Nature, 2025/2026.
+Affordable and accessible machinery services are needed for inclusive farm mechanization. 
 
-   The paper discusses challenges such as peak-    season machinery shortages, inefficient         scheduling and the role of digital              technologies in improving machinery             utilization.
 
-   "Research Paper – Springer Nature"              (https://reference-url-citation.invalid/2)
-
-10. Custom Hiring Services Availed, Constraints     and Suggestions Perceived by the Farmers in     Jabalpur District of Madhya Pradesh
-    Asian Journal of Agricultural Extension,        Economics & Sociology, 2022.
-
-    A study of 80 farmers using Custom Hiring       Centres. It identified lack of knowledge        about CHCs and non-availability of              machinery during peak season among the          major constraints reported by respondents.
-
-    "Research Paper – Jabalpur Farmer Study"        (https://reference-url-citation.invalid/4)
-
-11. Empowering Farmers Through Custom Hiring        Centers Indian Farming, ICAR, 2026.
-
-    The paper discusses how Custom Hiring           Centres help reduce the affordability gap       by providing farm machinery on rental           basis, along with challenges such as high       rental cost, low awareness and peak-season      machinery shortages.
-
-    "Research Paper – ICAR Indian Farming 2026"      (https://reference-url-citation.invalid/6)
-
-12. Custom Hiring Centres and the Dream of          Mechanized Farming in India – An Evaluation
-    Agricultural Economics Research Review,         2021.
-
-    The study discusses the role of Custom          Hiring Centres in making costly                 agricultural machinery accessible to            farmers who cannot afford individual            ownership.
-
-   "Research Record – FAO AGRIS"                   (https://reference-url-citation.invalid/8)
-
+ 
+    
 
 📰 News & Recent Reports
 
