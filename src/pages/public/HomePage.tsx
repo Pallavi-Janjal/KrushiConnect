@@ -79,7 +79,7 @@ export const HomePage: React.FC = () => {
           <img
             src="/hero-tractor-smooth.png"
             alt="Modern Farm Tractor"
-            className="absolute right-0 top-0 bottom-0 h-full w-[100%] sm:w-[85%] lg:w-[65%] object-cover object-right"
+            className="absolute inset-0 w-full h-full object-cover object-right"
           />
           {/* Full-width continuous gradient overlay - completely eliminates any vertical seam or white line */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#f7faf5] via-[#f7faf5]/90 via-35% to-transparent to-80%"></div>
