@@ -132,31 +132,6 @@ app.get('/api/health', (_req, res) => {
         timestamp: new Date().toISOString()
     });
 });
-// SMTP Diagnostic test endpoint
-app.get('/api/test-smtp', async (_req, res) => {
-    const nodemailer = await import('nodemailer');
-    const user = (process.env.SMTP_USER || process.env.STMP_USER || '').trim();
-    const pass = (process.env.SMTP_PASS || process.env.STMP_PASS || '').trim().replace(/\s+/g, '');
-    const configs = [
-        { name: 'service-gmail', options: { service: 'gmail', auth: { user, pass }, connectionTimeout: 8000 } },
-        { name: 'smtp-587-starttls', options: { host: 'smtp.gmail.com', port: 587, secure: false, auth: { user, pass }, connectionTimeout: 8000, tls: { rejectUnauthorized: false } } },
-        { name: 'smtp-465-ssl', options: { host: 'smtp.gmail.com', port: 465, secure: true, auth: { user, pass }, connectionTimeout: 8000, tls: { rejectUnauthorized: false } } },
-        { name: 'smtp-googlemail-587', options: { host: 'smtp.googlemail.com', port: 587, secure: false, auth: { user, pass }, connectionTimeout: 8000, tls: { rejectUnauthorized: false } } }
-    ];
-    const results = [];
-    for (const cfg of configs) {
-        const start = Date.now();
-        try {
-            const transporter = nodemailer.createTransport(cfg.options);
-            await transporter.verify();
-            results.push({ name: cfg.name, status: 'SUCCESS', timeMs: Date.now() - start });
-        }
-        catch (e) {
-            results.push({ name: cfg.name, status: 'FAILED', error: e.message, timeMs: Date.now() - start });
-        }
-    }
-    res.json({ user, passConfigured: Boolean(pass), results });
-});
 // Register API Routes
 app.use('/api/auth', authRoutes_1.default);
 app.use('/api/equipment', equipmentRoutes_1.default);
