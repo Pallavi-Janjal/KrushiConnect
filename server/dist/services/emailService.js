@@ -10,14 +10,15 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
  * If SMTP credentials are not configured or are set to placeholders, returns null.
  */
 const getTransporter = () => {
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
+    // Support both standard SMTP_* and typo STMP_*
+    const user = (process.env.SMTP_USER || process.env.STMP_USER || '').trim();
+    const pass = (process.env.SMTP_PASS || process.env.STMP_PASS || '').trim().replace(/\s+/g, '');
     if (!user || !pass || user === 'your_email@gmail.com' || pass === 'your_gmail_app_password' || pass === 'abcdefghijklmnop') {
         return null;
     }
-    const cleanUser = user.trim();
-    const cleanPass = pass.trim().replace(/\s+/g, '');
-    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const cleanUser = user;
+    const cleanPass = pass;
+    const host = (process.env.SMTP_HOST || process.env.STMP_HOST || 'smtp.gmail.com').trim();
     if (host.includes('gmail.com')) {
         return nodemailer_1.default.createTransport({
             service: 'gmail',
@@ -27,8 +28,8 @@ const getTransporter = () => {
             }
         });
     }
-    const port = Number(process.env.SMTP_PORT) || 587;
-    const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+    const port = Number(process.env.SMTP_PORT || process.env.STMP_PORT) || 587;
+    const secure = process.env.SMTP_SECURE === 'true' || process.env.STMP_SECURE === 'true' || port === 465;
     return nodemailer_1.default.createTransport({
         host,
         port,
@@ -60,7 +61,8 @@ const sendOtpEmail = async (email, otp) => {
         };
     }
     try {
-        const fromAddress = process.env.EMAIL_FROM || `"KrushiConnect" <${process.env.SMTP_USER}>`;
+        const effectiveUser = (process.env.SMTP_USER || process.env.STMP_USER || '').trim();
+        const fromAddress = process.env.EMAIL_FROM || `"KrushiConnect" <${effectiveUser}>`;
         const htmlContent = `
       <!DOCTYPE html>
       <html>
