@@ -98,64 +98,66 @@ The e-NAM platform provides live price information with state, commodity and APM
    Farmer-to-farmer agricultural equipment         rental platform.
    https://www.jfarmservices.in/
 
-8. Custom Hiring: The Catalyst for Inclusive Farm Mechanization and Viksit Bharat
-Indian Farming, ICAR, 2025.
+8. Custom Hiring: The Catalyst for Inclusive       Farm Mechanization and Viksit Bharat
+   Indian Farming, ICAR, 2025.
 
-This paper explains how custom hiring can reduce the capital burden on farmers, improve machinery utilization and support timely farm operations.
+   This paper explains how custom hiring can       reduce the capital burden on farmers,           improve machinery utilization and support       timely farm operations.
 
-"Research Paper – ICAR Indian Farming" (https://reference-url-citation.invalid/1)
+   "Research Paper – ICAR Indian Farming"          (https://reference-url-citation.invalid/1)
 
-9. Need for Real-Time Monitoring in Custom Hiring Centers (CHCs)
-Discover Internet of Things, Springer Nature, 2025/2026.
+9. Need for Real-Time Monitoring in Custom         Hiring Centers (CHCs)
+   Discover Internet of Things, Springer           Nature, 2025/2026.
 
-The paper discusses challenges such as peak-season machinery shortages, inefficient scheduling and the role of digital technologies in improving machinery utilization.
+   The paper discusses challenges such as peak-    season machinery shortages, inefficient         scheduling and the role of digital              technologies in improving machinery             utilization.
 
-"Research Paper – Springer Nature" (https://reference-url-citation.invalid/2)
+   "Research Paper – Springer Nature"              (https://reference-url-citation.invalid/2)
 
-10. Custom Hiring Services Availed, Constraints and Suggestions Perceived by the Farmers in Jabalpur District of Madhya Pradesh
-Asian Journal of Agricultural Extension, Economics & Sociology, 2022.
+10. Custom Hiring Services Availed, Constraints     and Suggestions Perceived by the Farmers in     Jabalpur District of Madhya Pradesh
+    Asian Journal of Agricultural Extension,        Economics & Sociology, 2022.
 
-A study of 80 farmers using Custom Hiring Centres. It identified lack of knowledge about CHCs and non-availability of machinery during peak season among the major constraints reported by respondents.
+    A study of 80 farmers using Custom Hiring       Centres. It identified lack of knowledge        about CHCs and non-availability of              machinery during peak season among the          major constraints reported by respondents.
 
-"Research Paper – Jabalpur Farmer Study" (https://reference-url-citation.invalid/4)
+    "Research Paper – Jabalpur Farmer Study"        (https://reference-url-citation.invalid/4)
 
-11. Empowering Farmers Through Custom Hiring Centers Indian Farming, ICAR, 2026.
+11. Empowering Farmers Through Custom Hiring        Centers Indian Farming, ICAR, 2026.
 
-The paper discusses how Custom Hiring Centres help reduce the affordability gap by providing farm machinery on rental basis, along with challenges such as high rental cost, low awareness and peak-season machinery shortages.
+    The paper discusses how Custom Hiring           Centres help reduce the affordability gap       by providing farm machinery on rental           basis, along with challenges such as high       rental cost, low awareness and peak-season      machinery shortages.
 
-"Research Paper – ICAR Indian Farming 2026" (https://reference-url-citation.invalid/6)
+    "Research Paper – ICAR Indian Farming 2026"      (https://reference-url-citation.invalid/6)
 
-12.Custom Hiring Centres and the Dream of Mechanized Farming in India – An Evaluation
-Agricultural Economics Research Review, 2021.
+12. Custom Hiring Centres and the Dream of          Mechanized Farming in India – An Evaluation
+    Agricultural Economics Research Review,         2021.
 
-The study discusses the role of Custom Hiring Centres in making costly agricultural machinery accessible to farmers who cannot afford individual ownership.
+    The study discusses the role of Custom          Hiring Centres in making costly                 agricultural machinery accessible to            farmers who cannot afford individual            ownership.
 
-"Research Record – FAO AGRIS" (https://reference-url-citation.invalid/8)
+   "Research Record – FAO AGRIS"                   (https://reference-url-citation.invalid/8)
 
 
 📰 News & Recent Reports
 
-1. ICAR – Integrated Farmer Support Initiative at Tekmal FPO
-ICAR reported the launch of a Custom Hiring Centre and farmer-support initiative to improve access to farm mechanization and advisory services.
+1. ICAR – Integrated Farmer Support Initiative     at Tekmal FPO
+   ICAR reported the launch of a Custom Hiring     Centre and farmer-support initiative to         improve access to farm mechanization and        advisory services.
 
 "Read on ICAR" (https://reference-url-citation.invalid/9)
 
-3. PIB – National Farm Mechanisation Policy
-Government of India information on farm mechanisation and support for Custom Hiring Centres under agricultural mechanisation initiatives.
+2. PIB – National Farm Mechanisation Policy
+   Government of India information on farm         mechanisation and support for Custom Hiring     Centres under agricultural mechanisation        initiatives.
 
-"Read on PIB" (https://reference-url-citation.invalid/10)
+   "Read on PIB" (https://reference-url-           citation.invalid/10)
 
-5. Moneycontrol – Farm Labour Shortage and Tractor Demand
+3. Moneycontrol – Farm Labour Shortage and         Tractor Demand
 
-A 2026 report discussing how farm labour shortages are contributing to demand for agricultural mechanisation and tractors.
+   A 2026 report discussing how farm labour        shortages are contributing to demand for
 
-"Read on Moneycontrol" (https://reference-url-citation.invalid/11)
+   agricultural mechanisation and tractors.
 
-7. Times of India – New Centres to Provide Farm Equipment
+   "Read on Moneycontrol" (https://reference-       url-citation.invalid/11)
+
+4. Times of India – New Centres to Provide Farm    Equipment
    
-A report on the establishment of new centres aimed at improving farmers' access to agricultural equipment.
+   A report on the establishment of new centres    aimed at improving farmers' access to           agricultural equipment.
 
-"Read on Times of India" (https://reference-url-citation.invalid/12)
+   "Read on Times of India" (https://reference-     url-citation.invalid/12)
 
 
 # React + TypeScript + Vite
