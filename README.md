@@ -70,7 +70,7 @@ The e-NAM platform provides live price information with state, commodity and APM
 
 📚 Research Reference
 
-Research Paper: Status of Farm Mechanization     in India: An Analytical Study
+1.Research Paper: Status of Farm Mechanization     in India: An Analytical Study
 Author: Meghna Verma (2026)
 
 Page 7 – Current Status
@@ -92,8 +92,45 @@ Limited access to Custom Hiring Centres, repair facilities and suitable machiner
 
 Affordable and accessible machinery services are needed for inclusive farm mechanization. 
 
+https://mgmpublications.com/uploads/volume/1772709827.pdf
 
+DOI:
+Article DOI: 10.62823/IJAER/2026/02.01.148
+
+DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
+
+
+
+2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
+Source: Tractor Manufacturers Association
+
+Page 2
+
+Key Points
+
+The future of agricultural mechanization is becoming increasingly data-driven.
+
+Digital technologies can provide farmers with better information and tools for making farming decisions.
+
+Technologies such as GPS, sensors, robotics and precision agriculture can improve productivity and efficiency.
+
+Data can help reduce wastage and make farming more cost-effective.
+
+Tractor Manufacturers Association
+
+📄 Page 3
+
+Key Points
+
+Modern agricultural machinery can be connected with digital technologies and data systems.
+
+Real-time information can support better decisions related to farm operations and machinery use.
+
+Digital platforms can improve access to information and agricultural services.
+
+Data-driven mechanization can contribute to more efficient and sustainable farming.
  
+https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
     
 
 📰 News & Recent Reports
