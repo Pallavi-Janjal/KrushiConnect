@@ -112,6 +112,38 @@ const sendViaHttpApi = async (email, otp, htmlContent, textContent) => {
             console.warn('Brevo dispatch failed:', e.message);
         }
     }
+    // 3. SendGrid API (HTTPS Port 443)
+    const sendgridApiKey = process.env.SENDGRID_API_KEY;
+    if (sendgridApiKey && sendgridApiKey.startsWith('SG.')) {
+        try {
+            const fromEmail = process.env.SMTP_USER || 'hondaleshivani@gmail.com';
+            const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${sendgridApiKey.trim()}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    personalizations: [{ to: [{ email }] }],
+                    from: { email: fromEmail, name: 'KrushiConnect' },
+                    subject: `Your KrushiConnect Verification Code: ${otp}`,
+                    content: [
+                        { type: 'text/plain', value: textContent },
+                        { type: 'text/html', value: htmlContent }
+                    ]
+                })
+            });
+            if (res.ok || res.status === 202) {
+                return {
+                    success: true,
+                    message: 'Verification code sent successfully to your email.'
+                };
+            }
+        }
+        catch (e) {
+            console.warn('SendGrid dispatch failed:', e.message);
+        }
+    }
     return null;
 };
 /**
