@@ -92,10 +92,10 @@ export const sendOtpEmail = async (email: string, otp: string): Promise<EmailRes
   }
 
   try {
-    // When using Resend API, use their free onboarding sender (no domain verification needed)
-    // When using Gmail SMTP, use EMAIL_FROM env or derive from SMTP_USER
+    // Resend free plan ONLY allows sending from @resend.dev domain
+    // Once you verify your own domain on resend.com, you can change this
     const fromAddress = process.env.RESEND_API_KEY
-      ? (process.env.EMAIL_FROM || 'KrushiConnect <onboarding@resend.dev>')
+      ? 'KrushiConnect <onboarding@resend.dev>'
       : (process.env.EMAIL_FROM || `"KrushiConnect" <${process.env.SMTP_USER}>`);
 
     const htmlContent = `
