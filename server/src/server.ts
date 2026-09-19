@@ -59,8 +59,9 @@ console.log(`   CLIENT_URL  : ${rawClientUrls}`);
 console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
 console.log(`   SMTP_USER   : ${process.env.SMTP_USER ? '✅ set' : '⚠️  not set'}`);
 console.log(`   SMTP_PASS   : ${process.env.SMTP_PASS ? '✅ set' : '⚠️  not set'}`);
-console.log(`   RESEND_KEY  : ${process.env.RESEND_API_KEY ? '✅ set (Resend SMTP — used for cloud)' : '⚠️  not set'}`);
-const emailReady = process.env.RESEND_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS);
+console.log(`   BREVO_KEY   : ${process.env.BREVO_API_KEY ? '✅ set (Brevo HTTPS API — recommended)' : '⚠️  not set'}`);
+console.log(`   RESEND_KEY  : ${process.env.RESEND_API_KEY ? '✅ set (Resend HTTPS API)' : '⚠️  not set'}`);
+const emailReady = process.env.BREVO_API_KEY || process.env.RESEND_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS);
 console.log(`   EMAIL READY : ${emailReady ? '✅ OTP emails WILL be sent' : '❌ MISSING — OTP emails will NOT be sent!'}`);
 
 
