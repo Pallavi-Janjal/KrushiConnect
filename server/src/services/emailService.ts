@@ -7,20 +7,19 @@ export interface EmailResult {
 
 /**
  * Creates and returns a Nodemailer transporter configured via environment variables.
+ * If SMTP credentials are not configured or are set to placeholders, returns null.
  */
 const getTransporter = () => {
-  const user = (process.env.SMTP_USER || process.env.STMP_USER || '').trim();
-  const pass = (process.env.SMTP_PASS || process.env.STMP_PASS || '').trim().replace(/\s+/g, '');
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
 
-  if (!user || !pass || user === 'your_email@gmail.com' || pass === 'your_gmail_app_password') {
+  if (!user || !pass || user === 'your_email@gmail.com' || pass === 'your_gmail_app_password' || pass === 'abcdefghijklmnop') {
     return null;
   }
 
-  const cleanUser = user;
-  const cleanPass = pass;
-  const host = (process.env.SMTP_HOST || process.env.STMP_HOST || 'smtp.gmail.com').trim();
-  const port = Number(process.env.SMTP_PORT || process.env.STMP_PORT) || 587;
-  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+  const cleanUser = user.trim();
+  const cleanPass = pass.trim().replace(/\s+/g, '');
+  const host = process.env.SMTP_HOST || 'smtp.gmail.com';
 
   if (host.includes('gmail.com')) {
     return nodemailer.createTransport({
@@ -28,12 +27,12 @@ const getTransporter = () => {
       auth: {
         user: cleanUser,
         pass: cleanPass
-      },
-      tls: {
-        rejectUnauthorized: false
       }
     });
   }
+
+  const port = Number(process.env.SMTP_PORT) || 587;
+  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
 
   return nodemailer.createTransport({
     host,
@@ -42,29 +41,35 @@ const getTransporter = () => {
     auth: {
       user: cleanUser,
       pass: cleanPass
-    },
-    tls: {
-      rejectUnauthorized: false
     }
   });
 };
 
 /**
- * Dispatches an email containing the 6-digit verification code using Nodemailer.
+ * Dispatches an email containing the 6-digit verification code.
+ * Falls back to console output if SMTP credentials are not yet set in .env.
  */
 export const sendOtpEmail = async (email: string, otp: string): Promise<EmailResult> => {
   const transporter = getTransporter();
 
+  // Development Fallback: If SMTP credentials are missing, log OTP to console
   if (!transporter) {
+    console.log('\n====================================================');
+    console.log('📧 [KRUSHI CONNECT EMAIL OTP - DEV MODE]');
+    console.log(`✉️  To: ${email}`);
+    console.log(`🔑 Verification Code: [ ${otp} ]`);
+    console.log('⏰ Valid for 10 minutes.');
+    console.log('💡 Note: To send real emails, set SMTP_USER and SMTP_PASS in server/.env');
+    console.log('====================================================\n');
+
     return {
-      success: false,
-      message: 'SMTP credentials are not configured. Please set SMTP_USER and SMTP_PASS.'
+      success: true,
+      message: 'Verification code generated! (Dev mode: check server console)'
     };
   }
 
   try {
-    const effectiveUser = (process.env.SMTP_USER || process.env.STMP_USER || '').trim();
-    const fromAddress = process.env.EMAIL_FROM || `"KrushiConnect" <${effectiveUser}>`;
+    const fromAddress = process.env.EMAIL_FROM || `"KrushiConnect" <${process.env.SMTP_USER}>`;
 
     const htmlContent = `
       <!DOCTYPE html>
@@ -98,7 +103,7 @@ export const sendOtpEmail = async (email: string, otp: string): Promise<EmailRes
                       Verify Your Email Address
                     </h2>
                     <p style="margin: 0 0 24px 0; font-size: 15px; line-height: 1.6; color: #475569;">
-                      Hello, thank you for joining <strong>KrushiConnect</strong>. Use the 6-digit verification code below to complete your registration:
+                      Hello, thank you for joining <strong>KrushiConnect</strong>. Use the 6-digit verification code below to complete your registration or verify your account:
                     </p>
 
                     <!-- OTP Box -->
