@@ -43,7 +43,7 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group agri-card-hover">
       
       {/* Equipment Image & Badge Overlay */}
-      <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-56 xl:h-60 w-full overflow-hidden bg-slate-100">
         <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
           <img
             src={resolveImageUrl(equipment.images?.[0])}
@@ -77,12 +77,12 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
       </div>
 
       {/* Card Content Body */}
-      <div className="p-6 flex-1 flex flex-col justify-between">
+      <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           
           {/* Header Title & Rating */}
           <div className="flex items-start justify-between gap-2 mb-2">
-            <Link to={`/equipment/${equipment.id}`} className="font-bold text-slate-900 hover:text-[#166534] transition-colors line-clamp-2 text-lg sm:text-xl leading-snug">
+            <Link to={`/equipment/${equipment.id}`} className="font-bold text-slate-900 hover:text-[#166534] transition-colors line-clamp-2 text-base sm:text-lg leading-snug">
               <TranslatedText text={equipment.name} />
             </Link>
           </div>
