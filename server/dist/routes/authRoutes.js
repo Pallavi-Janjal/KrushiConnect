@@ -9,5 +9,7 @@ router.post('/login', authController_1.login);
 router.post('/send-otp', authController_1.sendEmailOtp);
 router.post('/verify-otp', authController_1.verifyOtp);
 router.get('/me', auth_1.authenticate, authController_1.getMe);
+router.put('/profile', auth_1.authenticate, authController_1.updateProfile);
+router.patch('/profile', auth_1.authenticate, authController_1.updateProfile);
 router.post('/logout', authController_1.logout);
 exports.default = router;

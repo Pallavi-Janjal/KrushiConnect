@@ -157,22 +157,36 @@ export const Header: React.FC = () => {
                   <LayoutDashboard className="w-5 h-5 text-[#166534]" />
                 </Link>
 
-                {/* User Avatar & Logout */}
-                <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
-                  <div className="w-8 h-8 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                    {user.avatar ? (
-                      <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full object-cover" />
-                    ) : (
-                      user.name.charAt(0)
-                    )}
-                  </div>
-                  <div className="hidden lg:block text-xs text-left">
-                    <span className="font-semibold text-slate-900 block leading-tight truncate max-w-[90px]">{user.name}</span>
-                    <span className="text-[9px] text-slate-500 uppercase font-medium">{user.role.replace('_', ' ')}</span>
-                  </div>
+                {/* User Avatar & Profile Link */}
+                <div className="flex items-center gap-1 pl-2 border-l border-slate-200">
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors group cursor-pointer"
+                    title="View & Edit Profile"
+                  >
+                    <div className="relative w-8 h-8 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all">
+                      {user.avatar ? (
+                        <img
+                          src={user.avatar}
+                          alt={user.name}
+                          className="w-8 h-8 rounded-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user.name)}`;
+                          }}
+                        />
+                      ) : (
+                        user.name.charAt(0).toUpperCase()
+                      )}
+                    </div>
+                    <div className="hidden lg:block text-xs text-left">
+                      <span className="font-semibold text-slate-900 block leading-tight truncate max-w-[100px] group-hover:text-[#166534] transition-colors">{user.name}</span>
+                      <span className="text-[9px] text-slate-500 uppercase font-medium">{user.role.replace('_', ' ')}</span>
+                    </div>
+                  </Link>
+
                   <button
                     onClick={handleLogout}
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1"
+                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-0.5"
                     title={t('nav.logout')}
                   >
                     <LogOut className="w-4 h-4" />
@@ -256,15 +270,33 @@ export const Header: React.FC = () => {
             </div>
           ) : (
             <div className="pt-4 border-t border-slate-200 space-y-2">
-              <div className="px-3 py-2 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-sm">
-                  {user.name.charAt(0)}
+              <Link
+                to="/profile"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 flex items-center gap-3 rounded-xl bg-slate-50 hover:bg-emerald-50/50 transition-colors border border-slate-200/80"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-emerald-500/20 shrink-0">
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user.name)}`;
+                      }}
+                    />
+                  ) : (
+                    user.name.charAt(0).toUpperCase()
+                  )}
                 </div>
-                <div>
-                  <div className="font-semibold text-slate-900">{user.name}</div>
-                  <div className="text-xs text-slate-500 uppercase">{user.role}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-slate-900 truncate">{user.name}</div>
+                  <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                    <span>View & Edit Profile</span>
+                    <span>→</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <Link
                 to={user.role === 'FARMER' ? '/farmer/dashboard' : '/owner/dashboard'}
                 onClick={() => setMobileMenuOpen(false)}

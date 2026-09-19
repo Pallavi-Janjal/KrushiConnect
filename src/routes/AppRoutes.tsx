@@ -28,6 +28,7 @@ import { UsageLoggingPage } from '../pages/owner/UsageLoggingPage';
 import { AnalyticsPage } from '../pages/owner/AnalyticsPage';
 import { ReceiptsPage } from '../pages/owner/ReceiptsPage';
 import { OwnerNotificationsPage } from '../pages/owner/OwnerNotificationsPage';
+import { ProfilePage } from '../pages/user/ProfilePage';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -60,6 +61,9 @@ export const AppRoutes: React.FC = () => {
         <Route path="/owner/analytics" element={<ProtectedRoute allowedRoles={['EQUIPMENT_OWNER']}><AnalyticsPage /></ProtectedRoute>} />
         <Route path="/owner/receipts" element={<ProtectedRoute allowedRoles={['EQUIPMENT_OWNER']}><ReceiptsPage /></ProtectedRoute>} />
         <Route path="/owner/notifications" element={<ProtectedRoute allowedRoles={['EQUIPMENT_OWNER']}><OwnerNotificationsPage /></ProtectedRoute>} />
+
+        {/* Profile Protected Route (both Farmers & Owners) */}
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
         {/* Wildcard Catch-All */}
         <Route path="*" element={<Navigate to="/" replace />} />

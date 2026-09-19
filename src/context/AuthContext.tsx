@@ -7,6 +7,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, pass: string) => Promise<User>;
   register: (data: { name: string; email: string; phone: string; role: UserRole; location: string; password?: string; otp?: string }) => Promise<User>;
+  updateProfile: (data: Partial<User>) => Promise<User>;
   logout: () => void;
   returnIntent: ReturnIntent | null;
   saveReturnIntent: (intent: ReturnIntent) => void;
@@ -49,6 +50,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return u;
   };
 
+  const updateProfile = async (data: Partial<User>): Promise<User> => {
+    const updated = await authService.updateProfile(data);
+    setUser(updated);
+    return updated;
+  };
+
   const logout = () => {
     authService.logout();
     setUser(null);
@@ -70,6 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       loading,
       login,
       register,
+      updateProfile,
       logout,
       returnIntent,
       saveReturnIntent,

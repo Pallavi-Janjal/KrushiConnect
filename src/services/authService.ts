@@ -97,6 +97,25 @@ export const authService = {
     return response.user;
   },
 
+  updateProfile: async (userData: {
+    name?: string;
+    phone?: string;
+    location?: string;
+    role?: UserRole;
+    avatar?: string;
+  }): Promise<User> => {
+    const response = await apiRequest<{ success: boolean; message: string; user: User }>('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(userData)
+    });
+
+    if (response.user) {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(response.user));
+    }
+
+    return response.user;
+  },
+
   logout: (): void => {
     try {
       apiRequest('/auth/logout', { method: 'POST' }).catch(() => {});

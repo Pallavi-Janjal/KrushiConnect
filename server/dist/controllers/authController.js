@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyOtp = exports.sendEmailOtp = exports.logout = exports.getMe = exports.login = exports.register = void 0;
+exports.verifyOtp = exports.sendEmailOtp = exports.updateProfile = exports.logout = exports.getMe = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = require("../models/User");
 const Otp_1 = require("../models/Otp");
@@ -181,6 +181,67 @@ const logout = (_req, res) => {
     res.json({ message: 'Logged out successfully' });
 };
 exports.logout = logout;
+const updateProfile = async (req, res) => {
+    try {
+        if (!req.user) {
+            res.status(401).json({ message: 'Not authenticated' });
+            return;
+        }
+        const user = await User_1.User.findById(req.user.userId);
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+        const { name, phone, location, role, avatar } = req.body;
+        if (name !== undefined) {
+            const trimmedName = String(name).trim();
+            if (!NAME_REGEX.test(trimmedName)) {
+                res.status(400).json({ message: 'Name must be between 2 and 50 characters containing only letters and spaces.' });
+                return;
+            }
+            user.name = trimmedName;
+        }
+        if (phone !== undefined) {
+            const sanitizedPhone = String(phone).replace(/^(\+91|91)/, '').replace(/[\s\-\(\)]/g, '').trim();
+            if (!PHONE_REGEX.test(sanitizedPhone)) {
+                res.status(400).json({ message: 'Mobile number must be a valid 10-digit Indian phone number.' });
+                return;
+            }
+            const phoneOwner = await User_1.User.findOne({ phone: sanitizedPhone, _id: { $ne: user._id } });
+            if (phoneOwner) {
+                res.status(400).json({ message: 'An account with this mobile number already exists.' });
+                return;
+            }
+            user.phone = sanitizedPhone;
+        }
+        if (location !== undefined) {
+            const trimmedLocation = String(location).trim();
+            if (trimmedLocation.length >= 2) {
+                user.location = trimmedLocation;
+            }
+        }
+        if (role !== undefined) {
+            const upperRole = String(role).toUpperCase();
+            if (['FARMER', 'EQUIPMENT_OWNER'].includes(upperRole)) {
+                user.role = upperRole;
+            }
+        }
+        if (avatar !== undefined) {
+            user.avatar = String(avatar).trim();
+        }
+        await user.save();
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            user: user.toJSON()
+        });
+    }
+    catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({ message: error.message || 'Failed to update profile' });
+    }
+};
+exports.updateProfile = updateProfile;
 const sendEmailOtp = async (req, res) => {
     try {
         const { email } = req.body;

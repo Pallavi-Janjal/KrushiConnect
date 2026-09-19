@@ -201,6 +201,75 @@ export const logout = (_req: Request, res: Response): void => {
   res.json({ message: 'Logged out successfully' });
 };
 
+export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authenticated' });
+      return;
+    }
+
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    const { name, phone, location, role, avatar } = req.body;
+
+    if (name !== undefined) {
+      const trimmedName = String(name).trim();
+      if (!NAME_REGEX.test(trimmedName)) {
+        res.status(400).json({ message: 'Name must be between 2 and 50 characters containing only letters and spaces.' });
+        return;
+      }
+      user.name = trimmedName;
+    }
+
+    if (phone !== undefined) {
+      const sanitizedPhone = String(phone).replace(/^(\+91|91)/, '').replace(/[\s\-\(\)]/g, '').trim();
+      if (!PHONE_REGEX.test(sanitizedPhone)) {
+        res.status(400).json({ message: 'Mobile number must be a valid 10-digit Indian phone number.' });
+        return;
+      }
+      const phoneOwner = await User.findOne({ phone: sanitizedPhone, _id: { $ne: user._id } });
+      if (phoneOwner) {
+        res.status(400).json({ message: 'An account with this mobile number already exists.' });
+        return;
+      }
+      user.phone = sanitizedPhone;
+    }
+
+    if (location !== undefined) {
+      const trimmedLocation = String(location).trim();
+      if (trimmedLocation.length >= 2) {
+        user.location = trimmedLocation;
+      }
+    }
+
+    if (role !== undefined) {
+      const upperRole = String(role).toUpperCase();
+      if (['FARMER', 'EQUIPMENT_OWNER'].includes(upperRole)) {
+        user.role = upperRole as any;
+      }
+    }
+
+    if (avatar !== undefined) {
+      user.avatar = String(avatar).trim();
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: user.toJSON()
+    });
+  } catch (error: any) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ message: error.message || 'Failed to update profile' });
+  }
+};
+
 export const sendEmailOtp = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email } = req.body;
