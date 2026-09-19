@@ -534,6 +534,52 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
 
+        {/* Quick Navigation */}
+        <div className="mt-6">
+          <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">Quick Navigation</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <Link
+              to="/equipment"
+              className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <Tractor className="w-5 h-5 text-[#166534]" />
+              </div>
+              <span className="text-xs font-semibold text-slate-700 text-center">Browse Equipment</span>
+            </Link>
+
+            <Link
+              to="/my-listings"
+              className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <Wrench className="w-5 h-5 text-[#166534]" />
+              </div>
+              <span className="text-xs font-semibold text-slate-700 text-center">My Listings</span>
+            </Link>
+
+            <Link
+              to="/bookings"
+              className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <Calendar className="w-5 h-5 text-[#166534]" />
+              </div>
+              <span className="text-xs font-semibold text-slate-700 text-center">My Bookings</span>
+            </Link>
+
+            <Link
+              to="/dashboard"
+              className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <ShieldCheck className="w-5 h-5 text-[#166534]" />
+              </div>
+              <span className="text-xs font-semibold text-slate-700 text-center">Dashboard</span>
+            </Link>
+          </div>
+        </div>
+
       </div>
     </div>
   );
