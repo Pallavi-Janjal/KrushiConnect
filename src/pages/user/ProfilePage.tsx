@@ -46,6 +46,12 @@ export const ProfilePage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [comingSoonToast, setComingSoonToast] = useState<string | null>(null);
+
+  const showComingSoon = (feature: string) => {
+    setComingSoonToast(feature);
+    setTimeout(() => setComingSoonToast(null), 3000);
+  };
 
   // Initialize form with current user data
   useEffect(() => {
@@ -535,40 +541,59 @@ export const ProfilePage: React.FC = () => {
         </div>
 
         {/* Quick Navigation */}
+        {comingSoonToast && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 bg-slate-800 text-white text-sm font-medium rounded-xl shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-bottom-3">
+            <Sparkles className="w-4 h-4 text-yellow-400" />
+            <span><strong>{comingSoonToast}</strong> — Coming Soon! This feature is under development.</span>
+          </div>
+        )}
         <div className="mt-6">
           <h2 className="text-base font-bold text-slate-800 mb-3 px-1">Quick Navigation</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <Link
-              to="/dashboard"
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
+
+            {/* Dashboard — real route exists */}
+            <button
+              type="button"
+              onClick={() => navigate(role === 'EQUIPMENT_OWNER' ? '/owner/dashboard' : '/farmer/dashboard')}
+              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
             >
               <span className="text-sm font-bold text-slate-800">Dashboard</span>
               <span className="text-xs text-blue-500 mt-1">View activity</span>
-            </Link>
+            </button>
 
-            <Link
-              to="/bookings"
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
+            {/* My Rentals — real route exists for Farmer; Coming Soon for Owner */}
+            <button
+              type="button"
+              onClick={() => {
+                if (role === 'FARMER') navigate('/farmer/rentals');
+                else showComingSoon('My Rentals');
+              }}
+              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
             >
               <span className="text-sm font-bold text-slate-800">My Rentals</span>
               <span className="text-xs text-teal-500 mt-1">Manage listings</span>
-            </Link>
+            </button>
 
-            <Link
-              to="/receipts"
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
+            {/* Receipts — real route exists for both roles */}
+            <button
+              type="button"
+              onClick={() => navigate(role === 'EQUIPMENT_OWNER' ? '/owner/receipts' : '/farmer/receipts')}
+              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
             >
               <span className="text-sm font-bold text-slate-800">Receipts</span>
               <span className="text-xs text-violet-500 mt-1">Billing records</span>
-            </Link>
+            </button>
 
-            <Link
-              to="/equipment"
-              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
+            {/* Marketplace — real public route exists */}
+            <button
+              type="button"
+              onClick={() => navigate('/equipment')}
+              className="flex flex-col items-start p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer"
             >
               <span className="text-sm font-bold text-slate-800">Marketplace</span>
               <span className="text-xs text-orange-400 mt-1">Browse machines</span>
-            </Link>
+            </button>
+
           </div>
         </div>
 
