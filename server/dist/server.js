@@ -56,13 +56,11 @@ console.log(`   MONGODB_URI : ${process.env.MONGODB_URI ? '✅ set' : '❌ MISSI
 console.log(`   JWT_SECRET  : ${process.env.JWT_SECRET ? '✅ set' : '⚠️  using fallback (insecure)'}`);
 console.log(`   CLIENT_URL  : ${rawClientUrls}`);
 console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
-const effectiveSmtpUser = process.env.SMTP_USER || process.env.STMP_USER;
-const effectiveSmtpPass = process.env.SMTP_PASS || process.env.STMP_PASS;
-const effectiveSmtpHost = process.env.SMTP_HOST || process.env.STMP_HOST || 'smtp.gmail.com (default)';
-console.log(`   SMTP_USER   : ${effectiveSmtpUser ? `✅ set (${effectiveSmtpUser})` : '❌ MISSING — OTP emails will NOT be sent!'}`);
-console.log(`   SMTP_PASS   : ${effectiveSmtpPass ? '✅ set' : '❌ MISSING — OTP emails will NOT be sent!'}`);
-console.log(`   SMTP_HOST   : ${effectiveSmtpHost}`);
-console.log(`   EMAIL_FROM  : ${process.env.EMAIL_FROM || `(using ${effectiveSmtpUser || 'default'} as sender)`}`);
+console.log(`   SMTP_USER   : ${process.env.SMTP_USER ? '✅ set' : '⚠️  not set'}`);
+console.log(`   SMTP_PASS   : ${process.env.SMTP_PASS ? '✅ set' : '⚠️  not set'}`);
+console.log(`   RESEND_KEY  : ${process.env.RESEND_API_KEY ? '✅ set (Resend SMTP — used for cloud)' : '⚠️  not set'}`);
+const emailReady = process.env.RESEND_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS);
+console.log(`   EMAIL READY : ${emailReady ? '✅ OTP emails WILL be sent' : '❌ MISSING — OTP emails will NOT be sent!'}`);
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, Postman, curl, same-origin)

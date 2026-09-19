@@ -7,9 +7,30 @@ export interface EmailResult {
 
 /**
  * Creates and returns a Nodemailer transporter configured via environment variables.
- * If SMTP credentials are not configured or are set to placeholders, returns null.
+ *
+ * Priority:
+ *  1. RESEND_API_KEY  → Resend SMTP (works on Render free tier — port 465, no blocking)
+ *  2. SMTP_USER + SMTP_PASS → Gmail SMTP (works locally; may hang on Render free tier)
+ *
+ * Returns null if no credentials set → falls back to console log in dev mode.
  */
 const getTransporter = () => {
+  // ── Option 1: Resend SMTP (recommended for Render / cloud deployment) ──────
+  const resendKey = process.env.RESEND_API_KEY;
+  if (resendKey && resendKey.startsWith('re_')) {
+    console.log('📧 Using Resend SMTP transporter');
+    return nodemailer.createTransport({
+      host: 'smtp.resend.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'resend',
+        pass: resendKey
+      }
+    });
+  }
+
+  // ── Option 2: Custom / Gmail SMTP ──────────────────────────────────────────
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
 
@@ -20,6 +41,8 @@ const getTransporter = () => {
   const cleanUser = user.trim();
   const cleanPass = pass.trim().replace(/\s+/g, '');
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+
+  console.log(`📧 Using SMTP transporter: ${host}`);
 
   if (host.includes('gmail.com')) {
     return nodemailer.createTransport({
