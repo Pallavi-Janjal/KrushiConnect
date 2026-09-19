@@ -107,6 +107,22 @@ if (!fs.existsSync(defaultUploadDir)) {
 }
 app.use('/uploads', express.static(defaultUploadDir));
 
+// Fallback for missing uploaded images so the browser never logs a 404 error
+app.use('/uploads', (_req, res) => {
+  const fallbackCandidates = [
+    path.join(__dirname, '../uploads/eq_1788547747161_6q8xlm.webp'),
+    path.join(process.cwd(), 'server/uploads/eq_1788547747161_6q8xlm.webp'),
+    path.join(process.cwd(), 'uploads/eq_1788547747161_6q8xlm.webp'),
+    path.join(process.cwd(), 'public/hero-tractor-clean.png')
+  ];
+  for (const fallbackPath of fallbackCandidates) {
+    if (fs.existsSync(fallbackPath)) {
+      return res.sendFile(fallbackPath);
+    }
+  }
+  return res.redirect(302, 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
+});
+
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {
   res.json({

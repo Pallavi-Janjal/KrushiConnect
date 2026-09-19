@@ -56,6 +56,10 @@ console.log(`   MONGODB_URI : ${process.env.MONGODB_URI ? '✅ set' : '❌ MISSI
 console.log(`   JWT_SECRET  : ${process.env.JWT_SECRET ? '✅ set' : '⚠️  using fallback (insecure)'}`);
 console.log(`   CLIENT_URL  : ${rawClientUrls}`);
 console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
+console.log(`   SMTP_USER   : ${process.env.SMTP_USER ? `✅ set (${process.env.SMTP_USER})` : '❌ MISSING — OTP emails will NOT be sent!'}`);
+console.log(`   SMTP_PASS   : ${process.env.SMTP_PASS ? '✅ set' : '❌ MISSING — OTP emails will NOT be sent!'}`);
+console.log(`   SMTP_HOST   : ${process.env.SMTP_HOST || 'smtp.gmail.com (default)'}`);
+console.log(`   EMAIL_FROM  : ${process.env.EMAIL_FROM || '(using SMTP_USER as sender)'}`);
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, Postman, curl, same-origin)
@@ -101,6 +105,21 @@ if (!fs_1.default.existsSync(defaultUploadDir)) {
     catch { }
 }
 app.use('/uploads', express_1.default.static(defaultUploadDir));
+// Fallback for missing uploaded images so the browser never logs a 404 error
+app.use('/uploads', (_req, res) => {
+    const fallbackCandidates = [
+        path_1.default.join(__dirname, '../uploads/eq_1788547747161_6q8xlm.webp'),
+        path_1.default.join(process.cwd(), 'server/uploads/eq_1788547747161_6q8xlm.webp'),
+        path_1.default.join(process.cwd(), 'uploads/eq_1788547747161_6q8xlm.webp'),
+        path_1.default.join(process.cwd(), 'public/hero-tractor-clean.png')
+    ];
+    for (const fallbackPath of fallbackCandidates) {
+        if (fs_1.default.existsSync(fallbackPath)) {
+            return res.sendFile(fallbackPath);
+        }
+    }
+    return res.redirect(302, 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
+});
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {
     res.json({
