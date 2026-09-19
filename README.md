@@ -68,6 +68,35 @@ KrushiConnect provides crop market price information so that farmers can check a
 
 The e-NAM platform provides live price information with state, commodity and APMC-wise data, including minimum, modal and maximum prices.
 
+📚 References
+
+1. ICAR – Indian Council of Agricultural           Research
+   Custom Hiring Centre and farmer-support         initiatives.
+   https://www.icar.gov.in/
+
+2. ICAR – Indian Institute of Millets Research
+   Integrated Farmer Support Initiative with       Custom Hiring Centre, 24 February 2026.
+   https://www.icar.gov.in/en/icar-iimr-           launches-integrated-farmer-support-             initiative-tekmal-fpo-chc-and-scientific-       advisory
+
+3. Press Information Bureau (PIB), Government      of India
+   National Farm Mechanisation Policy and          Custom Hiring Centres, 11 August 2026.
+   https://www.pib.gov.in/
+
+4. e-NAM – National Agriculture Market
+   Agricultural market information and online      trading platform.
+   https://enam.gov.in/
+
+5. e-NAM FAQs
+   Information about e-NAM, mandis and online      price discovery.
+   https://www.enam.gov.in/web/resources/FAQs-     of-eNam
+
+6. ICAR – AICRP on Farm Implements and Machinery
+   Research and development related to farm        implements, machinery and custom hiring.
+   https://icar.gov.in/en/aicrp-farm-implements-and-machinery
+
+7. JFarm Services
+   Farmer-to-farmer agricultural equipment         rental platform.
+   https://www.jfarmservices.in/
 
 
 # React + TypeScript + Vite
