@@ -33,6 +33,8 @@ The platform also provides crop market price information to help farmers access 
 
 ✨ Key Features
 
+_
+
 
 
 
@@ -41,6 +43,8 @@ The platform also provides crop market price information to help farmers access 
 
 
 
+
+_
 
 
 
@@ -55,7 +59,6 @@ The e-NAM platform provides live price information with state, commodity and APM
 1.Research Paper: Status of Farm Mechanization     in India: An Analytical 
 Study Author: Meghna Verma (2026)
 
-Page 7 – Current Status
 
 Farm mechanization in India is developing but varies across regions and farm sizes.
 
@@ -65,16 +68,20 @@ Custom Hiring Centres (CHCs) can improve farmers' access to machinery without re
 
 
 
+_
+
+
+
 
 <img width="1080" height="1376" alt="image" src="https://github.com/user-attachments/assets/22f4bba3-7e28-41de-a6a5-e5054495eab5" />
 
 
 
 
+_
 
 
 
-Page 9 – Challenges
 
 High machinery cost is a major barrier for small and marginal farmers.
 
@@ -84,20 +91,26 @@ Limited access to Custom Hiring Centres, repair facilities and suitable machiner
 
 Affordable and accessible machinery services are needed for inclusive farm mechanization. 
 
+
 https://mgmpublications.com/uploads/volume/1772709827.pdf
+
 
 DOI:
 Article DOI: 10.62823/IJAER/2026/02.01.148
 
+
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
+_
 
 
 
 <img width="1080" height="1528" alt="image" src="https://github.com/user-attachments/assets/ba8c8f8e-82ce-48d4-9a8d-d7904ec49171" />
 
 
+
+_
 
 
 
@@ -119,12 +132,16 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
+_
+
 
 
 
 <img width="587" height="747" alt="image" src="https://github.com/user-attachments/assets/3c65402e-b44b-4aa7-9462-e0be57d6dd70" />
 
 
+
+_
 
 
 
@@ -143,6 +160,8 @@ Data-driven mechanization can contribute to more efficient and sustainable farmi
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
 
+-
+
 
 
 <img width="586" height="752" alt="image" src="https://github.com/user-attachments/assets/9c40bf36-58e8-44c5-91f9-71afe09421d5" />
@@ -151,6 +170,7 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
 
     
 
+    _
     
 
 📰 News & Recent Reports
@@ -160,12 +180,16 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
    https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
+_
+
 
 
 
 <img width="655" height="655" alt="image" src="https://github.com/user-attachments/assets/2de2efd4-1d2c-43aa-b95a-acb3abb2def8" />
 
 
+
+_
 
 
 
@@ -176,9 +200,15 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
  https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
 
+
+_
+
+
 <img width="791" height="1600" alt="image" src="https://github.com/user-attachments/assets/013c6e39-0f9b-4cd9-81b0-5b82c69db963" />
 
 
+
+_
 
 
 
@@ -248,6 +278,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 - **Oxlint & ESLint** – Code quality and linting
 - **Render** – Full-stack deployment and hosting
 
+_
 
 
 
@@ -255,6 +286,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
+_
 
 
 # React + TypeScript + Vite
