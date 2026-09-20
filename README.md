@@ -33,33 +33,7 @@ The platform also provides crop market price information to help farmers access 
 
 ✨ Key Features
 
-👨‍🌾 For Farmers
 
-🔍 Search for agricultural equipment
-
-🚜 Find tractors, harvesters, pumps and other machinery
-
-📅 Check equipment availability
-
-💰 View rental information
-
-📊 Access crop market price information
-
-🚜 For Equipment Owners
-
-➕ List agricultural machinery
-
-📝 Add equipment details
-
-📍 Add equipment location
-
-📅 Update availability
-
-💰 Add rental details
-
-👨‍🌾 Make available machinery visible to farmers
-
-🧑‍🌾 Farm planning 
 <img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
 
 
