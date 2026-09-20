@@ -64,6 +64,12 @@ Small and marginal farmers face difficulties in accessing agricultural machinery
 Custom Hiring Centres (CHCs) can improve farmers' access to machinery without requiring individual ownership. 
 
 
+
+<img width="1080" height="1376" alt="image" src="https://github.com/user-attachments/assets/22f4bba3-7e28-41de-a6a5-e5054495eab5" />
+
+
+
+
 Page 9 – Challenges
 
 High machinery cost is a major barrier for small and marginal farmers.
@@ -80,6 +86,12 @@ DOI:
 Article DOI: 10.62823/IJAER/2026/02.01.148
 
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
+
+
+
+<img width="1080" height="1528" alt="image" src="https://github.com/user-attachments/assets/ba8c8f8e-82ce-48d4-9a8d-d7904ec49171" />
+
+
 
 
 
@@ -100,6 +112,12 @@ Technologies such as GPS, sensors, robotics and precision agriculture can improv
 Data can help reduce wastage and make farming more cost-effective.
 
 
+
+<img width="587" height="747" alt="image" src="https://github.com/user-attachments/assets/3c65402e-b44b-4aa7-9462-e0be57d6dd70" />
+
+
+
+
 📄 Page 3
 
 Key Points
@@ -113,6 +131,12 @@ Digital platforms can improve access to information and agricultural services.
 Data-driven mechanization can contribute to more efficient and sustainable farming.
  
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
+
+
+
+<img width="586" height="752" alt="image" src="https://github.com/user-attachments/assets/9c40bf36-58e8-44c5-91f9-71afe09421d5" />
+
+
     
 
 📰 News & Recent Reports
