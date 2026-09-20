@@ -1,22 +1,32 @@
+
+
 🔴 Problem Statement
+
+
 
 Farmers often face difficulties in getting agricultural equipment such as tractors, harvesters, pumps and other machinery when they need them, especially during important farming periods.
 
 At the same time, equipment owners may have machinery available for rental but may not have an effective way to make its availability visible to nearby farmers.
 
+
 This creates a gap:
+
 
 Farmer needs equipment → Equipment owner has equipment → But they cannot easily find each other.
 
 Farmers may also need updated information about crop market prices before deciding where and when to sell their produce.
 
 
+
 💡 Our Solution
+
 
 KrushiConnect is a web-based platform designed to connect:
 
+
 👨‍🌾 Farmers ↔ 🚜 Agricultural Equipment Owners
 Equipment owners can list their agricultural machinery with relevant information such as:
+
 
 Equipment type
 
@@ -26,9 +36,11 @@ Location
 
 Rental details
 
+
 Farmers can search for suitable equipment according to their requirements.
 
 The platform also provides crop market price information to help farmers access market information while making selling decisions.
+
 
 
 ✨ Key Features
@@ -50,9 +62,13 @@ The platform also provides crop market price information to help farmers access 
 
 📊 Market Price Information
 
+
+
 KrushiConnect provides crop market price information so that farmers can check available market information while planning their selling decisions.
 
 The e-NAM platform provides live price information with state, commodity and APMC-wise data, including minimum, modal and maximum prices.
+
+
 
 📚 Research Reference
 
@@ -117,11 +133,14 @@ DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
 
+
 Source: Tractor Manufacturers Association
 
-Page 2
+
+
 
 Key Points
+
 
 The future of agricultural mechanization is becoming increasingly data-driven.
 
@@ -147,9 +166,10 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-📄 Page 3
+
 
 Key Points
+
 
 Modern agricultural machinery can be connected with digital technologies and data systems.
 
@@ -158,6 +178,7 @@ Real-time information can support better decisions related to farm operations an
 Digital platforms can improve access to information and agricultural services.
 
 Data-driven mechanization can contribute to more efficient and sustainable farming.
+
  
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
@@ -179,8 +200,12 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
 
 📰 News & Recent Reports
 
+
+
 1. Times of India – Gujarat Farmers Turn to Technology to Address Labour Shortage (July 2026)
 The report highlights the adoption of farm machinery, digital tools, drones and other technologies to address agricultural labour shortages.
+
+
 
    https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
@@ -202,7 +227,11 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
 
 2.Indian Express — Small Farmers & Custom Hiring Centre
+
+
 The article includes an actual Express Photo of a farmer and describes a CHC operated by small and marginal farmers, with machinery available through an affordable rental model. 
+
+
  https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
 
