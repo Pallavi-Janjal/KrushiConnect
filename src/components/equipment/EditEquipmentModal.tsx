@@ -5,7 +5,6 @@ import { useLanguage } from '../../context/LanguageContext';
 import { X, AlertCircle, Save, CheckCircle2 } from 'lucide-react';
 import { INDIAN_STATES, STATE_DISTRICTS_MAP, getTalukasForDistrict } from '../../data/indiaLocations';
 import { ImageUpload } from '../common/ImageUpload';
-import { getCategoryExample } from '../../data/equipmentExamples';
 
 interface EditEquipmentModalProps {
   equipment: Equipment;
@@ -170,8 +169,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
     }
   };
 
-  const currentExample = getCategoryExample(selectedCategory === 'Other' ? (customCategory || 'Other') : selectedCategory);
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
@@ -215,22 +212,15 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                {t('addEq.equipmentName')} *
+                {t('addEq.equipmentName')}
               </label>
               <input
                 type="text"
-                list="edit-equipment-name-suggestions"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={currentExample.name}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-medium focus:ring-2 focus:ring-[#166534] focus:outline-none placeholder:text-slate-400"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-medium focus:ring-2 focus:ring-[#166534] focus:outline-none"
                 required
               />
-              <datalist id="edit-equipment-name-suggestions">
-                {currentExample.suggestions.map((sug) => (
-                  <option key={sug} value={sug} />
-                ))}
-              </datalist>
             </div>
 
             <div>
@@ -274,8 +264,7 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
                 type="text"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                placeholder={`e.g. ${currentExample.brand}`}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none placeholder:text-slate-400"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none"
                 required
               />
             </div>
@@ -288,8 +277,7 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
                 type="text"
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
-                placeholder={`e.g. ${currentExample.model}`}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none placeholder:text-slate-400"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none"
               />
             </div>
 
@@ -301,8 +289,7 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
                 type="number"
                 value={hp}
                 onChange={(e) => setHp(Number(e.target.value))}
-                placeholder={`e.g. ${currentExample.hp}`}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none placeholder:text-slate-400"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none"
                 required
               />
             </div>

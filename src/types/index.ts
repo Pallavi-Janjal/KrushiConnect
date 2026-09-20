@@ -198,7 +198,12 @@ export interface SmartMatchCriteria {
   crop: string;
   landArea: number;
   activity: string;
+  customActivity?: string;
   location: string;
+  state?: string;
+  district?: string;
+  taluka?: string;
+  village?: string;
   preferredDate: string;
   maxBudget: number;
   equipmentCategory?: string;
