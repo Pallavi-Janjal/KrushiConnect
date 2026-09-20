@@ -87,7 +87,7 @@ function generateTrend(modalPrice, seed) {
     });
 }
 // Generate fallback records for any state/district
-function generateMandiRecordsForLocation(stateName, districtName, search) {
+function generateMandiRecordsForLocation(stateName, districtName, search, commodityName) {
     const today = new Date();
     const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
     const dayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
@@ -116,8 +116,8 @@ function generateMandiRecordsForLocation(stateName, districtName, search) {
         const apmcList = (isMaharashtra && exports.MAHARASHTRA_DISTRICT_APMCS[dist])
             ? exports.MAHARASHTRA_DISTRICT_APMCS[dist]
             : [`${dist} Main APMC`, `${dist} Grain & Veg Market`];
-        // Select suitable commodities for this district
-        const cropsToInclude = exports.COMMODITY_PROFILES.slice(0, 10 + (pseudoHash(dist) % 6));
+        // Select suitable commodities for this district (include full spectrum)
+        const cropsToInclude = exports.COMMODITY_PROFILES;
         for (const crop of cropsToInclude) {
             const apmcName = apmcList[pseudoHash(crop.name + dist) % apmcList.length];
             const seedStr = `${dayKey}-${stateName}-${dist}-${crop.name}-${apmcName}`;
@@ -152,13 +152,19 @@ function generateMandiRecordsForLocation(stateName, districtName, search) {
             records.push(record);
         }
     }
+    let filtered = records;
+    // Filter by commodity if provided
+    if (commodityName && commodityName !== 'ALL') {
+        const c = commodityName.toLowerCase().trim();
+        filtered = filtered.filter((r) => r.commodity.toLowerCase().includes(c));
+    }
     // Filter by search term if provided
     if (search && search.trim() !== '') {
         const q = search.toLowerCase().trim();
-        return records.filter((r) => r.commodity.toLowerCase().includes(q) ||
+        filtered = filtered.filter((r) => r.commodity.toLowerCase().includes(q) ||
             r.mandiName.toLowerCase().includes(q) ||
             r.district.toLowerCase().includes(q) ||
             r.state.toLowerCase().includes(q));
     }
-    return records;
+    return filtered;
 }

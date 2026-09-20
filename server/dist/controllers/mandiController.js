@@ -98,7 +98,7 @@ const getMandiRates = async (req, res) => {
         // If live API has no records for the selected state/district (e.g. Maharashtra or any district),
         // serve our authentic, district-specific APMC data
         const stateToGenerate = requestedState !== 'ALL' ? requestedState : 'Maharashtra';
-        const fallbackRecords = (0, mandiDataService_1.generateMandiRecordsForLocation)(stateToGenerate, requestedDistrict, requestedSearch);
+        const fallbackRecords = (0, mandiDataService_1.generateMandiRecordsForLocation)(stateToGenerate, requestedDistrict, requestedSearch, typeof commodity === 'string' && commodity !== 'ALL' ? commodity : undefined);
         // Apply pagination on fallback records
         const paginatedFallback = fallbackRecords.slice(offset, offset + limitNum);
         res.json({

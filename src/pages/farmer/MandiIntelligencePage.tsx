@@ -18,6 +18,7 @@ export const MandiIntelligencePage: React.FC = () => {
 
   // Filter & Pagination States
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCrop, setSelectedCrop] = useState<string>('ALL');
   const [selectedState, setSelectedState] = useState<string>('ALL');
   const [selectedDistrict, setSelectedDistrict] = useState<string>('ALL');
   const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
@@ -47,6 +48,7 @@ export const MandiIntelligencePage: React.FC = () => {
       const res = await mandiService.getMandiPrices({
         state: selectedState,
         district: selectedDistrict,
+        commodity: selectedCrop !== 'ALL' ? selectedCrop : undefined,
         search: searchTerm,
         page: pageToFetch,
         limit: 40
@@ -83,10 +85,10 @@ export const MandiIntelligencePage: React.FC = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       fetchRates(1);
-    }, 400);
+    }, 350);
 
     return () => clearTimeout(handler);
-  }, [selectedState, selectedDistrict, searchTerm]);
+  }, [selectedState, selectedDistrict, selectedCrop, searchTerm]);
 
   // Handle State change (reset district selection and populate districts immediately)
   const handleStateChange = (newState: string) => {
@@ -167,12 +169,17 @@ export const MandiIntelligencePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Search, State & District Filter Toolbar */}
+      {/* Search, State, District & Crop Filter Toolbar */}
       <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
         <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
           <CropSearch searchTerm={searchTerm} onSearchChange={setSearchTerm} />
           <MandiFilter
             districts={availableDistricts}
+            selectedCrop={selectedCrop}
+            onCropChange={(crop) => {
+              setSelectedCrop(crop);
+              setCurrentPage(1);
+            }}
             selectedState={selectedState}
             onStateChange={handleStateChange}
             selectedDistrict={selectedDistrict}
@@ -185,6 +192,44 @@ export const MandiIntelligencePage: React.FC = () => {
             showOnlyFavourites={showOnlyFavourites}
             onToggleFavouritesFilter={() => setShowOnlyFavourites(!showOnlyFavourites)}
           />
+        </div>
+
+        {/* Quick Select Popular Crop Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin pt-2 border-t border-slate-100">
+          <span className="text-[11px] font-bold text-slate-500 shrink-0 mr-1">Select Crop:</span>
+          {[
+            { value: 'ALL', label: 'All Crops', icon: '🌾' },
+            { value: 'Soybean', label: 'Soybean', icon: '🌱' },
+            { value: 'Wheat', label: 'Wheat', icon: '🌾' },
+            { value: 'Onion', label: 'Onion', icon: '🧅' },
+            { value: 'Cotton', label: 'Cotton', icon: '⚪' },
+            { value: 'Gram', label: 'Chana', icon: '🟡' },
+            { value: 'Tur', label: 'Tur', icon: '🟡' },
+            { value: 'Tomato', label: 'Tomato', icon: '🍅' },
+            { value: 'Potato', label: 'Potato', icon: '🥔' },
+            { value: 'Sugarcane', label: 'Sugarcane', icon: '🎋' },
+            { value: 'Rice', label: 'Rice', icon: '🍚' },
+            { value: 'Turmeric', label: 'Turmeric', icon: '🟡' },
+            { value: 'Pomegranate', label: 'Pomegranate', icon: '🍎' },
+            { value: 'Grapes', label: 'Grapes', icon: '🍇' },
+            { value: 'Banana', label: 'Banana', icon: '🍌' }
+          ].map((item) => (
+            <button
+              key={item.value}
+              onClick={() => {
+                setSelectedCrop(item.value);
+                setCurrentPage(1);
+              }}
+              className={`shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                selectedCrop === item.value
+                  ? 'bg-[#166534] text-white shadow-xs ring-1 ring-[#166534]'
+                  : 'bg-slate-50 border border-slate-200 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300'
+              }`}
+            >
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
         </div>
       </div>
 

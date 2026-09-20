@@ -117,7 +117,8 @@ export const getMandiRates = async (req: Request, res: Response): Promise<void> 
     const fallbackRecords = generateMandiRecordsForLocation(
       stateToGenerate,
       requestedDistrict,
-      requestedSearch
+      requestedSearch,
+      typeof commodity === 'string' && commodity !== 'ALL' ? commodity : undefined
     );
 
     // Apply pagination on fallback records

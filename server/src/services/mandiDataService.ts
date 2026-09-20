@@ -118,7 +118,8 @@ function generateTrend(modalPrice: number, seed: string): Array<{ date: string; 
 export function generateMandiRecordsForLocation(
   stateName: string,
   districtName?: string,
-  search?: string
+  search?: string,
+  commodityName?: string
 ): MandiRecord[] {
   const today = new Date();
   const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
@@ -151,8 +152,8 @@ export function generateMandiRecordsForLocation(
       ? MAHARASHTRA_DISTRICT_APMCS[dist]
       : [`${dist} Main APMC`, `${dist} Grain & Veg Market`];
 
-    // Select suitable commodities for this district
-    const cropsToInclude = COMMODITY_PROFILES.slice(0, 10 + (pseudoHash(dist) % 6));
+    // Select suitable commodities for this district (include full spectrum)
+    const cropsToInclude = COMMODITY_PROFILES;
 
     for (const crop of cropsToInclude) {
       const apmcName = apmcList[pseudoHash(crop.name + dist) % apmcList.length];
@@ -193,10 +194,18 @@ export function generateMandiRecordsForLocation(
     }
   }
 
+  let filtered = records;
+
+  // Filter by commodity if provided
+  if (commodityName && commodityName !== 'ALL') {
+    const c = commodityName.toLowerCase().trim();
+    filtered = filtered.filter((r) => r.commodity.toLowerCase().includes(c));
+  }
+
   // Filter by search term if provided
   if (search && search.trim() !== '') {
     const q = search.toLowerCase().trim();
-    return records.filter((r) =>
+    filtered = filtered.filter((r) =>
       r.commodity.toLowerCase().includes(q) ||
       r.mandiName.toLowerCase().includes(q) ||
       r.district.toLowerCase().includes(q) ||
@@ -204,5 +213,5 @@ export function generateMandiRecordsForLocation(
     );
   }
 
-  return records;
+  return filtered;
 }
