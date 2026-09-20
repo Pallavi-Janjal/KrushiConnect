@@ -33,7 +33,7 @@ The platform also provides crop market price information to help farmers access 
 
 ✨ Key Features
 
-_
+.
 
 
 
@@ -44,7 +44,7 @@ _
 
 
 
-_
+.
 
 
 
@@ -68,7 +68,7 @@ Custom Hiring Centres (CHCs) can improve farmers' access to machinery without re
 
 
 
-_
+.
 
 
 
@@ -78,7 +78,7 @@ _
 
 
 
-_
+.
 
 
 
@@ -102,7 +102,7 @@ Article DOI: 10.62823/IJAER/2026/02.01.148
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
-_
+.
 
 
 
@@ -110,7 +110,8 @@ _
 
 
 
-_
+.
+
 
 
 
@@ -132,7 +133,7 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-_
+.
 
 
 
@@ -141,7 +142,8 @@ _
 
 
 
-_
+.
+
 
 
 
@@ -160,7 +162,8 @@ Data-driven mechanization can contribute to more efficient and sustainable farmi
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
 
--
+.
+
 
 
 
@@ -170,7 +173,8 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
 
     
 
-    _
+    .
+
     
 
 📰 News & Recent Reports
@@ -180,7 +184,8 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
    https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
-_
+.
+
 
 
 
@@ -189,7 +194,8 @@ _
 
 
 
-_
+.
+
 
 
 
@@ -201,14 +207,16 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-_
+.
+
 
 
 <img width="791" height="1600" alt="image" src="https://github.com/user-attachments/assets/013c6e39-0f9b-4cd9-81b0-5b82c69db963" />
 
 
 
-_
+.
+
 
 
 
@@ -278,7 +286,8 @@ _
 - **Oxlint & ESLint** – Code quality and linting
 - **Render** – Full-stack deployment and hosting
 
-_
+.
+
 
 
 
@@ -286,7 +295,8 @@ _
 
 
 
-_
+.
+
 
 
 # React + TypeScript + Vite
