@@ -1,6 +1,6 @@
 
 
-🔴 Problem Statement
+##  🔴 Problem Statement
 
 
 
@@ -18,7 +18,7 @@ Farmers may also need updated information about crop market prices before decidi
 
 
 
-💡 Our Solution
+## 💡 Our Solution
 
 
 KrushiConnect is a web-based platform designed to connect:
@@ -43,9 +43,9 @@ The platform also provides crop market price information to help farmers access 
 
 
 
-✨ Key Features
+## ✨ Key Features
 
-.
+
 
 
 
@@ -56,11 +56,11 @@ The platform also provides crop market price information to help farmers access 
 
 
 
-.
 
 
 
-📊 Market Price Information
+
+## 📊 Market Price Information
 
 
 
@@ -70,7 +70,7 @@ The e-NAM platform provides live price information with state, commodity and APM
 
 
 
-📚 Research Reference
+## 📚 Research Reference
 
 1.Research Paper: Status of Farm Mechanization     in India: An Analytical 
 Study Author: Meghna Verma (2026)
@@ -84,7 +84,7 @@ Custom Hiring Centres (CHCs) can improve farmers' access to machinery without re
 
 
 
-.
+
 
 
 
@@ -94,7 +94,7 @@ Custom Hiring Centres (CHCs) can improve farmers' access to machinery without re
 
 
 
-.
+
 
 
 
@@ -118,7 +118,7 @@ Article DOI: 10.62823/IJAER/2026/02.01.148
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
-.
+
 
 
 
@@ -126,7 +126,7 @@ DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
 
-.
+
 
 
 
@@ -152,7 +152,7 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-.
+
 
 
 
@@ -161,7 +161,7 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-.
+
 
 
 
@@ -183,7 +183,7 @@ Data-driven mechanization can contribute to more efficient and sustainable farmi
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
 
-.
+
 
 
 
@@ -194,7 +194,7 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
 
     
 
-    .
+    
 
     
 
@@ -209,7 +209,7 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
    https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
-.
+
 
 
 
@@ -219,7 +219,7 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
 
 
-.
+
 
 
 
@@ -236,7 +236,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-.
+
 
 
 
@@ -244,7 +244,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-.
+
 
 
 
@@ -315,7 +315,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 - **Oxlint & ESLint** – Code quality and linting
 - **Render** – Full-stack deployment and hosting
 
-.
+
 
 
 
@@ -324,10 +324,42 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-.
 
 
 
+## 🚀 Future Scope
+
+- 📍 GPS-Based Equipment Tracking
+- 🔧 Predictive Maintenance
+- 📱 Dedicated Android & iOS Application
+- 🌦️ Weather-Based Farm Recommendations
+- 📈 Seasonal Equipment Demand Forecasting
+- ⭐ Equipment & User Rating System
+- 🛡️ Equipment Insurance & Damage Protection
+- 📡 IoT-Based Equipment Monitoring
+
+
+
+
+## 📚 References
+
+1. **e-NAM – National Agriculture Market**  
+   https://enam.gov.in/
+
+2. **Open Government Data (OGD) Platform India – Agriculture**  
+   https://data.gov.in/
+
+3. **ICAR – Indian Council of Agricultural Research**  
+   https://icar.gov.in/
+
+4. **Ministry of Agriculture & Farmers Welfare, Government of India**  
+   https://agriculture.gov.in/
+
+5. **Cloudinary Documentation**  
+   https://cloudinary.com/documentation
+
+
+   
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
