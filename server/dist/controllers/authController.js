@@ -229,6 +229,17 @@ const updateProfile = async (req, res) => {
         if (avatar !== undefined) {
             user.avatar = String(avatar).trim();
         }
+        if (req.body.paymentDetails !== undefined) {
+            const details = req.body.paymentDetails || {};
+            user.paymentDetails = {
+                upiId: details.upiId ? String(details.upiId).trim() : (user.paymentDetails?.upiId || ''),
+                qrCodeUrl: details.qrCodeUrl !== undefined ? String(details.qrCodeUrl).trim() : (user.paymentDetails?.qrCodeUrl || ''),
+                accountHolderName: details.accountHolderName !== undefined ? String(details.accountHolderName).trim() : (user.paymentDetails?.accountHolderName || ''),
+                bankName: details.bankName !== undefined ? String(details.bankName).trim() : (user.paymentDetails?.bankName || ''),
+                accountNumber: details.accountNumber !== undefined ? String(details.accountNumber).trim() : (user.paymentDetails?.accountNumber || ''),
+                ifscCode: details.ifscCode !== undefined ? String(details.ifscCode).trim().toUpperCase() : (user.paymentDetails?.ifscCode || '')
+            };
+        }
         await user.save();
         res.json({
             success: true,

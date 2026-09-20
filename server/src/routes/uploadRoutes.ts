@@ -1,6 +1,11 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
+import path from 'path';
+import dns from 'dns';
 import cloudinary from '../config/cloudinary';
+
+// Ensure IPv4 first to avoid DNS delays with Cloudinary
+dns.setDefaultResultOrder('verbatim');
 
 const router = Router();
 
@@ -19,52 +24,57 @@ const upload = multer({
   }
 });
 
-import fs from 'fs';
-import path from 'path';
-
-// Helper function to upload buffer to Cloudinary or save locally as fallback
+// Helper function to upload buffer directly to Cloudinary in folder 'krushi_connect'
 const uploadBufferToCloudinary = (buffer: Buffer, originalname: string): Promise<string> => {
-  return new Promise((resolve) => {
-    const ext = path.extname(originalname) || '.jpg';
-    const filename = `eq_${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
-    const uploadsDir = path.join(process.cwd(), 'uploads');
+  return new Promise((resolve, reject) => {
+    if (!process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_SECRET) {
+      return reject(
+        new Error(
+          'Cloudinary is not configured. Please set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in server/.env.'
+        )
+      );
+    }
 
-    const saveLocally = () => {
-      try {
-        if (!fs.existsSync(uploadsDir)) {
-          fs.mkdirSync(uploadsDir, { recursive: true });
-        }
-        const filePath = path.join(uploadsDir, filename);
-        fs.writeFileSync(filePath, buffer);
-        return resolve(`/uploads/${filename}`);
-      } catch (e) {
-        console.error('Local save error:', e);
-        // last resort tiny placeholder if file write fails
-        return resolve('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
-      }
+    const ext = path.extname(originalname).replace('.', '').toLowerCase() || 'jpg';
+    const cleanExt = ['jpg', 'jpeg', 'png', 'webp'].includes(ext) ? ext : 'jpg';
+    const publicId = `eq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    const uploadOptions: any = {
+      folder: 'krushi_connect',
+      resource_type: 'image',
+      public_id: publicId,
+      format: cleanExt
     };
 
-    // Try Cloudinary if keys exist
-    if (process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_CLOUD_NAME) {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          resource_type: 'image',
-          public_id: `eq_${Date.now()}_${Math.random().toString(36).substring(7)}`
-        },
-        (error, result) => {
-          if (error || !result || !result.secure_url) {
-            console.warn('Cloudinary upload notice, saving locally:', error?.message || 'Upload failed');
-            return saveLocally();
-          }
-          resolve(result.secure_url);
-        }
-      );
-
-      uploadStream.on('error', () => saveLocally());
-      uploadStream.end(buffer);
-    } else {
-      saveLocally();
+    if (process.env.CLOUDINARY_UPLOAD_PRESET) {
+      uploadOptions.upload_preset = process.env.CLOUDINARY_UPLOAD_PRESET;
     }
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      uploadOptions,
+      (error, result) => {
+        if (error || !result || !result.secure_url) {
+          console.error('Cloudinary upload error:', error);
+          const errorMsg = error?.message || 'Failed to upload image to Cloudinary';
+          if (errorMsg.includes('missing permissions') || error?.http_code === 403) {
+            return reject(
+              new Error(
+                'Cloudinary Permission Error: Your API key is missing "create" permissions. In Cloudinary Console > Settings > Access Keys, edit your key and check "Create" permission, or use your Master API Key.'
+              )
+            );
+          }
+          return reject(new Error(errorMsg));
+        }
+        resolve(result.secure_url);
+      }
+    );
+
+    uploadStream.on('error', (err) => {
+      console.error('Cloudinary stream network error:', err);
+      reject(err);
+    });
+
+    uploadStream.end(buffer);
   });
 };
 
@@ -88,7 +98,7 @@ router.post('/', upload.array('images', 5), async (req: Request, res: Response):
     });
   } catch (error: any) {
     console.error('Image upload error:', error);
-    res.status(500).json({ message: error.message || 'Image upload failed.' });
+    res.status(500).json({ message: error.message || 'Image upload to Cloudinary failed.' });
   }
 });
 

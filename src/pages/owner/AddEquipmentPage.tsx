@@ -7,6 +7,7 @@ import { EquipmentCategory } from '../../types';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { INDIAN_STATES, STATE_DISTRICTS_MAP } from '../../data/indiaLocations';
 import { ImageUpload } from '../../components/common/ImageUpload';
+import { getCategoryFallbackImage } from '../../services/api';
 
 export const AddEquipmentPage: React.FC = () => {
   const { user } = useAuth();
@@ -68,7 +69,7 @@ export const AddEquipmentPage: React.FC = () => {
 
       const finalImages = images.length > 0 
         ? images 
-        : ['https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80'];
+        : [getCategoryFallbackImage(category)];
 
       const primaryRate = pricingUnit === 'PER_HOUR' ? Number(pricePerHour) : Number(pricePerHectare);
 

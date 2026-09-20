@@ -1,5 +1,14 @@
 import { Schema, model, Document } from 'mongoose';
 
+export interface IUserPaymentDetails {
+  upiId?: string;
+  qrCodeUrl?: string;
+  accountHolderName?: string;
+  bankName?: string;
+  accountNumber?: string;
+  ifscCode?: string;
+}
+
 export interface IUser {
   name: string;
   email: string;
@@ -8,6 +17,7 @@ export interface IUser {
   phone: string;
   location: string;
   avatar?: string;
+  paymentDetails?: IUserPaymentDetails;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -22,7 +32,15 @@ const userSchema = new Schema<IUser>(
     role: { type: String, enum: ['FARMER', 'EQUIPMENT_OWNER', 'farmer', 'equipment_owner'], required: true },
     phone: { type: String, required: true, trim: true },
     location: { type: String, default: 'India' },
-    avatar: { type: String }
+    avatar: { type: String },
+    paymentDetails: {
+      upiId: { type: String, trim: true, default: '' },
+      qrCodeUrl: { type: String, trim: true, default: '' },
+      accountHolderName: { type: String, trim: true, default: '' },
+      bankName: { type: String, trim: true, default: '' },
+      accountNumber: { type: String, trim: true, default: '' },
+      ifscCode: { type: String, trim: true, default: '' }
+    }
   },
   { timestamps: true }
 );

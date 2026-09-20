@@ -5,8 +5,9 @@ import { useLanguage } from '../../context/LanguageContext';
 import { bookingService } from '../../services/bookingService';
 import { reviewService } from '../../services/reviewService';
 import { Badge } from '../../components/common/Badge';
-import { Tractor, PhoneCall, Star, CreditCard, Banknote, ShieldCheck, KeyRound, MapPin, CheckCircle2, AlertCircle, X, Lock } from 'lucide-react';
+import { Tractor, PhoneCall, Star, CreditCard, Banknote, ShieldCheck, KeyRound, MapPin, CheckCircle2, AlertCircle, X, Lock, QrCode, Copy, Check, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { resolveImageUrl } from '../../services/api';
 
 export const MyRentalsPage: React.FC = () => {
   const { user } = useAuth();
@@ -25,6 +26,15 @@ export const MyRentalsPage: React.FC = () => {
   const [paymentTab, setPaymentTab] = useState<'ONLINE' | 'CASH'>('ONLINE');
   const [utrNumber, setUtrNumber] = useState('');
   const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+  const [copiedUpi, setCopiedUpi] = useState(false);
+  const [expandedQr, setExpandedQr] = useState(false);
+
+  const handleCopyUpi = (upiId: string) => {
+    if (!upiId) return;
+    navigator.clipboard.writeText(upiId);
+    setCopiedUpi(true);
+    setTimeout(() => setCopiedUpi(false), 2500);
+  };
 
   const [farmerBookings, setFarmerBookings] = useState<any[]>(bookings);
 
@@ -346,38 +356,155 @@ export const MyRentalsPage: React.FC = () => {
 
             <form onSubmit={handleProcessPaymentSubmit} className="space-y-4">
               {paymentTab === 'ONLINE' ? (
-                <div className="space-y-3 bg-emerald-50/50 p-4 border border-emerald-200/80 rounded-xl text-xs">
-                  <h4 className="font-extrabold text-[#166534] text-xs uppercase tracking-wide">Owner Bank Account Details</h4>
-                  <div className="grid grid-cols-2 gap-2 text-slate-700">
-                    <div>
-                      <span className="text-slate-500 block">Bank Name:</span>
-                      <strong className="text-slate-900">{paymentModalBooking.bankDetails?.bankName || 'HDFC Bank'}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-500 block">Account Holder:</span>
-                      <strong className="text-slate-900">{paymentModalBooking.ownerName}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-500 block">Account Number:</span>
-                      <strong className="font-mono text-slate-900">{paymentModalBooking.bankDetails?.accountNumber || '5010048291029'}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-500 block">IFSC Code:</span>
-                      <strong className="font-mono text-slate-900">{paymentModalBooking.bankDetails?.ifscCode || 'HDFC0001829'}</strong>
-                    </div>
-                    <div className="col-span-2 pt-1 border-t border-emerald-200/60">
-                      <span className="text-slate-500 block">UPI ID:</span>
-                      <strong className="font-mono text-[#166534]">{paymentModalBooking.bankDetails?.upiId || 'owner@upi'}</strong>
-                    </div>
-                  </div>
+                <div className="space-y-4 bg-emerald-50/40 p-4 border border-emerald-200/80 rounded-2xl text-xs">
+                  
+                  {/* Payment Scanner / QR Code View */}
+                  {paymentModalBooking.bankDetails?.qrCodeUrl ? (
+                    <div className="bg-white p-4 rounded-xl border border-emerald-300 shadow-xs flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                      <div
+                        onClick={() => setExpandedQr(!expandedQr)}
+                        title="Click to toggle enlarge QR"
+                        className="relative group cursor-pointer w-32 h-32 bg-white p-1.5 rounded-xl border-2 border-emerald-600/40 hover:border-[#166534] flex items-center justify-center shrink-0 shadow-xs transition-all"
+                      >
+                        <img
+                          src={resolveImageUrl(paymentModalBooking.bankDetails.qrCodeUrl)}
+                          alt="Owner UPI Payment QR Scanner"
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80';
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-slate-900/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
+                          {expandedQr ? 'Click to Shrink' : 'Click to Enlarge'}
+                        </div>
+                      </div>
 
+                      <div className="space-y-1.5 flex-1">
+                        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-100 text-emerald-900 rounded-full text-[10px] font-extrabold uppercase tracking-wide">
+                          <QrCode className="w-3 h-3 text-[#166534]" />
+                          <span>Scan & Pay via any UPI App</span>
+                        </div>
+                        <h4 className="text-xs font-bold text-slate-900">
+                          GPay • PhonePe • Paytm • BHIM
+                        </h4>
+                        <p className="text-[11px] text-slate-500 leading-relaxed">
+                          Scan this scanner with your UPI app to pay <strong>₹{paymentModalBooking.totalAmount.toLocaleString('en-IN')}</strong> directly to <strong>{paymentModalBooking.ownerName}</strong>.
+                        </p>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* Expanded QR Modal/Banner if requested */}
+                  {expandedQr && paymentModalBooking.bankDetails?.qrCodeUrl && (
+                    <div className="p-4 bg-white rounded-xl border-2 border-[#166534] flex flex-col items-center justify-center space-y-2 animate-in fade-in zoom-in duration-200">
+                      <img
+                        src={resolveImageUrl(paymentModalBooking.bankDetails.qrCodeUrl)}
+                        alt="Enlarged Payment Scanner"
+                        className="w-56 h-56 object-contain rounded-lg shadow-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setExpandedQr(false)}
+                        className="text-[11px] font-bold text-[#166534] hover:underline cursor-pointer"
+                      >
+                        Close Large View
+                      </button>
+                    </div>
+                  )}
+
+                  {/* UPI ID Field with 1-Click Copy & App Intent */}
+                  {paymentModalBooking.bankDetails?.upiId ? (
+                    <div className="bg-white p-3.5 rounded-xl border border-emerald-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+                      <div>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Owner UPI ID (VPA)</span>
+                        <span className="font-mono text-xs sm:text-sm font-bold text-[#166534] break-all">
+                          {paymentModalBooking.bankDetails.upiId}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                        <button
+                          type="button"
+                          onClick={() => handleCopyUpi(paymentModalBooking.bankDetails.upiId)}
+                          className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-[#166534] text-xs font-bold rounded-lg border border-emerald-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+                        >
+                          {copiedUpi ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5 text-emerald-600" />
+                              <span>Copy UPI ID</span>
+                            </>
+                          )}
+                        </button>
+
+                        <a
+                          href={`upi://pay?pa=${paymentModalBooking.bankDetails.upiId}&pn=${encodeURIComponent(paymentModalBooking.ownerName)}&am=${paymentModalBooking.totalAmount}&cu=INR&tn=${encodeURIComponent('Rental ' + paymentModalBooking.equipmentName)}`}
+                          className="sm:hidden px-3 py-1.5 bg-[#166534] text-white text-xs font-bold rounded-lg flex items-center gap-1 shadow-xs"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Pay via App</span>
+                        </a>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* Bank Account Details Grid - ONLY shown if owner provided bank details in profile */}
+                  {(paymentModalBooking.bankDetails?.accountNumber || paymentModalBooking.bankDetails?.bankName) && (
+                    <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
+                      <h4 className="font-extrabold text-[#166534] text-[11px] uppercase tracking-wide">
+                        Direct Bank Account Transfer (IMPS / NEFT)
+                      </h4>
+                      <div className="grid grid-cols-2 gap-2 text-slate-700">
+                        {paymentModalBooking.bankDetails.bankName ? (
+                          <div>
+                            <span className="text-slate-400 block text-[10px]">Bank Name:</span>
+                            <strong className="text-slate-900 text-xs">{paymentModalBooking.bankDetails.bankName}</strong>
+                          </div>
+                        ) : null}
+                        <div>
+                          <span className="text-slate-400 block text-[10px]">Account Holder:</span>
+                          <strong className="text-slate-900 text-xs">{paymentModalBooking.bankDetails?.accountHolderName || paymentModalBooking.ownerName}</strong>
+                        </div>
+                        {paymentModalBooking.bankDetails.accountNumber ? (
+                          <div>
+                            <span className="text-slate-400 block text-[10px]">Account Number:</span>
+                            <strong className="font-mono text-slate-900 text-xs">{paymentModalBooking.bankDetails.accountNumber}</strong>
+                          </div>
+                        ) : null}
+                        {paymentModalBooking.bankDetails.ifscCode ? (
+                          <div>
+                            <span className="text-slate-400 block text-[10px]">IFSC Code:</span>
+                            <strong className="font-mono text-slate-900 text-xs">{paymentModalBooking.bankDetails.ifscCode}</strong>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Fallback notice if owner has no online payment details configured */}
+                  {!paymentModalBooking.bankDetails?.qrCodeUrl && !paymentModalBooking.bankDetails?.upiId && !paymentModalBooking.bankDetails?.accountNumber && (
+                    <div className="bg-white p-4 rounded-xl border border-slate-200 text-center space-y-1">
+                      <p className="text-xs font-bold text-slate-800">No Online Payment Details Configured</p>
+                      <p className="text-[11px] text-slate-500">
+                        The equipment owner has not added UPI or bank details yet. Please coordinate directly or choose Cash Payment.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* UTR / Reference ID Field */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-800 mt-2 mb-1">Transaction UTR / Reference ID (Optional)</label>
+                    <label className="block text-xs font-bold text-slate-800 mt-2 mb-1">
+                      Transaction UTR / Reference ID (from UPI app)
+                    </label>
                     <input
                       type="text"
                       value={utrNumber}
                       onChange={(e) => setUtrNumber(e.target.value)}
-                      placeholder="e.g. 384920194820"
+                      placeholder="e.g. 384920194820 (Optional)"
                       className="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-[#166534] focus:outline-none"
                     />
                   </div>

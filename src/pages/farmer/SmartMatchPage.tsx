@@ -7,7 +7,7 @@ import { BookingModal } from '../../components/booking/BookingModal';
 import { RatingStars } from '../../components/common/RatingStars';
 import { Sparkles, Tractor, CheckCircle2, ArrowRight, MapPin, Zap } from 'lucide-react';
 import { INDIAN_STATES, STATE_DISTRICTS_MAP } from '../../data/indiaLocations';
-import { resolveImageUrl } from '../../services/api';
+import { resolveImageUrl, getCategoryFallbackImage } from '../../services/api';
 
 export const SmartMatchPage: React.FC = () => {
   const { equipment } = useApp();
@@ -206,10 +206,10 @@ export const SmartMatchPage: React.FC = () => {
                     
                     <div className="flex items-center gap-4">
                       <img
-                        src={resolveImageUrl(item.images?.[0])}
+                        src={resolveImageUrl(item.images?.[0], item.category)}
                         alt=""
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                          (e.target as HTMLImageElement).src = getCategoryFallbackImage(item.category);
                         }}
                         className="w-20 h-20 rounded-xl object-cover bg-slate-100 shrink-0"
                       />

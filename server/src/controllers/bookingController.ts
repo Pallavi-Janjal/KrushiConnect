@@ -99,10 +99,12 @@ export const createBooking = async (req: AuthRequest, res: Response): Promise<vo
       paymentStatus: 'PENDING',
       completionOtp: '',
       bankDetails: {
-        bankName: 'HDFC Bank',
-        accountNumber: '50100' + Math.floor(10000000 + Math.random() * 90000000),
-        ifscCode: 'HDFC0001829',
-        upiId: `${owner?.phone ? owner.phone.replace(/[^0-9]/g, '') : '9812345678'}@upi`
+        bankName: owner?.paymentDetails?.bankName ? owner.paymentDetails.bankName.trim() : '',
+        accountHolderName: owner?.paymentDetails?.accountHolderName ? owner.paymentDetails.accountHolderName.trim() : (owner?.name || equipment.ownerName),
+        accountNumber: owner?.paymentDetails?.accountNumber ? owner.paymentDetails.accountNumber.trim() : '',
+        ifscCode: owner?.paymentDetails?.ifscCode ? owner.paymentDetails.ifscCode.trim() : '',
+        upiId: owner?.paymentDetails?.upiId ? owner.paymentDetails.upiId.trim() : '',
+        qrCodeUrl: owner?.paymentDetails?.qrCodeUrl ? owner.paymentDetails.qrCodeUrl.trim() : ''
       }
     });
 
@@ -131,6 +133,20 @@ export const createBooking = async (req: AuthRequest, res: Response): Promise<vo
   }
 };
 
+const enrichBookingWithOwnerPayment = (bookingJson: any, ownerUserMap: Map<string, any>) => {
+  const owner = ownerUserMap.get(String(bookingJson.ownerId));
+  const p = owner?.paymentDetails;
+  bookingJson.bankDetails = {
+    bankName: p?.bankName ? p.bankName.trim() : '',
+    accountHolderName: p?.accountHolderName ? p.accountHolderName.trim() : (owner?.name || bookingJson.ownerName || ''),
+    accountNumber: p?.accountNumber ? p.accountNumber.trim() : '',
+    ifscCode: p?.ifscCode ? p.ifscCode.trim() : '',
+    upiId: p?.upiId ? p.upiId.trim() : '',
+    qrCodeUrl: p?.qrCodeUrl ? p.qrCodeUrl.trim() : ''
+  };
+  return bookingJson;
+};
+
 export const getFarmerBookings = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     if (!req.user) {
@@ -138,7 +154,12 @@ export const getFarmerBookings = async (req: AuthRequest, res: Response): Promis
       return;
     }
     const list = await Booking.find({ farmerId: req.user.userId }).sort({ createdAt: -1 });
-    res.json(list.map(b => b.toJSON()));
+    const ownerIds = [...new Set(list.map(b => b.ownerId.toString()))];
+    const owners = await User.find({ _id: { $in: ownerIds } });
+    const ownerMap = new Map(owners.map(o => [o._id.toString(), o]));
+
+    const enriched = list.map(b => enrichBookingWithOwnerPayment(b.toJSON(), ownerMap));
+    res.json(enriched);
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Failed to fetch farmer bookings.' });
   }
@@ -164,7 +185,16 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
       res.status(404).json({ message: 'Booking not found' });
       return;
     }
-    res.json(booking.toJSON());
+    const json = booking.toJSON();
+    if (json.ownerId) {
+      const owner = await User.findById(json.ownerId);
+      if (owner) {
+        const ownerMap = new Map([[owner._id.toString(), owner]]);
+        res.json(enrichBookingWithOwnerPayment(json, ownerMap));
+        return;
+      }
+    }
+    res.json(json);
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Failed to fetch booking.' });
   }

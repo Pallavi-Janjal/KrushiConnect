@@ -8,6 +8,9 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const dns_1 = __importDefault(require("dns"));
+// Ensure IPv4 first for reliable external services and Cloudinary
+dns_1.default.setDefaultResultOrder('verbatim');
 const db_1 = require("./config/db");
 const errorHandler_1 = require("./middleware/errorHandler");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -39,7 +42,7 @@ for (const envPath of envPaths) {
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
-// Connect to MongoDB Atlas
+// Connect to MongoDB Atlas (krushi_connect)
 (0, db_1.connectDB)();
 // CORS & Middleware
 // CLIENT_URL can be a single URL or comma-separated list of allowed origins
@@ -107,21 +110,6 @@ if (!fs_1.default.existsSync(defaultUploadDir)) {
     catch { }
 }
 app.use('/uploads', express_1.default.static(defaultUploadDir));
-// Fallback for missing uploaded images so the browser never logs a 404 error
-app.use('/uploads', (_req, res) => {
-    const fallbackCandidates = [
-        path_1.default.join(__dirname, '../uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'server/uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'public/hero-tractor-clean.png')
-    ];
-    for (const fallbackPath of fallbackCandidates) {
-        if (fs_1.default.existsSync(fallbackPath)) {
-            return res.sendFile(fallbackPath);
-        }
-    }
-    return res.redirect(302, 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
-});
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {
     res.json({

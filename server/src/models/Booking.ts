@@ -31,9 +31,11 @@ export interface IBooking {
   transactionRef?: string;
   bankDetails?: {
     bankName: string;
+    accountHolderName?: string;
     accountNumber: string;
     ifscCode: string;
     upiId: string;
+    qrCodeUrl?: string;
   };
   createdAt?: Date;
   updatedAt?: Date;
@@ -80,10 +82,12 @@ const bookingSchema = new Schema<IBooking>(
     completionOtp: { type: String, default: '' },
     transactionRef: { type: String, default: '' },
     bankDetails: {
-      bankName: { type: String, default: 'State Bank of India' },
-      accountNumber: { type: String, default: '39482019482' },
-      ifscCode: { type: String, default: 'SBIN0004829' },
-      upiId: { type: String, default: 'owner@upipay' }
+      bankName: { type: String, default: '' },
+      accountHolderName: { type: String, default: '' },
+      accountNumber: { type: String, default: '' },
+      ifscCode: { type: String, default: '' },
+      upiId: { type: String, default: '' },
+      qrCodeUrl: { type: String, default: '' }
     }
   },
   { timestamps: true }

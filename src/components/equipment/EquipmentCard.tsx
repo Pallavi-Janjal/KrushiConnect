@@ -6,7 +6,7 @@ import { MapPin, Zap, UserCheck, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslatedText } from '../common/TranslatedText';
-import { resolveImageUrl } from '../../services/api';
+import { resolveImageUrl, getCategoryFallbackImage } from '../../services/api';
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -46,10 +46,10 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
       <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
         <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
           <img
-            src={resolveImageUrl(equipment.images?.[0])}
+            src={resolveImageUrl(equipment.images?.[0], equipment.category)}
             alt={equipment.name}
             onError={(e) => {
-              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+              (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
             }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

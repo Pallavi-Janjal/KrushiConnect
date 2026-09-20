@@ -9,7 +9,15 @@ const userSchema = new mongoose_1.Schema({
     role: { type: String, enum: ['FARMER', 'EQUIPMENT_OWNER', 'farmer', 'equipment_owner'], required: true },
     phone: { type: String, required: true, trim: true },
     location: { type: String, default: 'India' },
-    avatar: { type: String }
+    avatar: { type: String },
+    paymentDetails: {
+        upiId: { type: String, trim: true, default: '' },
+        qrCodeUrl: { type: String, trim: true, default: '' },
+        accountHolderName: { type: String, trim: true, default: '' },
+        bankName: { type: String, trim: true, default: '' },
+        accountNumber: { type: String, trim: true, default: '' },
+        ifscCode: { type: String, trim: true, default: '' }
+    }
 }, { timestamps: true });
 userSchema.set('toJSON', {
     transform: (_doc, ret) => {

@@ -11,7 +11,7 @@ import { MapPin, UserCheck, ShieldCheck, Zap, Fuel, ArrowLeft, MessageSquare, Ph
 import { useDynamicTranslation } from '../../hooks/useDynamicTranslation';
 import { TranslatedText } from '../../components/common/TranslatedText';
 import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModal';
-import { resolveImageUrl } from '../../services/api';
+import { resolveImageUrl, getCategoryFallbackImage } from '../../services/api';
 
 export const EquipmentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -150,10 +150,10 @@ export const EquipmentDetailPage: React.FC = () => {
           <div className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs relative">
             <div className="h-96 w-full bg-slate-100">
               <img
-                src={resolveImageUrl(equipment.images[activeImageIndex] || equipment.images[0])}
+                src={resolveImageUrl(equipment.images[activeImageIndex] || equipment.images[0], equipment.category)}
                 alt={equipment.name}
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                  (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
                 }}
                 className="w-full h-full object-cover"
               />
@@ -179,10 +179,10 @@ export const EquipmentDetailPage: React.FC = () => {
                   }`}
                 >
                   <img
-                    src={resolveImageUrl(img)}
+                    src={resolveImageUrl(img, equipment.category)}
                     alt=""
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80';
+                      (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
                     }}
                     className="w-full h-full object-cover"
                   />

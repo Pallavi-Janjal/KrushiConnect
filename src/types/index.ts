@@ -1,5 +1,14 @@
 export type UserRole = 'FARMER' | 'EQUIPMENT_OWNER';
 
+export interface UserPaymentDetails {
+  upiId?: string;
+  qrCodeUrl?: string;
+  accountHolderName?: string;
+  bankName?: string;
+  accountNumber?: string;
+  ifscCode?: string;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -8,6 +17,7 @@ export interface User {
   role: UserRole;
   location: string;
   avatar?: string;
+  paymentDetails?: UserPaymentDetails;
   createdAt: string;
 }
 
@@ -86,9 +96,11 @@ export interface Booking {
   transactionRef?: string;
   bankDetails?: {
     bankName: string;
+    accountHolderName?: string;
     accountNumber: string;
     ifscCode: string;
     upiId: string;
+    qrCodeUrl?: string;
   };
   createdAt: string;
 }
