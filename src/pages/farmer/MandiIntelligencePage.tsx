@@ -8,6 +8,7 @@ import { MandiFilter } from '../../components/mandi/MandiFilter';
 import { PriceTrendChart } from '../../components/mandi/PriceTrendChart';
 import { MandiDetailModal } from '../../components/mandi/MandiDetailModal';
 import { Sprout, Star, RefreshCw, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { getDistrictsForState } from '../../data/indiaLocations';
 
 export const MandiIntelligencePage: React.FC = () => {
   const { t } = useLanguage();
@@ -56,20 +57,24 @@ export const MandiIntelligencePage: React.FC = () => {
       setTotalRecords(res.total || res.rates.length);
       setCurrentPage(res.page || 1);
 
-      // Extract unique districts from returned records
+      // Populate districts from master location database plus any returned by live API
+      const masterDists = selectedState !== 'ALL' ? getDistrictsForState(selectedState) : [];
       if (res.rates.length > 0) {
-        const dists = Array.from(new Set(res.rates.map(r => r.district).filter(Boolean))) as string[];
-        setAvailableDistricts(dists);
+        const returnedDists = Array.from(new Set(res.rates.map(r => r.district).filter(Boolean))) as string[];
+        const mergedDists = Array.from(new Set([...masterDists, ...returnedDists])).sort();
+        setAvailableDistricts(mergedDists);
 
         setSelectedItem((prev) => {
           const exists = res.rates.find(r => r.id === prev?.id);
           return exists || res.rates[0];
         });
       } else {
-        setAvailableDistricts([]);
+        setAvailableDistricts(masterDists);
       }
     } catch (err) {
       console.error('Failed to load mandi prices', err);
+      const masterDists = selectedState !== 'ALL' ? getDistrictsForState(selectedState) : [];
+      setAvailableDistricts(masterDists);
     } finally {
       setLoading(false);
     }
@@ -83,10 +88,12 @@ export const MandiIntelligencePage: React.FC = () => {
     return () => clearTimeout(handler);
   }, [selectedState, selectedDistrict, searchTerm]);
 
-  // Handle State change (reset district selection)
-  const handleStateChange = (newStat: string) => {
-    setSelectedState(newStat);
+  // Handle State change (reset district selection and populate districts immediately)
+  const handleStateChange = (newState: string) => {
+    setSelectedState(newState);
     setSelectedDistrict('ALL');
+    const stateDists = getDistrictsForState(newState);
+    setAvailableDistricts(stateDists);
     setCurrentPage(1);
   };
 

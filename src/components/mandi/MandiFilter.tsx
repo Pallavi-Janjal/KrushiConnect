@@ -1,40 +1,8 @@
 import React from 'react';
 import { ArrowUpDown, MapPin, Building } from 'lucide-react';
+import { INDIAN_STATES, getDistrictsForState } from '../../data/indiaLocations';
 
-export const INDIAN_STATES = [
-  'ALL',
-  'Andhra Pradesh',
-  'Arunachal Pradesh',
-  'Assam',
-  'Bihar',
-  'Chhattisgarh',
-  'Goa',
-  'Gujarat',
-  'Haryana',
-  'Himachal Pradesh',
-  'Jharkhand',
-  'Karnataka',
-  'Kerala',
-  'Keralam',
-  'Madhya Pradesh',
-  'Maharashtra',
-  'Manipur',
-  'Meghalaya',
-  'Mizoram',
-  'Nagaland',
-  'Odisha',
-  'Punjab',
-  'Rajasthan',
-  'Sikkim',
-  'Tamil Nadu',
-  'Telangana',
-  'Tripura',
-  'Uttar Pradesh',
-  'Uttarakhand',
-  'West Bengal',
-  'Puducherry',
-  'Jammu and Kashmir'
-];
+export { INDIAN_STATES };
 
 interface MandiFilterProps {
   districts: string[];
@@ -59,6 +27,10 @@ export const MandiFilter: React.FC<MandiFilterProps> = ({
   showOnlyFavourites,
   onToggleFavouritesFilter,
 }) => {
+  // Always resolve all official districts for the chosen state from master locations
+  const stateDistricts = selectedState !== 'ALL' ? getDistrictsForState(selectedState) : [];
+  const activeDistricts = Array.from(new Set([...stateDistricts, ...(districts || [])])).sort();
+
   return (
     <div className="flex flex-wrap items-center gap-3">
       
@@ -70,7 +42,7 @@ export const MandiFilter: React.FC<MandiFilterProps> = ({
           className="appearance-none bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-bold text-[#166534] focus:outline-none focus:ring-2 focus:ring-[#166534] cursor-pointer"
         >
           <option value="ALL">All States (India)</option>
-          {INDIAN_STATES.filter(s => s !== 'ALL').map((stateName) => (
+          {INDIAN_STATES.map((stateName) => (
             <option key={stateName} value={stateName}>
               📍 {stateName}
             </option>
@@ -84,13 +56,13 @@ export const MandiFilter: React.FC<MandiFilterProps> = ({
         <select
           value={selectedDistrict}
           onChange={(e) => onDistrictChange(e.target.value)}
-          disabled={selectedState === 'ALL' && districts.length === 0}
+          disabled={selectedState === 'ALL' && activeDistricts.length === 0}
           className="appearance-none bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 pr-8 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#166534] cursor-pointer disabled:opacity-60"
         >
           <option value="ALL">
             {selectedState === 'ALL' ? 'All Districts' : `All Districts in ${selectedState}`}
           </option>
-          {districts.map((districtName) => (
+          {activeDistricts.map((districtName) => (
             <option key={districtName} value={districtName}>
               🏙️ {districtName}
             </option>

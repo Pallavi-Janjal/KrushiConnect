@@ -1,4 +1,4 @@
-﻿export interface StateDistrictMap {
+export interface StateDistrictMap {
   [state: string]: string[];
 }
 
@@ -88,7 +88,125 @@ export const STATE_DISTRICTS_MAP: StateDistrictMap = {
     'Khagaria', 'Kishanganj', 'Lakhisarai', 'Madhepura', 'Madhubani', 'Munger', 'Muzaffarpur',
     'Nalanda', 'Nawada', 'Patna', 'Purnia', 'Rohtas', 'Saharsa', 'Samastipur', 'Saran',
     'Sheikhpura', 'Sheohar', 'Sitamarhi', 'Siwan', 'Supaul', 'Vaishali', 'West Champaran'
+  ],
+  'West Bengal': [
+    'Alipurduar', 'Bankura', 'Birbhum', 'Cooch Behar', 'Dakshin Dinajpur', 'Darjeeling',
+    'Hooghly', 'Howrah', 'Jalpaiguri', 'Jhargram', 'Kalimpong', 'Kolkata', 'Malda',
+    'Murshidabad', 'Nadia', 'North 24 Parganas', 'Paschim Bardhaman', 'Paschim Medinipur',
+    'Purba Bardhaman', 'Purba Medinipur', 'Purulia', 'South 24 Parganas', 'Uttar Dinajpur'
+  ],
+  'Odisha': [
+    'Angul', 'Balangir', 'Balasore', 'Bargarh', 'Bhadrak', 'Boudh', 'Cuttack', 'Deogarh',
+    'Dhenkanal', 'Gajapati', 'Ganjam', 'Jagatsinghpur', 'Jajpur', 'Jharsuguda', 'Kalahandi',
+    'Kandhamal', 'Kendrapara', 'Kendujhar', 'Khordha', 'Koraput', 'Malkangiri', 'Mayurbhanj',
+    'Nabarangpur', 'Nayagarh', 'Nuapada', 'Puri', 'Rayagada', 'Sambalpur', 'Subarnapur', 'Sundargarh'
+  ],
+  'Kerala': [
+    'Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasaragod', 'Kollam', 'Kottayam',
+    'Kozhikode', 'Malappuram', 'Palakkad', 'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad'
+  ],
+  'Assam': [
+    'Baksa', 'Barpeta', 'Biswanath', 'Bongaigaon', 'Cachar', 'Charaideo', 'Chirang', 'Darrang',
+    'Dhemaji', 'Dhubri', 'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 'Hailakandi', 'Hojai',
+    'Jorhat', 'Kamrup', 'Kamrup Metropolitan', 'Karbi Anglong', 'Karimganj', 'Kokrajhar', 'Lakhimpur',
+    'Majuli', 'Morigaon', 'Nagaon', 'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar',
+    'Tinsukia', 'Udalguri', 'West Karbi Anglong'
+  ],
+  'Jharkhand': [
+    'Bokaro', 'Chatra', 'Deoghar', 'Dhanbad', 'Dumka', 'East Singhbhum', 'Garhwa', 'Giridih',
+    'Godda', 'Gumla', 'Hazaribagh', 'Jamtara', 'Khunti', 'Koderma', 'Latehar', 'Lohardaga',
+    'Pakur', 'Palamu', 'Ramgarh', 'Ranchi', 'Sahibganj', 'Seraikela Kharsawan', 'Simdega', 'West Singhbhum'
+  ],
+  'Chhattisgarh': [
+    'Balod', 'Baloda Bazar', 'Balrampur', 'Bastar', 'Bemetara', 'Bijapur', 'Bilaspur', 'Dantewada',
+    'Dhamtari', 'Durg', 'Gariaband', 'Gaurela-Pendra-Marwahi', 'Janjgir-Champa', 'Jashpur', 'Kabirdham',
+    'Kanker', 'Kondagaon', 'Korba', 'Koriya', 'Mahasamund', 'Mungeli', 'Narayanpur', 'Raigarh',
+    'Raipur', 'Rajnandgaon', 'Sukma', 'Surajpur', 'Surguja'
+  ],
+  'Himachal Pradesh': [
+    'Bilaspur', 'Chamba', 'Hamirpur', 'Kangra', 'Kinnaur', 'Kullu', 'Lahaul and Spiti',
+    'Mandi', 'Shimla', 'Sirmaur', 'Solan', 'Una'
+  ],
+  'Uttarakhand': [
+    'Almora', 'Bageshwar', 'Chamoli', 'Champawat', 'Dehradun', 'Haridwar', 'Nainital',
+    'Pauri Garhwal', 'Pithoragarh', 'Rudraprayag', 'Tehri Garhwal', 'Udham Singh Nagar', 'Uttarkashi'
+  ],
+  'Goa': [
+    'North Goa', 'South Goa'
+  ],
+  'Tripura': [
+    'Dhalai', 'Gomati', 'Khowai', 'North Tripura', 'Sepahijala', 'South Tripura', 'Unakoti', 'West Tripura'
+  ],
+  'Meghalaya': [
+    'East Garo Hills', 'East Jaintia Hills', 'East Khasi Hills', 'North Garo Hills', 'Ri Bhoi',
+    'South Garo Hills', 'South West Garo Hills', 'South West Khasi Hills', 'West Garo Hills',
+    'West Jaintia Hills', 'West Khasi Hills'
+  ],
+  'Manipur': [
+    'Bishnupur', 'Chandel', 'Churachandpur', 'Imphal East', 'Imphal West', 'Jiribam', 'Kakching',
+    'Kamjong', 'Kangpokpi', 'Noney', 'Pherzawl', 'Senapati', 'Tamenglong', 'Tengnoupal', 'Thoubal', 'Ukhrul'
+  ],
+  'Nagaland': [
+    'Chumoukedima', 'Dimapur', 'Kiphire', 'Kohima', 'Longleng', 'Mokokchung', 'Mon', 'Niuland',
+    'Noklak', 'Peren', 'Phek', 'Shamator', 'Tseminyu', 'Tuensang', 'Wokha', 'Zunheboto'
+  ],
+  'Mizoram': [
+    'Aizawl', 'Champhai', 'Hnahthial', 'Khawzawl', 'Kolasib', 'Lawngtlai', 'Lunglei',
+    'Mamit', 'Saiha', 'Saitual', 'Serchhip'
+  ],
+  'Arunachal Pradesh': [
+    'Anjaw', 'Changlang', 'Dibang Valley', 'East Kameng', 'East Siang', 'Kamle', 'Kra Daadi',
+    'Kurung Kumey', 'Leparada', 'Lohit', 'Longding', 'Lower Dibang Valley', 'Lower Siang',
+    'Lower Subansiri', 'Namsai', 'Pakke Kessang', 'Papum Pare', 'Shi Yomi', 'Siang', 'Tawang',
+    'Tirap', 'Upper Siang', 'Upper Subansiri', 'West Kameng', 'West Siang'
+  ],
+  'Sikkim': [
+    'East Sikkim', 'North Sikkim', 'Pakyong', 'Soreng', 'South Sikkim', 'West Sikkim'
+  ],
+  'Jammu and Kashmir': [
+    'Anantnag', 'Bandipora', 'Baramulla', 'Budgam', 'Doda', 'Ganderbal', 'Jammu', 'Kathua',
+    'Kishtwar', 'Kulgam', 'Kupwara', 'Poonch', 'Pulwama', 'Rajouri', 'Ramban', 'Reasi',
+    'Samba', 'Shopian', 'Srinagar', 'Udhampur'
+  ],
+  'Ladakh': [
+    'Kargil', 'Leh'
+  ],
+  'Delhi': [
+    'Central Delhi', 'East Delhi', 'New Delhi', 'North Delhi', 'North East Delhi', 'North West Delhi',
+    'Shahdara', 'South Delhi', 'South East Delhi', 'South West Delhi', 'West Delhi'
+  ],
+  'Puducherry': [
+    'Karaikal', 'Mahe', 'Puducherry', 'Yanam'
+  ],
+  'Chandigarh': [
+    'Chandigarh'
+  ],
+  'Dadra and Nagar Haveli and Daman and Diu': [
+    'Dadra and Nagar Haveli', 'Daman', 'Diu'
+  ],
+  'Andaman and Nicobar Islands': [
+    'Nicobar', 'North and Middle Andaman', 'South Andaman'
+  ],
+  'Lakshadweep': [
+    'Lakshadweep'
   ]
 };
 
 export const INDIAN_STATES = Object.keys(STATE_DISTRICTS_MAP);
+
+export const getDistrictsForState = (stateName: string): string[] => {
+  if (!stateName || stateName === 'ALL') return [];
+  
+  // Exact match
+  if (STATE_DISTRICTS_MAP[stateName]) {
+    return STATE_DISTRICTS_MAP[stateName];
+  }
+
+  // Case-insensitive fallback match
+  const normalized = stateName.trim().toLowerCase();
+  const matchedKey = Object.keys(STATE_DISTRICTS_MAP).find(
+    (k) => k.toLowerCase() === normalized
+  );
+
+  return matchedKey ? STATE_DISTRICTS_MAP[matchedKey] : [];
+};
