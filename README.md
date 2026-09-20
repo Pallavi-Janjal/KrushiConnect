@@ -64,12 +64,11 @@ Small and marginal farmers face difficulties in accessing agricultural machinery
 Custom Hiring Centres (CHCs) can improve farmers' access to machinery without requiring individual ownership. 
 
 
-.
 
 
 <img width="1080" height="1376" alt="image" src="https://github.com/user-attachments/assets/22f4bba3-7e28-41de-a6a5-e5054495eab5" />
 
-.
+
 
 
 
@@ -93,13 +92,12 @@ Article DOI: 10.62823/IJAER/2026/02.01.148
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
-.
+
 
 
 <img width="1080" height="1528" alt="image" src="https://github.com/user-attachments/assets/ba8c8f8e-82ce-48d4-9a8d-d7904ec49171" />
 
 
-.
 
 
 
@@ -120,13 +118,13 @@ Technologies such as GPS, sensors, robotics and precision agriculture can improv
 Data can help reduce wastage and make farming more cost-effective.
 
 
-.
+
 
 
 
 <img width="587" height="747" alt="image" src="https://github.com/user-attachments/assets/3c65402e-b44b-4aa7-9462-e0be57d6dd70" />
 
-.
+
 
 
 
@@ -144,14 +142,14 @@ Data-driven mechanization can contribute to more efficient and sustainable farmi
  
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
-.
+
 
 
 <img width="586" height="752" alt="image" src="https://github.com/user-attachments/assets/9c40bf36-58e8-44c5-91f9-71afe09421d5" />
 
 
 
-    .
+    
 
     
 
@@ -163,26 +161,29 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
    https://timesofindia.indiatimes.com/city/ahmedabad/sunday-special-gujarat-farmers-turn-to-tech-to-beat-labour-crisis/articleshow/132632898.cms?utm_source=whatsapp&utm_medium=amp_social&utm_campaign=social_share
 
 
-.
-
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/f9be78a0-1e66-45db-a3bd-07bc0a485bf7" />
 
 
+<img width="655" height="655" alt="image" src="https://github.com/user-attachments/assets/2de2efd4-1d2c-43aa-b95a-acb3abb2def8" />
 
-.
+
+
+
+
+
 
 2.Indian Express — Small Farmers & Custom Hiring Centre
 The article includes an actual Express Photo of a farmer and describes a CHC operated by small and marginal farmers, with machinery available through an affordable rental model. 
  https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
 
-.
-
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/1784ae05-4c22-4f79-bea1-826e098bdc05" />
+<img width="791" height="1600" alt="image" src="https://github.com/user-attachments/assets/013c6e39-0f9b-4cd9-81b0-5b82c69db963" />
 
 
 
-.
+
+
+
+
 
 
  ## 🛠️ Technology Stack
