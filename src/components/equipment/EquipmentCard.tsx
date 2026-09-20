@@ -43,7 +43,7 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
     <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden group agri-card-hover">
       
       {/* Equipment Image & Badge Overlay */}
-      <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
         <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
           <img
             src={resolveImageUrl(equipment.images?.[0])}
