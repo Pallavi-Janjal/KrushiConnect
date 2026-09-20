@@ -22,46 +22,43 @@ const upload = (0, multer_1.default)({
         }
     }
 });
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
-// Helper function to upload buffer to Cloudinary or save locally as fallback
+// Helper function to upload buffer to Cloudinary or encode as base64 data URL as fallback
+// Base64 is stored directly in MongoDB and never lost on server restarts (unlike local disk)
 const uploadBufferToCloudinary = (buffer, originalname) => {
     return new Promise((resolve) => {
-        const ext = path_1.default.extname(originalname) || '.jpg';
-        const filename = `eq_${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
-        const uploadsDir = path_1.default.join(process.cwd(), 'uploads');
-        const saveLocally = () => {
-            try {
-                if (!fs_1.default.existsSync(uploadsDir)) {
-                    fs_1.default.mkdirSync(uploadsDir, { recursive: true });
-                }
-                const filePath = path_1.default.join(uploadsDir, filename);
-                fs_1.default.writeFileSync(filePath, buffer);
-                return resolve(`/uploads/${filename}`);
-            }
-            catch (e) {
-                console.error('Local save error:', e);
-                // last resort tiny placeholder if file write fails
-                return resolve('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
-            }
+        const mimeType = originalname.match(/\.(png)$/i)
+            ? 'image/png'
+            : originalname.match(/\.(gif)$/i)
+                ? 'image/gif'
+                : originalname.match(/\.(webp)$/i)
+                    ? 'image/webp'
+                    : 'image/jpeg';
+        const saveAsBase64 = () => {
+            // Store as base64 data URL — persists in MongoDB, no disk dependency
+            const base64 = buffer.toString('base64');
+            const dataUrl = `data:${mimeType};base64,${base64}`;
+            console.log(`Saving image as base64 data URL (${Math.round(buffer.length / 1024)}KB)`);
+            return resolve(dataUrl);
         };
         // Try Cloudinary if keys exist
         if (process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_CLOUD_NAME) {
             const uploadStream = cloudinary_1.default.uploader.upload_stream({
                 resource_type: 'image',
-                public_id: `eq_${Date.now()}_${Math.random().toString(36).substring(7)}`
+                public_id: `krushiconnect/eq_${Date.now()}_${Math.random().toString(36).substring(7)}`
             }, (error, result) => {
                 if (error || !result || !result.secure_url) {
-                    console.warn('Cloudinary upload notice, saving locally:', error?.message || 'Upload failed');
-                    return saveLocally();
+                    console.warn('Cloudinary upload failed, falling back to base64:', error?.message || 'Upload failed');
+                    return saveAsBase64();
                 }
+                console.log('Image uploaded to Cloudinary:', result.secure_url);
                 resolve(result.secure_url);
             });
-            uploadStream.on('error', () => saveLocally());
+            uploadStream.on('error', () => saveAsBase64());
             uploadStream.end(buffer);
         }
         else {
-            saveLocally();
+            console.log('Cloudinary not configured, saving as base64 data URL');
+            saveAsBase64();
         }
     });
 };

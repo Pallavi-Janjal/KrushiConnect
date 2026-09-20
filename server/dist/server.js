@@ -52,16 +52,18 @@ const allowedOrigins = [
 ];
 // Startup env check — helps diagnose missing vars on the host
 console.log('🔧 Environment check:');
-console.log(`   MONGODB_URI : ${process.env.MONGODB_URI ? '✅ set' : '❌ MISSING — DB will not connect!'}`);
-console.log(`   JWT_SECRET  : ${process.env.JWT_SECRET ? '✅ set' : '⚠️  using fallback (insecure)'}`);
-console.log(`   CLIENT_URL  : ${rawClientUrls}`);
-console.log(`   CORS origins: ${allowedOrigins.join(', ')}`);
-console.log(`   SMTP_USER   : ${process.env.SMTP_USER ? '✅ set' : '⚠️  not set'}`);
-console.log(`   SMTP_PASS   : ${process.env.SMTP_PASS ? '✅ set' : '⚠️  not set'}`);
-console.log(`   BREVO_KEY   : ${process.env.BREVO_API_KEY ? '✅ set (Brevo HTTPS API — recommended)' : '⚠️  not set'}`);
-console.log(`   RESEND_KEY  : ${process.env.RESEND_API_KEY ? '✅ set (Resend HTTPS API)' : '⚠️  not set'}`);
+console.log(`   MONGODB_URI        : ${process.env.MONGODB_URI ? '✅ set' : '❌ MISSING — DB will not connect!'}`);
+console.log(`   JWT_SECRET         : ${process.env.JWT_SECRET ? '✅ set' : '⚠️  using fallback (insecure)'}`);
+console.log(`   CLIENT_URL         : ${rawClientUrls}`);
+console.log(`   CORS origins       : ${allowedOrigins.join(', ')}`);
+console.log(`   SMTP_USER          : ${process.env.SMTP_USER ? '✅ set' : '⚠️  not set'}`);
+console.log(`   SMTP_PASS          : ${process.env.SMTP_PASS ? '✅ set' : '⚠️  not set'}`);
+console.log(`   BREVO_KEY          : ${process.env.BREVO_API_KEY ? '✅ set (Brevo HTTPS API — recommended)' : '⚠️  not set'}`);
+console.log(`   RESEND_KEY         : ${process.env.RESEND_API_KEY ? '✅ set (Resend HTTPS API)' : '⚠️  not set'}`);
+console.log(`   CLOUDINARY_NAME    : ${process.env.CLOUDINARY_CLOUD_NAME ? '✅ set' : '⚠️  not set (images stored as base64)'}`);
+console.log(`   CLOUDINARY_API_KEY : ${process.env.CLOUDINARY_API_KEY ? '✅ set' : '⚠️  not set (images stored as base64)'}`);
 const emailReady = process.env.BREVO_API_KEY || process.env.RESEND_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS);
-console.log(`   EMAIL READY : ${emailReady ? '✅ OTP emails WILL be sent' : '❌ MISSING — OTP emails will NOT be sent!'}`);
+console.log(`   EMAIL READY        : ${emailReady ? '✅ OTP emails WILL be sent' : '❌ MISSING — OTP emails will NOT be sent!'}`);
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, Postman, curl, same-origin)
@@ -79,14 +81,14 @@ app.use((0, cors_1.default)({
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
-        // Allow if origin matches host
         return callback(null, true);
     },
     credentials: true
 }));
 app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
-// Serve uploaded equipment images (support root uploads or server/uploads)
+// Serve any legacy uploaded files that may still exist on disk (for backwards compatibility)
+// New images are stored as base64 data URLs in MongoDB or via Cloudinary — not on disk.
 const candidateUploadDirs = [
     path_1.default.join(process.cwd(), 'uploads'),
     path_1.default.join(process.cwd(), 'server', 'uploads'),
@@ -98,29 +100,11 @@ for (const dir of candidateUploadDirs) {
         app.use('/uploads', express_1.default.static(dir));
     }
 }
-// Ensure default uploads directory exists
-const defaultUploadDir = path_1.default.join(process.cwd(), 'uploads');
-if (!fs_1.default.existsSync(defaultUploadDir)) {
-    try {
-        fs_1.default.mkdirSync(defaultUploadDir, { recursive: true });
-    }
-    catch { }
-}
-app.use('/uploads', express_1.default.static(defaultUploadDir));
-// Fallback for missing uploaded images so the browser never logs a 404 error
+// For any /uploads path not found on disk — return 404.
+// (Previously this redirected to a random Unsplash image, which caused equipment
+//  images to silently change to the wrong photo on every Render restart.)
 app.use('/uploads', (_req, res) => {
-    const fallbackCandidates = [
-        path_1.default.join(__dirname, '../uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'server/uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'uploads/eq_1788547747161_6q8xlm.webp'),
-        path_1.default.join(process.cwd(), 'public/hero-tractor-clean.png')
-    ];
-    for (const fallbackPath of fallbackCandidates) {
-        if (fs_1.default.existsSync(fallbackPath)) {
-            return res.sendFile(fallbackPath);
-        }
-    }
-    return res.redirect(302, 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
+    res.status(404).json({ message: 'Image not found' });
 });
 // API Health check endpoint
 app.get('/api/health', (_req, res) => {

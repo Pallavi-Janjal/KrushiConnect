@@ -110,7 +110,9 @@ export const MyEquipmentPage: React.FC = () => {
                     src={resolveImageUrl(item.images?.[0])}
                     alt={item.name}
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?auto=format&fit=crop&q=80&w=600';
+                      const t = e.target as HTMLImageElement;
+                      t.onerror = null;
+                      t.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='48%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'%3E🚜 No image available%3C/text%3E%3C/svg%3E";
                     }}
                     className="w-full h-full object-cover"
                   />
