@@ -1,4 +1,4 @@
-🔴 Problem Statement
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/d0666319-cca1-42a9-b3a3-146bc4c42acc" />🔴 Problem Statement
 
 Farmers often face difficulties in getting agricultural equipment such as tractors, harvesters, pumps and other machinery when they need them, especially during important farming periods.
 
@@ -60,6 +60,8 @@ The platform also provides crop market price information to help farmers access 
 👨‍🌾 Make available machinery visible to farmers
 
 🧑‍🌾 Farm planning 
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
+
 
 
 📊 Market Price Information
