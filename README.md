@@ -35,7 +35,11 @@ The platform also provides crop market price information to help farmers access 
 
 
 
+
+
 <img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/c59eabdb-357b-4cdc-8c00-892e0d8f5741" />
+
+
 
 
 
@@ -186,7 +190,11 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 - **Render** – Full-stack deployment and hosting
 
 
+
+
 <img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
+
+
 
 
 
