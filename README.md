@@ -74,7 +74,7 @@ The e-NAM platform provides live price information with state, commodity and APM
 
 ## 📚 Research Reference
 
-1.Research Paper: Status of Farm Mechanization     in India: An Analytical 
+## 1. Research Paper: Status of Farm Mechanization     in India: An Analytical 
 Study Author: Meghna Verma (2026)
 
 
@@ -131,7 +131,7 @@ DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
 
-
+##
 
 
 ## 2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
