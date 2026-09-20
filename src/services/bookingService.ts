@@ -36,6 +36,8 @@ export const bookingService = {
     withOperator: boolean;
     location: string;
     purpose?: string;
+    bookingUnit?: 'HECTARE' | 'HOUR' | 'DAY';
+    unitCount?: number;
   }): Promise<Booking> => {
     return await apiRequest<Booking>('/bookings', {
       method: 'POST',

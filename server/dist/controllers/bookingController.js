@@ -12,7 +12,7 @@ const createBooking = async (req, res) => {
             res.status(401).json({ message: 'Unauthorized' });
             return;
         }
-        const { equipmentId, startDate, endDate, withOperator, location, purpose, farmerName: customName, farmerPhone: customPhone } = req.body;
+        const { equipmentId, startDate, endDate, withOperator, location, purpose, farmerName: customName, farmerPhone: customPhone, bookingUnit = 'HECTARE', unitCount = 1 } = req.body;
         if (!equipmentId || !startDate || !endDate) {
             res.status(400).json({ message: 'Equipment ID, start date, and end date are required.' });
             return;
@@ -36,9 +36,16 @@ const createBooking = async (req, res) => {
         const end = new Date(endDate);
         const diffTime = Math.max(end.getTime() - start.getTime(), 0);
         const totalDays = Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1, 1);
-        const dailyRate = equipment.pricePerDay;
-        const operatorFee = withOperator ? (equipment.operatorCostPerDay || 500) * totalDays : 0;
-        const equipmentTotal = dailyRate * totalDays;
+        const validCount = Math.max(0.5, Number(unitCount) || 1);
+        const isHour = String(bookingUnit).toUpperCase() === 'HOUR';
+        const applicableRate = isHour
+            ? (equipment.pricePerHour || equipment.pricePerDay)
+            : (equipment.pricePerHectare || equipment.pricePerDay);
+        const applicableOperatorCost = isHour
+            ? (equipment.operatorCostPerHour || 150)
+            : (equipment.operatorCostPerDay || 400);
+        const equipmentTotal = Math.round(applicableRate * validCount);
+        const operatorFee = withOperator ? Math.round(applicableOperatorCost * validCount) : 0;
         const subtotal = equipmentTotal + operatorFee;
         const platformFee = Math.round(subtotal * 0.03);
         const totalAmount = subtotal + platformFee;
@@ -55,8 +62,10 @@ const createBooking = async (req, res) => {
             startDate,
             endDate,
             totalDays,
+            bookingUnit: isHour ? 'HOUR' : 'HECTARE',
+            unitCount: validCount,
             withOperator: Boolean(withOperator),
-            dailyRate,
+            dailyRate: applicableRate,
             operatorFee,
             platformFee,
             totalAmount,

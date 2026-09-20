@@ -28,6 +28,8 @@ interface AppContextType {
     withOperator: boolean;
     location: string;
     purpose?: string;
+    bookingUnit?: 'HECTARE' | 'HOUR' | 'DAY';
+    unitCount?: number;
   }) => Promise<Booking>;
   updateBookingStatus: (bookingId: string, status: BookingStatus) => Promise<Booking>;
   requestCompletionOtp: (bookingId: string) => Promise<Booking>;
@@ -121,6 +123,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     withOperator: boolean;
     location: string;
     purpose?: string;
+    bookingUnit?: 'HECTARE' | 'HOUR' | 'DAY';
+    unitCount?: number;
   }): Promise<Booking> => {
     const newBk = await bookingService.createBooking(params);
     refreshBookings();

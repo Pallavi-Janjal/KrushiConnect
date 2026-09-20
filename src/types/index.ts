@@ -39,8 +39,11 @@ export interface Equipment {
   state: string;
   pricePerDay: number;
   pricePerHour?: number;
+  pricePerHectare?: number;
+  pricingUnit?: 'PER_HECTARE' | 'PER_HOUR' | 'BOTH';
   operatorIncluded: boolean;
   operatorCostPerDay: number;
+  operatorCostPerHour?: number;
   rating: number;
   reviewCount: number;
   isAvailable: boolean;
@@ -65,6 +68,8 @@ export interface Booking {
   startDate: string;
   endDate: string;
   totalDays: number;
+  bookingUnit?: 'HECTARE' | 'HOUR' | 'DAY';
+  unitCount?: number;
   withOperator: boolean;
   dailyRate: number;
   operatorFee: number;

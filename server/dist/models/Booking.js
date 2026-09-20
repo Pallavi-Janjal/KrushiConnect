@@ -15,6 +15,8 @@ const bookingSchema = new mongoose_1.Schema({
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
     totalDays: { type: Number, required: true },
+    bookingUnit: { type: String, enum: ['HECTARE', 'HOUR', 'DAY'], default: 'HECTARE' },
+    unitCount: { type: Number, default: 1 },
     withOperator: { type: Boolean, default: false },
     dailyRate: { type: Number, required: true },
     operatorFee: { type: Number, default: 0 },

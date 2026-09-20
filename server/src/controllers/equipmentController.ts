@@ -120,14 +120,18 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       state,
       pricePerDay,
       pricePerHour,
+      pricePerHectare,
+      pricingUnit = 'PER_HECTARE',
       operatorIncluded,
       operatorCostPerDay,
+      operatorCostPerHour,
       images,
       specifications
     } = req.body;
 
-    if (!name || !category || !brand || !pricePerDay || !description) {
-      res.status(400).json({ message: 'Please fill in all required equipment fields.' });
+    const resolvedPrice = Number(pricePerHectare || pricePerDay || pricePerHour);
+    if (!name || !category || !brand || !resolvedPrice || !description) {
+      res.status(400).json({ message: 'Please fill in all required equipment fields including rate.' });
       return;
     }
 
@@ -150,10 +154,13 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       description: description.trim(),
       location: location || owner.location || 'India',
       state: state || 'Haryana',
-      pricePerDay: Number(pricePerDay),
+      pricePerDay: resolvedPrice,
+      pricePerHectare: pricePerHectare ? Number(pricePerHectare) : resolvedPrice,
       pricePerHour: pricePerHour ? Number(pricePerHour) : undefined,
+      pricingUnit: pricingUnit || (pricePerHour && !pricePerHectare ? 'PER_HOUR' : 'PER_HECTARE'),
       operatorIncluded: Boolean(operatorIncluded),
       operatorCostPerDay: operatorIncluded ? Number(operatorCostPerDay || 0) : 0,
+      operatorCostPerHour: operatorIncluded ? Number(operatorCostPerHour || 0) : 0,
       rating: 0,
       reviewCount: 0,
       isAvailable: true,

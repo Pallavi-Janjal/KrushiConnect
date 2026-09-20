@@ -21,7 +21,9 @@ export const createBooking = async (req: AuthRequest, res: Response): Promise<vo
       location,
       purpose,
       farmerName: customName,
-      farmerPhone: customPhone
+      farmerPhone: customPhone,
+      bookingUnit = 'HECTARE',
+      unitCount = 1
     } = req.body;
 
     if (!equipmentId || !startDate || !endDate) {
@@ -53,9 +55,18 @@ export const createBooking = async (req: AuthRequest, res: Response): Promise<vo
     const diffTime = Math.max(end.getTime() - start.getTime(), 0);
     const totalDays = Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1, 1);
 
-    const dailyRate = equipment.pricePerDay;
-    const operatorFee = withOperator ? (equipment.operatorCostPerDay || 500) * totalDays : 0;
-    const equipmentTotal = dailyRate * totalDays;
+    const validCount = Math.max(0.5, Number(unitCount) || 1);
+    const isHour = String(bookingUnit).toUpperCase() === 'HOUR';
+    const applicableRate = isHour
+      ? (equipment.pricePerHour || equipment.pricePerDay)
+      : (equipment.pricePerHectare || equipment.pricePerDay);
+
+    const applicableOperatorCost = isHour
+      ? (equipment.operatorCostPerHour || 150)
+      : (equipment.operatorCostPerDay || 400);
+
+    const equipmentTotal = Math.round(applicableRate * validCount);
+    const operatorFee = withOperator ? Math.round(applicableOperatorCost * validCount) : 0;
     const subtotal = equipmentTotal + operatorFee;
     const platformFee = Math.round(subtotal * 0.03);
     const totalAmount = subtotal + platformFee;
@@ -73,8 +84,10 @@ export const createBooking = async (req: AuthRequest, res: Response): Promise<vo
       startDate,
       endDate,
       totalDays,
+      bookingUnit: isHour ? 'HOUR' : 'HECTARE',
+      unitCount: validCount,
       withOperator: Boolean(withOperator),
-      dailyRate,
+      dailyRate: applicableRate,
       operatorFee,
       platformFee,
       totalAmount,

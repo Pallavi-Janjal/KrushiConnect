@@ -22,9 +22,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
   const today = new Date().toISOString().split('T')[0];
   const nextWeek = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
+  const availableBasis = equipment.pricingUnit || (equipment.pricePerHour && !equipment.pricePerHectare ? 'PER_HOUR' : 'PER_HECTARE');
+  const [bookingUnit, setBookingUnit] = useState<'HECTARE' | 'HOUR'>(
+    availableBasis === 'PER_HOUR' ? 'HOUR' : 'HECTARE'
+  );
+
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(nextWeek);
   const [hectares, setHectares] = useState(2);
+  const [hours, setHours] = useState(4);
   const [withOperator, setWithOperator] = useState(equipment.operatorIncluded);
   const [farmerName, setFarmerName] = useState(user?.name || '');
   const [farmerPhone, setFarmerPhone] = useState(user?.phone || '');
@@ -37,10 +43,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
 
   if (!isOpen) return null;
 
-  // Calculate pricing breakdown based on hectares
-  const validHectares = Math.max(0.5, Number(hectares) || 1);
-  const baseRateTotal = Math.round(equipment.pricePerDay * validHectares);
-  const operatorTotal = withOperator ? Math.round(equipment.operatorCostPerDay * validHectares) : 0;
+  // Calculate pricing breakdown based on selected unit (Hour vs Hectare)
+  const unitRate = bookingUnit === 'HOUR'
+    ? (equipment.pricePerHour || 600)
+    : (equipment.pricePerHectare || equipment.pricePerDay || 2000);
+
+  const operatorUnitCost = bookingUnit === 'HOUR'
+    ? (equipment.operatorCostPerHour ?? 150)
+    : (equipment.operatorCostPerDay ?? 400);
+
+  const unitCount = bookingUnit === 'HOUR'
+    ? Math.max(1, Number(hours) || 1)
+    : Math.max(0.5, Number(hectares) || 1);
+
+  const unitSuffix = bookingUnit === 'HOUR' ? '/hr' : '/ha';
+
+  const baseRateTotal = Math.round(unitRate * unitCount);
+  const operatorTotal = withOperator ? Math.round(operatorUnitCost * unitCount) : 0;
   const subtotal = baseRateTotal + operatorTotal;
   const platformFee = Math.round(subtotal * 0.03);
   const grandTotal = subtotal + platformFee;
@@ -73,7 +92,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
         endDate,
         withOperator,
         location: deliveryLocation,
-        purpose
+        purpose,
+        bookingUnit,
+        unitCount
       });
 
       setCreatedBooking(booking);
@@ -200,45 +221,92 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
               </div>
             </div>
 
-            {/* Farm Area in Hectares */}
+            {/* Booking Unit Toggle — shown when BOTH are available */}
+            {(availableBasis === 'BOTH' || (equipment.pricePerHour && equipment.pricePerHectare)) && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">Book By</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setBookingUnit('HECTARE')}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all ${
+                      bookingUnit === 'HECTARE'
+                        ? 'bg-emerald-50 border-[#166534] text-[#166534] ring-1 ring-[#166534]'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    🚜 Per Hectare <span className="font-normal text-slate-500">(₹{equipment.pricePerHectare || equipment.pricePerDay}/ha)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBookingUnit('HOUR')}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all ${
+                      bookingUnit === 'HOUR'
+                        ? 'bg-emerald-50 border-[#166534] text-[#166534] ring-1 ring-[#166534]'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    ⏱️ Per Hour <span className="font-normal text-slate-500">(₹{equipment.pricePerHour}/hr)</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Quantity Input — Hectares or Hours based on bookingUnit */}
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  {t('booking.hectares') || 'Farm Area (Hectares)'}
+                  {bookingUnit === 'HOUR' ? t('booking.hours') || 'Work Duration (Hours)' : t('booking.hectares') || 'Farm Area (Hectares)'}
                 </label>
-                <input
-                  type="number"
-                  step="0.5"
-                  min="0.5"
-                  value={hectares}
-                  onChange={(e) => setHectares(Math.max(0.5, Number(e.target.value)))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-bold text-[#166534] focus:ring-2 focus:ring-[#166534] focus:outline-none"
-                  required
-                />
+                {bookingUnit === 'HOUR' ? (
+                  <input
+                    type="number"
+                    step="1"
+                    min="1"
+                    value={hours}
+                    onChange={(e) => setHours(Math.max(1, Number(e.target.value)))}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-bold text-[#166534] focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    required
+                  />
+                ) : (
+                  <input
+                    type="number"
+                    step="0.5"
+                    min="0.5"
+                    value={hectares}
+                    onChange={(e) => setHectares(Math.max(0.5, Number(e.target.value)))}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-bold text-[#166534] focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    required
+                  />
+                )}
               </div>
               <div className="flex flex-col justify-end">
                 <span className="text-[11px] text-slate-500 pb-2">
-                  Rate: ₹{equipment.pricePerDay} / ha
+                  Rate: ₹{unitRate.toLocaleString('en-IN')} {unitSuffix}
                 </span>
               </div>
             </div>
 
             {/* Operator Selection */}
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <UserCheck className="w-5 h-5 text-[#166534]" />
-                <div>
-                  <span className="text-xs font-bold text-slate-900 block">{t('booking.includeOperator')}</span>
-                  <span className="text-[11px] text-slate-500">₹{equipment.operatorCostPerDay}/hectare operator fee</span>
+            {equipment.operatorIncluded && (
+              <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <UserCheck className="w-5 h-5 text-[#166534]" />
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 block">{t('booking.includeOperator')}</span>
+                    <span className="text-[11px] text-slate-500">
+                      ₹{operatorUnitCost}{unitSuffix} operator fee
+                    </span>
+                  </div>
                 </div>
+                <input
+                  type="checkbox"
+                  checked={withOperator}
+                  onChange={(e) => setWithOperator(e.target.checked)}
+                  className="w-4 h-4 text-[#166534] rounded-xs focus:ring-[#166534]"
+                />
               </div>
-              <input
-                type="checkbox"
-                checked={withOperator}
-                onChange={(e) => setWithOperator(e.target.checked)}
-                className="w-4 h-4 text-[#166534] rounded-xs focus:ring-[#166534]"
-              />
-            </div>
+            )}
 
             {/* Farmer Contact Info */}
             <div className="grid grid-cols-2 gap-3">
@@ -282,15 +350,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({ equipment, isOpen, o
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5 text-xs">
               <div className="font-bold text-slate-900 text-xs uppercase tracking-wide border-b border-slate-200 pb-1 flex justify-between">
                 <span>Estimated Rental Cost</span>
-                <span className="text-[#166534]">({validHectares} ha)</span>
+                <span className="text-[#166534]">
+                  ({unitCount} {bookingUnit === 'HOUR' ? 'hrs' : 'ha'})
+                </span>
               </div>
               <div className="flex justify-between text-slate-600">
-                <span>Equipment Rate (₹{equipment.pricePerDay} × {validHectares} ha)</span>
+                <span>Equipment Rate (₹{unitRate} × {unitCount} {bookingUnit === 'HOUR' ? 'hrs' : 'ha'})</span>
                 <span className="font-semibold text-slate-800">₹{baseRateTotal.toLocaleString('en-IN')}</span>
               </div>
               {withOperator && (
                 <div className="flex justify-between text-slate-600">
-                  <span>Operator Fee (₹{equipment.operatorCostPerDay} × {validHectares} ha)</span>
+                  <span>Operator Fee (₹{operatorUnitCost} × {unitCount} {bookingUnit === 'HOUR' ? 'hrs' : 'ha'})</span>
                   <span className="font-semibold text-slate-800">₹{operatorTotal.toLocaleString('en-IN')}</span>
                 </div>
               )}

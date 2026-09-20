@@ -305,14 +305,40 @@ export const EquipmentDetailPage: React.FC = () => {
             {/* Price Box */}
             <div className="p-4 bg-emerald-50/80 border border-emerald-200 rounded-xl space-y-1">
               <div className="text-xs text-emerald-800 font-semibold uppercase tracking-wider">{t('market.rentalRate')}</div>
-              <div className="text-3xl font-black text-[#166534]">
-                ₹{equipment.pricePerDay.toLocaleString('en-IN')}
-                <span className="text-xs font-normal text-slate-600"> {t('market.perDay')}</span>
-              </div>
+              {equipment.pricingUnit === 'BOTH' || (equipment.pricePerHectare && equipment.pricePerHour) ? (
+                <div className="space-y-0.5">
+                  <div className="text-2xl font-black text-[#166534]">
+                    ₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}
+                    <span className="text-xs font-normal text-slate-600"> /hectare</span>
+                  </div>
+                  <div className="text-lg font-bold text-emerald-700">
+                    ₹{equipment.pricePerHour!.toLocaleString('en-IN')}
+                    <span className="text-xs font-normal text-slate-600"> /hour</span>
+                  </div>
+                  <div className="text-[11px] text-emerald-700 font-medium">Farmer can choose billing basis at booking</div>
+                </div>
+              ) : equipment.pricingUnit === 'PER_HOUR' ? (
+                <div className="text-3xl font-black text-[#166534]">
+                  ₹{(equipment.pricePerHour || equipment.pricePerDay).toLocaleString('en-IN')}
+                  <span className="text-xs font-normal text-slate-600"> /hour</span>
+                </div>
+              ) : (
+                <div className="text-3xl font-black text-[#166534]">
+                  ₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}
+                  <span className="text-xs font-normal text-slate-600"> /hectare</span>
+                </div>
+              )}
               {equipment.operatorIncluded && (
                 <div className="text-xs text-emerald-700 font-medium pt-1 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{t('detail.operatorAvailable')} (+₹{equipment.operatorCostPerDay}{t('market.perDay')})</span>
+                  <span>
+                    {t('detail.operatorAvailable')}&nbsp;
+                    {(equipment.pricePerHectare || equipment.pricingUnit !== 'PER_HOUR') && equipment.operatorCostPerDay
+                      ? `(+₹${equipment.operatorCostPerDay}/ha${equipment.operatorCostPerHour ? ` • +₹${equipment.operatorCostPerHour}/hr` : ''})`
+                      : equipment.operatorCostPerHour
+                      ? `(+₹${equipment.operatorCostPerHour}/hr)`
+                      : ''}
+                  </span>
                 </div>
               )}
             </div>

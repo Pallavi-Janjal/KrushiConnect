@@ -23,9 +23,12 @@ export const AddEquipmentPage: React.FC = () => {
   const [description, setDescription] = useState('');
   const [selectedState, setSelectedState] = useState('Maharashtra');
   const [selectedDistrict, setSelectedDistrict] = useState('Chhatrapati Sambhajinagar');
-  const [pricePerDay, setPricePerDay] = useState(2500);
+  const [pricingUnit, setPricingUnit] = useState<'PER_HECTARE' | 'PER_HOUR' | 'BOTH'>('PER_HECTARE');
+  const [pricePerHectare, setPricePerHectare] = useState(2000);
+  const [pricePerHour, setPricePerHour] = useState(600);
   const [operatorIncluded, setOperatorIncluded] = useState(true);
-  const [operatorCostPerDay, setOperatorCostPerDay] = useState(500);
+  const [operatorCostPerHectare, setOperatorCostPerHectare] = useState(400);
+  const [operatorCostPerHour, setOperatorCostPerHour] = useState(150);
   const [images, setImages] = useState<string[]>([]);
 
   const handleStateChange = (stateName: string) => {
@@ -33,7 +36,6 @@ export const AddEquipmentPage: React.FC = () => {
     const districts = STATE_DISTRICTS_MAP[stateName] || [];
     setSelectedDistrict(districts[0] || '');
   };
-
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,8 +47,18 @@ export const AddEquipmentPage: React.FC = () => {
       return;
     }
 
-    if (!name || !description || !pricePerDay) {
-      setError(t('booking.errorContact'));
+    if (!name || !description) {
+      setError('Please provide equipment name and description.');
+      return;
+    }
+
+    if (pricingUnit === 'PER_HECTARE' && !pricePerHectare) {
+      setError('Please provide rate per hectare.');
+      return;
+    }
+
+    if (pricingUnit === 'PER_HOUR' && !pricePerHour) {
+      setError('Please provide rate per hour.');
       return;
     }
 
@@ -57,6 +69,8 @@ export const AddEquipmentPage: React.FC = () => {
       const finalImages = images.length > 0 
         ? images 
         : ['https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80'];
+
+      const primaryRate = pricingUnit === 'PER_HOUR' ? Number(pricePerHour) : Number(pricePerHectare);
 
       await addEquipment({
         ownerId: user.id,
@@ -71,9 +85,13 @@ export const AddEquipmentPage: React.FC = () => {
         description,
         location: `${selectedDistrict}, ${selectedState}`,
         state: selectedState,
-        pricePerDay: Number(pricePerDay),
+        pricePerDay: primaryRate,
+        pricePerHectare: Number(pricePerHectare),
+        pricePerHour: Number(pricePerHour),
+        pricingUnit,
         operatorIncluded,
-        operatorCostPerDay: operatorIncluded ? Number(operatorCostPerDay) : 0,
+        operatorCostPerDay: operatorIncluded ? Number(operatorCostPerHectare) : 0,
+        operatorCostPerHour: operatorIncluded ? Number(operatorCostPerHour) : 0,
         isAvailable: true,
         images: finalImages,
         specifications: {
@@ -237,45 +255,150 @@ export const AddEquipmentPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Pricing & Operator Options */}
+        {/* Pricing Basis & Rate Options */}
         <div className="space-y-4 pt-4 border-t border-slate-100">
-          <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">{t('addEq.pricePerDay')}</h3>
+          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            <h3 className="text-base font-bold text-slate-900">Rental Rates & Pricing Basis</h3>
+            <span className="text-xs text-slate-500">Choose Hour, Hectare, or Both</span>
+          </div>
 
+          {/* Pricing Unit Selector Pills */}
+          <div className="space-y-1.5">
+            <label className="block text-xs font-semibold text-slate-700">How would you like to charge for this equipment?</label>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => setPricingUnit('PER_HECTARE')}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  pricingUnit === 'PER_HECTARE'
+                    ? 'bg-emerald-50 border-[#166534] text-[#166534] shadow-xs ring-1 ring-[#166534]'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span>🚜 Per Hectare</span>
+                <span className="text-[10px] font-normal text-slate-500">Charge per ha</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPricingUnit('PER_HOUR')}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  pricingUnit === 'PER_HOUR'
+                    ? 'bg-emerald-50 border-[#166534] text-[#166534] shadow-xs ring-1 ring-[#166534]'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span>⏱️ Per Hour</span>
+                <span className="text-[10px] font-normal text-slate-500">Charge per hour</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPricingUnit('BOTH')}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  pricingUnit === 'BOTH'
+                    ? 'bg-emerald-50 border-[#166534] text-[#166534] shadow-xs ring-1 ring-[#166534]'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span>✨ Both (Flexible)</span>
+                <span className="text-[10px] font-normal text-slate-500">Farmer decides</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Rate Input Fields based on selection */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.pricePerDay')}</label>
+            {(pricingUnit === 'PER_HECTARE' || pricingUnit === 'BOTH') && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Equipment Rate Per Hectare (₹ / hectare) *
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-2.5 text-xs font-bold text-slate-500">₹</span>
+                  <input
+                    type="number"
+                    step={50}
+                    min={100}
+                    value={pricePerHectare}
+                    onChange={(e) => setPricePerHectare(Number(e.target.value))}
+                    className="w-full pl-7 pr-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-bold text-[#166534] focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    placeholder="e.g. 2000"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            {(pricingUnit === 'PER_HOUR' || pricingUnit === 'BOTH') && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Equipment Rate Per Hour (₹ / hour) *
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-2.5 text-xs font-bold text-slate-500">₹</span>
+                  <input
+                    type="number"
+                    step={50}
+                    min={50}
+                    value={pricePerHour}
+                    onChange={(e) => setPricePerHour(Number(e.target.value))}
+                    className="w-full pl-7 pr-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-bold text-[#166534] focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    placeholder="e.g. 600"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Operator Details */}
+          <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <label className="text-xs font-bold text-slate-900 block">{t('addEq.operatorIncluded')}</label>
+                <span className="text-[11px] text-slate-500">Provide an experienced driver / operator with this machine</span>
+              </div>
               <input
-                type="number"
-                step={100}
-                value={pricePerDay}
-                onChange={(e) => setPricePerDay(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-bold text-[#166534]"
-                required
+                type="checkbox"
+                checked={operatorIncluded}
+                onChange={(e) => setOperatorIncluded(e.target.checked)}
+                className="w-4 h-4 text-[#166534] rounded-xs cursor-pointer"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-700">{t('addEq.operatorIncluded')}</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={operatorIncluded}
-                  onChange={(e) => setOperatorIncluded(e.target.checked)}
-                  className="w-4 h-4 text-[#166534]"
-                />
-                <span className="text-xs font-medium text-slate-800">{t('booking.includeOperator')}</span>
+            {operatorIncluded && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/60">
+                {(pricingUnit === 'PER_HECTARE' || pricingUnit === 'BOTH') && (
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                      Operator Fee (₹ / hectare)
+                    </label>
+                    <input
+                      type="number"
+                      step={50}
+                      value={operatorCostPerHectare}
+                      onChange={(e) => setOperatorCostPerHectare(Number(e.target.value))}
+                      placeholder="e.g. 400"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs"
+                    />
+                  </div>
+                )}
+                {(pricingUnit === 'PER_HOUR' || pricingUnit === 'BOTH') && (
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                      Operator Fee (₹ / hour)
+                    </label>
+                    <input
+                      type="number"
+                      step={25}
+                      value={operatorCostPerHour}
+                      onChange={(e) => setOperatorCostPerHour(Number(e.target.value))}
+                      placeholder="e.g. 150"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs"
+                    />
+                  </div>
+                )}
               </div>
-              {operatorIncluded && (
-                <input
-                  type="number"
-                  step={50}
-                  value={operatorCostPerDay}
-                  onChange={(e) => setOperatorCostPerDay(Number(e.target.value))}
-                  placeholder={t('addEq.operatorCostPerDay')}
-                  className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs"
-                />
-              )}
-            </div>
+            )}
           </div>
 
           <ImageUpload images={images} onChange={setImages} />

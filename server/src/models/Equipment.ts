@@ -15,8 +15,11 @@ export interface IEquipment {
   state: string;
   pricePerDay: number;
   pricePerHour?: number;
+  pricePerHectare?: number;
+  pricingUnit?: 'PER_HECTARE' | 'PER_HOUR' | 'BOTH';
   operatorIncluded: boolean;
   operatorCostPerDay: number;
+  operatorCostPerHour?: number;
   rating: number;
   reviewCount: number;
   isAvailable: boolean;
@@ -44,8 +47,11 @@ const equipmentSchema = new Schema<IEquipment>(
     state: { type: String, required: true },
     pricePerDay: { type: Number, required: true },
     pricePerHour: { type: Number },
+    pricePerHectare: { type: Number },
+    pricingUnit: { type: String, enum: ['PER_HECTARE', 'PER_HOUR', 'BOTH'], default: 'PER_HECTARE' },
     operatorIncluded: { type: Boolean, default: false },
     operatorCostPerDay: { type: Number, default: 0 },
+    operatorCostPerHour: { type: Number, default: 0 },
     rating: { type: Number, default: 0 },
     reviewCount: { type: Number, default: 0 },
     isAvailable: { type: Boolean, default: true },

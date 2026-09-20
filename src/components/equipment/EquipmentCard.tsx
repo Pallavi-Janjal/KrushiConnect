@@ -121,10 +121,23 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
         <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between mt-1.5">
           <div>
             <div className="text-[11px] text-slate-500 font-medium leading-none mb-0.5">{t('market.rentalRate')}</div>
-            <div className="text-base sm:text-lg font-extrabold text-[#166534]">
-              ₹{equipment.pricePerDay.toLocaleString('en-IN')}
-              <span className="text-[11px] font-normal text-slate-500"> {t('market.perDay')}</span>
-            </div>
+            {equipment.pricingUnit === 'BOTH' || (equipment.pricePerHectare && equipment.pricePerHour) ? (
+              <div className="text-xs font-extrabold text-[#166534] leading-tight">
+                <span>₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}<span className="text-[10px] font-normal text-slate-500">/ha</span></span>
+                <span className="text-slate-400 mx-1">•</span>
+                <span>₹{equipment.pricePerHour!.toLocaleString('en-IN')}<span className="text-[10px] font-normal text-slate-500">/hr</span></span>
+              </div>
+            ) : equipment.pricingUnit === 'PER_HOUR' ? (
+              <div className="text-base sm:text-lg font-extrabold text-[#166534]">
+                ₹{(equipment.pricePerHour || equipment.pricePerDay).toLocaleString('en-IN')}
+                <span className="text-[11px] font-normal text-slate-500"> /hr</span>
+              </div>
+            ) : (
+              <div className="text-base sm:text-lg font-extrabold text-[#166534]">
+                ₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}
+                <span className="text-[11px] font-normal text-slate-500"> /ha</span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-1.5">
