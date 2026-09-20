@@ -121,7 +121,7 @@ Article DOI: 10.62823/IJAER/2026/02.01.148
 DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
-
+##
 
 
 
@@ -134,7 +134,7 @@ DOI URL: https://doi.org/10.62823/IJAER/2026/02.01.148
 
 
 
-2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
+## 2.Research Paper: The Future of Agriculture Mechanization Will Be Data Driven
 
 
 Source: Tractor Manufacturers Association
