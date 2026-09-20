@@ -210,3 +210,77 @@ export const getDistrictsForState = (stateName: string): string[] => {
 
   return matchedKey ? STATE_DISTRICTS_MAP[matchedKey] : [];
 };
+
+export const DISTRICT_TALUKAS_MAP: Record<string, string[]> = {
+  // Maharashtra
+  'Chhatrapati Sambhajinagar': ['Aurangabad', 'Kannad', 'Soegaon', 'Sillod', 'Phulambri', 'Khuldabad', 'Vaijapur', 'Gangapur', 'Paithan'],
+  'Pune': ['Haveli', 'Pune City', 'Khed', 'Junnar', 'Ambegaon', 'Maval', 'Mulshi', 'Shirur', 'Purandar', 'Velhe', 'Bhor', 'Baramati', 'Indapur', 'Daund'],
+  'Ahmednagar': ['Nagar', 'Rahuri', 'Sangamner', 'Kopargaon', 'Akole', 'Shrirampur', 'Newasa', 'Shevgaon', 'Pathardi', 'Jamkhed', 'Karjat', 'Shrigonda', 'Parner', 'Rahata'],
+  'Nashik': ['Nashik', 'Igatpuri', 'Dindori', 'Peth', 'Trimbakeshwar', 'Kalwan', 'Deola', 'Surgana', 'Baglan', 'Malegaon', 'Nandgaon', 'Chandwad', 'Niphad', 'Sinnar', 'Yeola'],
+  'Jalna': ['Jalna', 'Ambad', 'Bhokardan', 'Badnapur', 'Ghansawangi', 'Partur', 'Mantha', 'Jafrabad'],
+  'Beed': ['Beed', 'Georai', 'Majalgaon', 'Wadwani', 'Ashti', 'Patoda', 'Shirur (Kasar)', 'Kaij', 'Dharur', 'Parli (Vaijnath)', 'Ambejogai'],
+  'Dharashiv': ['Dharashiv', 'Tuljapur', 'Bhum', 'Paranda', 'Kalamb', 'Omerga', 'Lohara', 'Washi'],
+  'Latur': ['Latur', 'Ausa', 'Renapur', 'Shirur-Anantpal', 'Nilanga', 'Deoni', 'Udgir', 'Jalkot', 'Chakur', 'Ahmadpur'],
+  'Nanded': ['Nanded', 'Biloli', 'Mukhed', 'Kandhar', 'Loha', 'Mudkhed', 'Ardhapur', 'Bhokar', 'Umri', 'Dharmabad', 'Kinwat', 'Himayatnagar', 'Hadgaon', 'Mahoor', 'Deglur', 'Naigaon'],
+  'Parbhani': ['Parbhani', 'Gangakhed', 'Sonpeth', 'Pathri', 'Manwath', 'Palam', 'Purna', 'Sailu', 'Jintur'],
+  'Hingoli': ['Hingoli', 'Kalamnuri', 'Basmath', 'Aundha Nagnath', 'Sengaon'],
+  'Kolhapur': ['Karvir', 'Panhala', 'Shahuwadi', 'Kagal', 'Hatkanangle', 'Shirol', 'Radhanagari', 'Gaganbawda', 'Bhudargad', 'Ajra', 'Gadhinglaj', 'Chandgad'],
+  'Sangli': ['Miraj', 'Kavathe Mahankal', 'Tasgaon', 'Jat', 'Walwa', 'Shirala', 'Khanapur', 'Atpadi', 'Palus', 'Kadegaon'],
+  'Satara': ['Satara', 'Karad', 'Wai', 'Mahabaleshwar', 'Phaltan', 'Man', 'Khatav', 'Koregaon', 'Patan', 'Jaoli', 'Khandala'],
+  'Solapur': ['Solapur North', 'Solapur South', 'Barshi', 'Akkalkot', 'Mohol', 'Madha', 'Karmala', 'Pandharpur', 'Sangola', 'Malshiras', 'Mangalwedha'],
+  'Nagpur': ['Nagpur Urban', 'Nagpur Rural', 'Kamptee', 'Hingna', 'Katol', 'Narkhed', 'Savner', 'Kalameshwar', 'Ramtek', 'Mouda', 'Parseoni', 'Umred', 'Kuhi', 'Bhiwapur'],
+  'Amravati': ['Amravati', 'Bhatkuli', 'Nandgaon Khandeshwar', 'Dharni', 'Chikhaldara', 'Achalpur', 'Chandurbazar', 'Morshi', 'Warud', 'Daryapur', 'Anjangaon Surji', 'Chandur Railway', 'Dhamangaon Railway', 'Tiosa'],
+  'Akola': ['Akola', 'Akot', 'Telhara', 'Balapur', 'Patur', 'Murtizapur', 'Barshitakli'],
+  'Buldhana': ['Buldhana', 'Chikhli', 'Deulgaon Raja', 'Jalgaon (Jamod)', 'Sangrampur', 'Malkapur', 'Motala', 'Nandura', 'Khamgaon', 'Shegaon', 'Mehkar', 'Sindkhed Raja', 'Lonar'],
+  'Washim': ['Washim', 'Malegaon', 'Risod', 'Mangrulpir', 'Karanja', 'Manora'],
+  'Yavatmal': ['Yavatmal', 'Arni', 'Babhulgaon', 'Kalamb', 'Darwha', 'Digras', 'Ner', 'Pusad', 'Umarkhed', 'Mahagaon', 'Ghatanji', 'Kelapur', 'Ralegaon', 'Wani', 'Maregaon', 'Zari-Jamani'],
+  'Wardha': ['Wardha', 'Deoli', 'Seloo', 'Arvi', 'Ashti', 'Karanja', 'Hinganghat', 'Samudrapur'],
+  'Chandrapur': ['Chandrapur', 'Bhadravati', 'Warora', 'Chimur', 'Nagbhid', 'Brahmapuri', 'Sindewahi', 'Mul', 'Saoli', 'Pombhurna', 'Ballarpur', 'Korpurna', 'Jiwati', 'Rajura', 'Gondpipri'],
+  'Bhandara': ['Bhandara', 'Tumsar', 'Pauni', 'Mohadi', 'Sakoli', 'Lakhani', 'Lakhandur'],
+  'Gondia': ['Gondia', 'Tirora', 'Goregaon', 'Amgaon', 'Salekasa', 'Sadak Arjuni', 'Arjuni Morgaon', 'Deori'],
+  'Gadchiroli': ['Gadchiroli', 'Dhanora', 'Chamorshi', 'Armori', 'Kurkheda', 'Korchi', 'Desaiganj (Wadsa)', 'Aheri', 'Bhamragad', 'Etapalli', 'Mulchera', 'Sironcha'],
+  'Dhule': ['Dhule', 'Sakri', 'Sindkheda', 'Shirpur'],
+  'Jalgaon': ['Jalgaon', 'Jamner', 'Erandol', 'Dharangaon', 'Bhusawal', 'Raver', 'Muktainagar', 'Bodwad', 'Yawal', 'Amalner', 'Parola', 'Chopda', 'Pachora', 'Bhadgaon', 'Chalisgaon'],
+  'Nandurbar': ['Nandurbar', 'Navapur', 'Shahada', 'Taloda', 'Akkalkuwa', 'Akrani'],
+  'Raigad': ['Alibag', 'Pen', 'Murud', 'Panvel', 'Uran', 'Karjat', 'Khalapur', 'Mangaon', 'Roha', 'Sudhagad', 'Tala', 'Mahad', 'Poladpur', 'Shrivardhan', 'Mhasla'],
+  'Ratnagiri': ['Ratnagiri', 'Chiplun', 'Guhagar', 'Dapoli', 'Mandangad', 'Khed', 'Sangameshwar', 'Rajapur', 'Lanja'],
+  'Sindhudurg': ['Kudal', 'Sawantwadi', 'Vengurla', 'Malvan', 'Kankavli', 'Devgad', 'Vaibhavwadi', 'Dodamarg'],
+  'Thane': ['Thane', 'Kalyan', 'Murbad', 'Bhiwandi', 'Shahapur', 'Ulhasnagar', 'Ambarnath'],
+  'Palghar': ['Palghar', 'Vada', 'Vikramgad', 'Jawhar', 'Mokhada', 'Dahanu', 'Talasari', 'Vasai'],
+  'Mumbai City': ['Mumbai City'],
+  'Mumbai Suburban': ['Kurla', 'Andheri', 'Borivali'],
+
+  // Punjab (Major Agricultural Districts)
+  'Amritsar': ['Amritsar-1', 'Amritsar-2', 'Ajnala', 'Baba Bakala', 'Majitha'],
+  'Ludhiana': ['Ludhiana East', 'Ludhiana West', 'Jagraon', 'Khanna', 'Samrala', 'Payal', 'Raikot'],
+  'Bathinda': ['Bathinda', 'Rampura Phul', 'Talwandi Sabo', 'Maur'],
+  'Patiala': ['Patiala', 'Nabha', 'Rajpura', 'Samana', 'Patran'],
+  'Jalandhar': ['Jalandhar-1', 'Jalandhar-2', 'Nakodar', 'Phillaur', 'Shahkot'],
+
+  // Haryana (Major Districts)
+  'Karnal': ['Karnal', 'Indri', 'Nilokheri', 'Gharaunda', 'Assandh'],
+  'Hisar': ['Hisar', 'Hansi', 'Barwala', 'Narnaund', 'Adampur'],
+  'Ambala': ['Ambala', 'Ambala Cantt', 'Barara', 'Naraingarh'],
+  'Kurukshetra': ['Thanesar', 'Pehowa', 'Shahbad', 'Ladwa'],
+
+  // Gujarat (Major Districts)
+  'Ahmedabad': ['Ahmedabad City', 'Daskroi', 'Sanand', 'Dholka', 'Dhandhuka', 'Viramgam', 'Mandal', 'Detroj', 'Bavla'],
+  'Rajkot': ['Rajkot', 'Gondal', 'Jetpur', 'Dhoraji', 'Upleta', 'Jasdan', 'Kotda Sangani', 'Lodhika'],
+  'Surat': ['Choryasi', 'Olpad', 'Kamrej', 'Mangrol', 'Mandvi', 'Bardoli', 'Mahuva'],
+  'Vadodara': ['Vadodara', 'Padra', 'Karjan', 'Dabhoi', 'Waghodia', 'Savli', 'Desar']
+};
+
+export const getTalukasForDistrict = (districtName: string): string[] => {
+  if (!districtName) return [];
+  
+  if (DISTRICT_TALUKAS_MAP[districtName]) {
+    return DISTRICT_TALUKAS_MAP[districtName];
+  }
+
+  const normalized = districtName.trim().toLowerCase();
+  const matchedKey = Object.keys(DISTRICT_TALUKAS_MAP).find(
+    (k) => k.toLowerCase() === normalized
+  );
+
+  return matchedKey ? DISTRICT_TALUKAS_MAP[matchedKey] : [];
+};

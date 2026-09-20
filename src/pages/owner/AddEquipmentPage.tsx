@@ -5,7 +5,7 @@ import { useApp } from '../../context/AppContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { EquipmentCategory } from '../../types';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
-import { INDIAN_STATES, STATE_DISTRICTS_MAP } from '../../data/indiaLocations';
+import { INDIAN_STATES, STATE_DISTRICTS_MAP, getTalukasForDistrict } from '../../data/indiaLocations';
 import { ImageUpload } from '../../components/common/ImageUpload';
 
 export const AddEquipmentPage: React.FC = () => {
@@ -23,6 +23,10 @@ export const AddEquipmentPage: React.FC = () => {
   const [description, setDescription] = useState('');
   const [selectedState, setSelectedState] = useState('Maharashtra');
   const [selectedDistrict, setSelectedDistrict] = useState('Chhatrapati Sambhajinagar');
+  const initialTalukas = getTalukasForDistrict('Chhatrapati Sambhajinagar');
+  const [selectedTaluka, setSelectedTaluka] = useState(initialTalukas[0] || 'Vaijapur');
+  const [customTaluka, setCustomTaluka] = useState('');
+  const [village, setVillage] = useState('');
   const [pricingUnit, setPricingUnit] = useState<'PER_HECTARE' | 'PER_HOUR' | 'BOTH'>('PER_HECTARE');
   const [pricePerHectare, setPricePerHectare] = useState(2000);
   const [pricePerHour, setPricePerHour] = useState(600);
@@ -31,10 +35,23 @@ export const AddEquipmentPage: React.FC = () => {
   const [operatorCostPerHour, setOperatorCostPerHour] = useState(150);
   const [images, setImages] = useState<string[]>([]);
 
+  const talukasForDistrict = getTalukasForDistrict(selectedDistrict);
+
   const handleStateChange = (stateName: string) => {
     setSelectedState(stateName);
     const districts = STATE_DISTRICTS_MAP[stateName] || [];
-    setSelectedDistrict(districts[0] || '');
+    const newDistrict = districts[0] || '';
+    setSelectedDistrict(newDistrict);
+    const talukas = getTalukasForDistrict(newDistrict);
+    setSelectedTaluka(talukas[0] || '');
+    setCustomTaluka('');
+  };
+
+  const handleDistrictChange = (districtName: string) => {
+    setSelectedDistrict(districtName);
+    const talukas = getTalukasForDistrict(districtName);
+    setSelectedTaluka(talukas[0] || '');
+    setCustomTaluka('');
   };
 
   const [submitting, setSubmitting] = useState(false);
@@ -47,8 +64,15 @@ export const AddEquipmentPage: React.FC = () => {
       return;
     }
 
+    const effectiveTaluka = selectedTaluka === 'OTHER' || talukasForDistrict.length === 0 ? customTaluka.trim() : selectedTaluka.trim();
+
     if (!name || !description) {
       setError('Please provide equipment name and description.');
+      return;
+    }
+
+    if (!selectedDistrict || !effectiveTaluka || !village.trim()) {
+      setError('Please provide State, District, Taluka, and Village for equipment location.');
       return;
     }
 
@@ -71,6 +95,8 @@ export const AddEquipmentPage: React.FC = () => {
         : ['https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80'];
 
       const primaryRate = pricingUnit === 'PER_HOUR' ? Number(pricePerHour) : Number(pricePerHectare);
+      const locParts = [village.trim(), effectiveTaluka, selectedDistrict, selectedState].filter(Boolean);
+      const formattedLocation = locParts.join(', ');
 
       await addEquipment({
         ownerId: user.id,
@@ -83,8 +109,11 @@ export const AddEquipmentPage: React.FC = () => {
         hp: Number(hp),
         fuelType,
         description,
-        location: `${selectedDistrict}, ${selectedState}`,
+        location: formattedLocation,
         state: selectedState,
+        district: selectedDistrict,
+        taluka: effectiveTaluka,
+        village: village.trim(),
         pricePerDay: primaryRate,
         pricePerHectare: Number(pricePerHectare),
         pricePerHour: Number(pricePerHour),
@@ -210,7 +239,9 @@ export const AddEquipmentPage: React.FC = () => {
 
         {/* Description & Location */}
         <div className="space-y-4 pt-4 border-t border-slate-100">
-          <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">{t('addEq.description')} & {t('addEq.location')}</h3>
+          <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+            {t('addEq.description')} & Equipment Location
+          </h3>
 
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.description')}</label>
@@ -224,13 +255,15 @@ export const AddEquipmentPage: React.FC = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 4 Location Fields: State, District, Taluka, Village */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            {/* 1. State */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.state')}</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.state')} *</label>
               <select
                 value={selectedState}
                 onChange={(e) => handleStateChange(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white"
+                className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
                 required
               >
                 {INDIAN_STATES.map(s => (
@@ -239,18 +272,71 @@ export const AddEquipmentPage: React.FC = () => {
               </select>
             </div>
 
+            {/* 2. District */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.location')}</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.district')} *</label>
               <select
                 value={selectedDistrict}
-                onChange={(e) => setSelectedDistrict(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white"
+                onChange={(e) => handleDistrictChange(e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
                 required
               >
                 {(STATE_DISTRICTS_MAP[selectedState] || []).map(d => (
                   <option key={d} value={d}>{d}</option>
                 ))}
               </select>
+            </div>
+
+            {/* 3. Taluka */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.taluka')} *</label>
+              {talukasForDistrict.length > 0 ? (
+                <div className="space-y-1.5">
+                  <select
+                    value={selectedTaluka}
+                    onChange={(e) => setSelectedTaluka(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    required
+                  >
+                    {talukasForDistrict.map(tal => (
+                      <option key={tal} value={tal}>{tal}</option>
+                    ))}
+                    <option value="OTHER">✏️ Other (Enter manually)</option>
+                  </select>
+                  {selectedTaluka === 'OTHER' && (
+                    <input
+                      type="text"
+                      value={customTaluka}
+                      onChange={(e) => setCustomTaluka(e.target.value)}
+                      placeholder="Type taluka name"
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                      required
+                    />
+                  )}
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  value={customTaluka}
+                  onChange={(e) => setCustomTaluka(e.target.value)}
+                  placeholder="Enter Taluka / Tehsil"
+                  className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                  required
+                />
+              )}
+            </div>
+
+            {/* 4. Village */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.village')} *</label>
+              <input
+                type="text"
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
+                placeholder="e.g. Shivoor, Pachod"
+                className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                required
+              />
             </div>
           </div>
         </div>

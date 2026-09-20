@@ -13,6 +13,9 @@ export interface IEquipment {
   description: string;
   location: string;
   state: string;
+  district?: string;
+  taluka?: string;
+  village?: string;
   pricePerDay: number;
   pricePerHour?: number;
   pricePerHectare?: number;
@@ -45,6 +48,9 @@ const equipmentSchema = new Schema<IEquipment>(
     description: { type: String, required: true },
     location: { type: String, required: true },
     state: { type: String, required: true },
+    district: { type: String },
+    taluka: { type: String },
+    village: { type: String },
     pricePerDay: { type: Number, required: true },
     pricePerHour: { type: Number },
     pricePerHectare: { type: Number },

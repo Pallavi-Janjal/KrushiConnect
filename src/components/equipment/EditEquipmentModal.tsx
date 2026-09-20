@@ -3,7 +3,7 @@ import { Equipment, EquipmentCategory } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { X, AlertCircle, Save, CheckCircle2 } from 'lucide-react';
-import { INDIAN_STATES, STATE_DISTRICTS_MAP } from '../../data/indiaLocations';
+import { INDIAN_STATES, STATE_DISTRICTS_MAP, getTalukasForDistrict } from '../../data/indiaLocations';
 import { ImageUpload } from '../common/ImageUpload';
 
 interface EditEquipmentModalProps {
@@ -45,10 +45,22 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
 
   // Parse existing location or fallback
   const existingState = equipment.state || 'Maharashtra';
-  const existingDistrict = equipment.location?.split(',')[0]?.trim() || 'Chhatrapati Sambhajinagar';
+  const existingDistrict = equipment.district || equipment.location?.split(',')[0]?.trim() || 'Chhatrapati Sambhajinagar';
+  const existingTaluka = equipment.taluka || '';
+  const existingVillage = equipment.village || '';
 
   const [selectedState, setSelectedState] = useState(existingState);
   const [selectedDistrict, setSelectedDistrict] = useState(existingDistrict);
+  const talukasForDistrict = getTalukasForDistrict(selectedDistrict);
+  const [selectedTaluka, setSelectedTaluka] = useState(
+    existingTaluka && (talukasForDistrict.includes(existingTaluka) || !talukasForDistrict.length)
+      ? existingTaluka
+      : existingTaluka ? 'OTHER' : (talukasForDistrict[0] || '')
+  );
+  const [customTaluka, setCustomTaluka] = useState(
+    existingTaluka && !talukasForDistrict.includes(existingTaluka) ? existingTaluka : ''
+  );
+  const [village, setVillage] = useState(existingVillage);
 
   const [pricePerDay, setPricePerDay] = useState(equipment.pricePerDay);
   const [pricingUnit, setPricingUnit] = useState<'PER_HECTARE' | 'PER_HOUR' | 'BOTH'>(
@@ -70,13 +82,31 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
   const handleStateChange = (stateName: string) => {
     setSelectedState(stateName);
     const districts = STATE_DISTRICTS_MAP[stateName] || [];
-    setSelectedDistrict(districts[0] || '');
+    const newDistrict = districts[0] || '';
+    setSelectedDistrict(newDistrict);
+    const talukas = getTalukasForDistrict(newDistrict);
+    setSelectedTaluka(talukas[0] || '');
+    setCustomTaluka('');
+  };
+
+  const handleDistrictChange = (districtName: string) => {
+    setSelectedDistrict(districtName);
+    const talukas = getTalukasForDistrict(districtName);
+    setSelectedTaluka(talukas[0] || '');
+    setCustomTaluka('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const effectiveTaluka = selectedTaluka === 'OTHER' || talukasForDistrict.length === 0 ? customTaluka.trim() : selectedTaluka.trim();
+
     if (!name.trim() || !description.trim()) {
       setError('Please fill in all required fields.');
+      return;
+    }
+
+    if (!selectedDistrict || !effectiveTaluka || !village.trim()) {
+      setError('Please provide State, District, Taluka, and Village for equipment location.');
       return;
     }
 
@@ -84,7 +114,8 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
       setSubmitting(true);
       setError(null);
 
-      const formattedLocation = `${selectedDistrict}, ${selectedState}`;
+      const locParts = [village.trim(), effectiveTaluka, selectedDistrict, selectedState].filter(Boolean);
+      const formattedLocation = locParts.join(', ');
       const primaryRate = pricingUnit === 'PER_HOUR' ? Number(pricePerHour) : Number(pricePerHectare);
 
       const updateData: Partial<Equipment> = {
@@ -96,6 +127,9 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
         fuelType,
         description: description.trim(),
         state: selectedState,
+        district: selectedDistrict,
+        taluka: effectiveTaluka,
+        village: village.trim(),
         location: formattedLocation,
         pricePerDay: primaryRate,
         pricePerHectare: Number(pricePerHectare),
@@ -267,16 +301,17 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
             />
           </div>
 
-          {/* Location: State & District */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Location: State, District, Taluka, Village */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                {t('addEq.state')}
+                {t('addEq.state')} *
               </label>
               <select
                 value={selectedState}
                 onChange={(e) => handleStateChange(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                required
               >
                 {INDIAN_STATES.map((s) => (
                   <option key={s} value={s}>
@@ -288,12 +323,13 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                {t('addEq.location')}
+                {t('addEq.district')} *
               </label>
               <select
                 value={selectedDistrict}
-                onChange={(e) => setSelectedDistrict(e.target.value)}
+                onChange={(e) => handleDistrictChange(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                required
               >
                 {(STATE_DISTRICTS_MAP[selectedState] || []).map((d) => (
                   <option key={d} value={d}>
@@ -301,6 +337,62 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                {t('addEq.taluka')} *
+              </label>
+              {talukasForDistrict.length > 0 ? (
+                <div className="space-y-1">
+                  <select
+                    value={selectedTaluka}
+                    onChange={(e) => setSelectedTaluka(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    required
+                  >
+                    {talukasForDistrict.map((tal) => (
+                      <option key={tal} value={tal}>
+                        {tal}
+                      </option>
+                    ))}
+                    <option value="OTHER">✏️ Other (Enter manually)</option>
+                  </select>
+                  {selectedTaluka === 'OTHER' && (
+                    <input
+                      type="text"
+                      value={customTaluka}
+                      onChange={(e) => setCustomTaluka(e.target.value)}
+                      placeholder="Type taluka"
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                      required
+                    />
+                  )}
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  value={customTaluka}
+                  onChange={(e) => setCustomTaluka(e.target.value)}
+                  placeholder="Enter Taluka"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                  required
+                />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                {t('addEq.village')} *
+              </label>
+              <input
+                type="text"
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
+                placeholder="e.g. Shivoor, Pachod"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                required
+              />
             </div>
           </div>
 

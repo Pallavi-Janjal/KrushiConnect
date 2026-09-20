@@ -37,6 +37,9 @@ export interface Equipment {
   description: string;
   location: string;
   state: string;
+  district?: string;
+  taluka?: string;
+  village?: string;
   pricePerDay: number;
   pricePerHour?: number;
   pricePerHectare?: number;

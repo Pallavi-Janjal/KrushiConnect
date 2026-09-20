@@ -118,6 +118,9 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       description,
       location,
       state,
+      district,
+      taluka,
+      village,
       pricePerDay,
       pricePerHour,
       pricePerHectare,
@@ -141,6 +144,10 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       return;
     }
 
+    // Build location string: Village, Taluka, District, State
+    const locParts = [village, taluka, district, state].filter(Boolean).map((s: string) => s.trim()).filter(Boolean);
+    const resolvedLocation = location || (locParts.length > 0 ? locParts.join(', ') : owner.location || 'India');
+
     const newEquipment = await Equipment.create({
       ownerId: owner._id,
       ownerName: owner.name,
@@ -152,8 +159,11 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       hp: Number(hp) || 45,
       fuelType: fuelType || 'Diesel',
       description: description.trim(),
-      location: location || owner.location || 'India',
-      state: state || 'Haryana',
+      location: resolvedLocation,
+      state: state || 'Maharashtra',
+      district: district ? district.trim() : '',
+      taluka: taluka ? taluka.trim() : '',
+      village: village ? village.trim() : '',
       pricePerDay: resolvedPrice,
       pricePerHectare: pricePerHectare ? Number(pricePerHectare) : resolvedPrice,
       pricePerHour: pricePerHour ? Number(pricePerHour) : undefined,

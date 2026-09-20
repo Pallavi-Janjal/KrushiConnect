@@ -105,7 +105,7 @@ const createEquipment = async (req, res) => {
             res.status(401).json({ message: 'Unauthorized' });
             return;
         }
-        const { name, category, brand, model, hp, fuelType, description, location, state, pricePerDay, pricePerHour, pricePerHectare, pricingUnit = 'PER_HECTARE', operatorIncluded, operatorCostPerDay, operatorCostPerHour, images, specifications } = req.body;
+        const { name, category, brand, model, hp, fuelType, description, location, state, district, taluka, village, pricePerDay, pricePerHour, pricePerHectare, pricingUnit = 'PER_HECTARE', operatorIncluded, operatorCostPerDay, operatorCostPerHour, images, specifications } = req.body;
         const resolvedPrice = Number(pricePerHectare || pricePerDay || pricePerHour);
         if (!name || !category || !brand || !resolvedPrice || !description) {
             res.status(400).json({ message: 'Please fill in all required equipment fields including rate.' });
@@ -116,6 +116,9 @@ const createEquipment = async (req, res) => {
             res.status(404).json({ message: 'Owner user profile not found' });
             return;
         }
+        // Build location string: Village, Taluka, District, State
+        const locParts = [village, taluka, district, state].filter(Boolean).map((s) => s.trim()).filter(Boolean);
+        const resolvedLocation = location || (locParts.length > 0 ? locParts.join(', ') : owner.location || 'India');
         const newEquipment = await Equipment_1.Equipment.create({
             ownerId: owner._id,
             ownerName: owner.name,
@@ -127,8 +130,11 @@ const createEquipment = async (req, res) => {
             hp: Number(hp) || 45,
             fuelType: fuelType || 'Diesel',
             description: description.trim(),
-            location: location || owner.location || 'India',
-            state: state || 'Haryana',
+            location: resolvedLocation,
+            state: state || 'Maharashtra',
+            district: district ? district.trim() : '',
+            taluka: taluka ? taluka.trim() : '',
+            village: village ? village.trim() : '',
             pricePerDay: resolvedPrice,
             pricePerHectare: pricePerHectare ? Number(pricePerHectare) : resolvedPrice,
             pricePerHour: pricePerHour ? Number(pricePerHour) : undefined,
