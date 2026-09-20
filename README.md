@@ -139,10 +139,10 @@ Source: Tractor Manufacturers Association
 
 
 
-Key Points
 
 
-The future of agricultural mechanization is becoming increasingly data-driven.
+
+1. The future of agricultural mechanization is becoming increasingly data-driven.
 
 Digital technologies can provide farmers with better information and tools for making farming decisions.
 
@@ -168,10 +168,10 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-Key Points
 
 
-Modern agricultural machinery can be connected with digital technologies and data systems.
+
+2. Modern agricultural machinery can be connected with digital technologies and data systems.
 
 Real-time information can support better decisions related to farm operations and machinery use.
 
@@ -226,7 +226,7 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
 
 
-2.Indian Express — Small Farmers & Custom Hiring Centre
+2. Indian Express — Small Farmers & Custom Hiring Centre
 
 
 The article includes an actual Express Photo of a farmer and describes a CHC operated by small and marginal farmers, with machinery available through an affordable rental model. 
