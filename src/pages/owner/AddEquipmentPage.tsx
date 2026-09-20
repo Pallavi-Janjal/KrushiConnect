@@ -15,7 +15,8 @@ export const AddEquipmentPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<EquipmentCategory>('Tractor');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Tractor');
+  const [customCategory, setCustomCategory] = useState('');
   const [brand, setBrand] = useState('Mahindra');
   const [model, setModel] = useState('');
   const [hp, setHp] = useState(45);
@@ -65,9 +66,15 @@ export const AddEquipmentPage: React.FC = () => {
     }
 
     const effectiveTaluka = selectedTaluka === 'OTHER' || talukasForDistrict.length === 0 ? customTaluka.trim() : selectedTaluka.trim();
+    const effectiveCategory = selectedCategory === 'Other' ? customCategory.trim() : selectedCategory.trim();
 
     if (!name || !description) {
       setError('Please provide equipment name and description.');
+      return;
+    }
+
+    if (selectedCategory === 'Other' && !customCategory.trim()) {
+      setError('Please write down your custom equipment category.');
       return;
     }
 
@@ -103,7 +110,7 @@ export const AddEquipmentPage: React.FC = () => {
         ownerName: user.name,
         ownerPhone: user.phone,
         name,
-        category,
+        category: effectiveCategory as any,
         brand,
         model: model || `${brand} Standard`,
         hp: Number(hp),
@@ -183,20 +190,36 @@ export const AddEquipmentPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.category')}</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white"
-              >
-                <option value="Tractor">Tractor</option>
-                <option value="Harvester">Harvester</option>
-                <option value="Seeder">Seeder</option>
-                <option value="Sprayer">Sprayer</option>
-                <option value="Rotavator">Rotavator</option>
-                <option value="Cultivator">Cultivator</option>
-                <option value="Tiller">Power Tiller</option>
-              </select>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.category')} *</label>
+              <div className="space-y-1.5">
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                >
+                  <option value="Tractor">Tractor</option>
+                  <option value="Harvester">Harvester</option>
+                  <option value="Seeder">Seeder</option>
+                  <option value="Sprayer">Sprayer</option>
+                  <option value="Rotavator">Rotavator</option>
+                  <option value="Cultivator">Cultivator</option>
+                  <option value="Tiller">Power Tiller</option>
+                  <option value="Balers">Balers</option>
+                  <option value="Thresher">Thresher</option>
+                  <option value="Other">Other (Specify below)</option>
+                </select>
+
+                {selectedCategory === 'Other' && (
+                  <input
+                    type="text"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                    placeholder="Enter custom equipment category (e.g. Laser Leveler, Digger)"
+                    className="w-full px-3.5 py-2 rounded-lg border border-emerald-500 bg-emerald-50/40 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                    required
+                  />
+                )}
+              </div>
             </div>
           </div>
 

@@ -21,7 +21,8 @@ export type EquipmentCategory =
   | 'Cultivator' 
   | 'Balers' 
   | 'Thresher'
-  | 'Other';
+  | 'Other'
+  | (string & {});
 
 export interface Equipment {
   id: string;
