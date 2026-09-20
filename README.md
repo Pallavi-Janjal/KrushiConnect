@@ -35,7 +35,7 @@ The platform also provides crop market price information to help farmers access 
 
 
 
-![Uploading image.png…]()
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/c59eabdb-357b-4cdc-8c00-892e0d8f5741" />
 
 
 
