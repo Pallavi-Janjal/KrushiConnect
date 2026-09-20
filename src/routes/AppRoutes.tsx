@@ -9,6 +9,7 @@ import { MarketplacePage } from '../pages/public/MarketplacePage';
 import { EquipmentDetailPage } from '../pages/public/EquipmentDetailPage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
+import { ForgotPasswordPage } from '../pages/auth/ForgotPasswordPage';
 
 // Farmer Pages
 import { FarmerDashboard } from '../pages/farmer/FarmerDashboard';
@@ -42,6 +43,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/mandi" element={<ProtectedRoute><MandiIntelligencePage /></ProtectedRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Farmer Protected Routes */}
         <Route path="/farmer/dashboard" element={<ProtectedRoute allowedRoles={['FARMER']}><FarmerDashboard /></ProtectedRoute>} />

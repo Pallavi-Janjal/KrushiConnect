@@ -8,6 +8,8 @@ router.post('/register', authController_1.register);
 router.post('/login', authController_1.login);
 router.post('/send-otp', authController_1.sendEmailOtp);
 router.post('/verify-otp', authController_1.verifyOtp);
+router.post('/forgot-password', authController_1.forgotPassword);
+router.post('/reset-password', authController_1.resetPassword);
 router.get('/me', auth_1.authenticate, authController_1.getMe);
 router.put('/profile', auth_1.authenticate, authController_1.updateProfile);
 router.patch('/profile', auth_1.authenticate, authController_1.updateProfile);

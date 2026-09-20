@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyOtp = exports.sendEmailOtp = exports.updateProfile = exports.logout = exports.getMe = exports.login = exports.register = void 0;
+exports.resetPassword = exports.forgotPassword = exports.verifyOtp = exports.sendEmailOtp = exports.updateProfile = exports.logout = exports.getMe = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = require("../models/User");
 const Otp_1 = require("../models/Otp");
@@ -313,3 +313,81 @@ const verifyOtp = async (req, res) => {
     }
 };
 exports.verifyOtp = verifyOtp;
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            res.status(400).json({ message: 'Email address is required.' });
+            return;
+        }
+        const normalizedEmail = String(email).trim().toLowerCase();
+        if (!EMAIL_REGEX.test(normalizedEmail)) {
+            res.status(400).json({ message: 'Please provide a valid email address.' });
+            return;
+        }
+        const user = await User_1.User.findOne({ email: normalizedEmail });
+        if (!user) {
+            // Security: don't reveal whether email exists
+            res.json({ success: true, message: 'If this email is registered, a reset code will be sent.' });
+            return;
+        }
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+        await Otp_1.Otp.deleteMany({ email: normalizedEmail });
+        await Otp_1.Otp.create({ email: normalizedEmail, otp: otpCode, expiresAt });
+        const emailResult = await (0, emailService_1.sendOtpEmail)(normalizedEmail, otpCode);
+        if (!emailResult.success) {
+            res.status(500).json({ message: emailResult.message });
+            return;
+        }
+        res.json({ success: true, message: 'Password reset code sent to your email.' });
+    }
+    catch (error) {
+        console.error('Forgot password error:', error);
+        res.status(500).json({ message: error.message || 'Failed to send reset code.' });
+    }
+};
+exports.forgotPassword = forgotPassword;
+const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        if (!email || !otp || !newPassword) {
+            res.status(400).json({ message: 'Email, verification code, and new password are required.' });
+            return;
+        }
+        const normalizedEmail = String(email).trim().toLowerCase();
+        const validOtp = await Otp_1.Otp.findOne({
+            email: normalizedEmail,
+            otp: String(otp).trim(),
+            expiresAt: { $gt: new Date() }
+        });
+        if (!validOtp) {
+            res.status(400).json({ message: 'Invalid or expired verification code. Please request a new one.' });
+            return;
+        }
+        const passStr = String(newPassword);
+        if (passStr.length < 6) {
+            res.status(400).json({ message: 'New password must be at least 6 characters long.' });
+            return;
+        }
+        if (!/[A-Za-z]/.test(passStr) || !/\d/.test(passStr)) {
+            res.status(400).json({ message: 'Password must contain at least one letter and one number.' });
+            return;
+        }
+        const user = await User_1.User.findOne({ email: normalizedEmail });
+        if (!user) {
+            res.status(404).json({ message: 'No account found with this email.' });
+            return;
+        }
+        const salt = await bcryptjs_1.default.genSalt(10);
+        user.passwordHash = await bcryptjs_1.default.hash(passStr, salt);
+        await user.save();
+        await Otp_1.Otp.deleteMany({ email: normalizedEmail });
+        res.json({ success: true, message: 'Password reset successfully. You can now log in with your new password.' });
+    }
+    catch (error) {
+        console.error('Reset password error:', error);
+        res.status(500).json({ message: error.message || 'Failed to reset password.' });
+    }
+};
+exports.resetPassword = resetPassword;

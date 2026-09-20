@@ -156,6 +156,16 @@ export const LoginPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Forgot Password link */}
+          <div className="text-right -mt-1">
+            <Link
+              to="/forgot-password"
+              className="text-xs text-[#166534] font-semibold hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
