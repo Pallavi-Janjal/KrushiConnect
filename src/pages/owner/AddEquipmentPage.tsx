@@ -100,7 +100,7 @@ export const AddEquipmentPage: React.FC = () => {
 
       const finalImages = images.length > 0 
         ? images 
-        : [getCategoryFallbackImage(category)];
+        : [getCategoryFallbackImage(effectiveCategory)];
 
       const primaryRate = pricingUnit === 'PER_HOUR' ? Number(pricePerHour) : Number(pricePerHectare);
       const locParts = [village.trim(), effectiveTaluka, selectedDistrict, selectedState].filter(Boolean);
