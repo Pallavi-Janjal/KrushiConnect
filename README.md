@@ -35,6 +35,8 @@ The platform also provides crop market price information to help farmers access 
 
 
 
+![Uploading image.png…]()
+
 
 
 
