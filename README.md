@@ -1,4 +1,4 @@
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/d0666319-cca1-42a9-b3a3-146bc4c42acc" />🔴 Problem Statement
+🔴 Problem Statement
 
 Farmers often face difficulties in getting agricultural equipment such as tractors, harvesters, pumps and other machinery when they need them, especially during important farming periods.
 
