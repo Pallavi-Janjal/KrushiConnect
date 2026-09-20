@@ -34,7 +34,7 @@ The platform also provides crop market price information to help farmers access 
 ✨ Key Features
 
 
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
+
 
 
 
@@ -182,6 +182,11 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 - **PowerShell** – Command-line development and server management
 - **Oxlint & ESLint** – Code quality and linting
 - **Render** – Full-stack deployment and hosting
+
+
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
+
+
 
 # React + TypeScript + Vite
 
