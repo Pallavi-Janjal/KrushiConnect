@@ -46,7 +46,7 @@ The platform also provides crop market price information to help farmers access 
 ## ✨ Key Features
 
 
-
+##
 
 
 
@@ -58,6 +58,7 @@ The platform also provides crop market price information to help farmers access 
 
 
 
+##
 
 
 ## 📊 Market Price Information
@@ -83,7 +84,7 @@ Small and marginal farmers face difficulties in accessing agricultural machinery
 Custom Hiring Centres (CHCs) can improve farmers' access to machinery without requiring individual ownership. 
 
 
-
+##
 
 
 
@@ -97,6 +98,7 @@ Custom Hiring Centres (CHCs) can improve farmers' access to machinery without re
 
 
 
+##
 
 
 High machinery cost is a major barrier for small and marginal farmers.
@@ -152,7 +154,7 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-
+##
 
 
 
@@ -163,7 +165,7 @@ Data can help reduce wastage and make farming more cost-effective.
 
 
 
-
+##
 
 
 
@@ -183,7 +185,7 @@ Data-driven mechanization can contribute to more efficient and sustainable farmi
 https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%20Will%20Be%20Data%20Driven.pdf
 
 
-
+##
 
 
 
@@ -195,7 +197,7 @@ https://www.tmaindia.in/pdf/The%20Future%20Of%20%20Agriculture%20Mechanization%2
     
 
     
-
+##
     
 
 📰 News & Recent Reports
@@ -211,7 +213,7 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
 
 
-
+##
 
 
 
@@ -222,7 +224,7 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 
 
 
-
+##
 
 
 
@@ -235,7 +237,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
  https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
 
-
+##
 
 
 
@@ -249,7 +251,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-
+##
 
 
 
@@ -316,7 +318,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 - **Render** – Full-stack deployment and hosting
 
 
-
+##
 
 
 
@@ -324,7 +326,7 @@ The article includes an actual Express Photo of a farmer and describes a CHC ope
 
 
 
-
+##
 
 
 ## 🚀 Future Scope
