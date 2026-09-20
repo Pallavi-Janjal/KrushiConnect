@@ -7,6 +7,7 @@ import { EquipmentCategory } from '../../types';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { INDIAN_STATES, STATE_DISTRICTS_MAP, getTalukasForDistrict } from '../../data/indiaLocations';
 import { ImageUpload } from '../../components/common/ImageUpload';
+import { getCategoryExample } from '../../data/equipmentExamples';
 
 export const AddEquipmentPage: React.FC = () => {
   const { user } = useAuth();
@@ -146,6 +147,8 @@ export const AddEquipmentPage: React.FC = () => {
     }
   };
 
+  const currentExample = getCategoryExample(selectedCategory === 'Other' ? (customCategory || 'Other') : selectedCategory);
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       
@@ -178,15 +181,44 @@ export const AddEquipmentPage: React.FC = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">{t('addEq.equipmentName')}</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-slate-700">{t('addEq.equipmentName')} *</label>
+                <span className="text-[10px] text-slate-400">e.g. Original Brand & Model</span>
+              </div>
               <input
                 type="text"
+                list="equipment-name-suggestions"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Mahindra 575 DI 45 HP Tractor"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none"
+                placeholder={currentExample.name}
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-[#166534] focus:outline-none placeholder:text-slate-400 font-medium"
                 required
               />
+              <datalist id="equipment-name-suggestions">
+                {currentExample.suggestions.map((sug) => (
+                  <option key={sug} value={sug} />
+                ))}
+              </datalist>
+
+              {/* Quick suggestions pills */}
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                <span className="text-slate-400 text-[10px]">Popular:</span>
+                {currentExample.suggestions.slice(0, 3).map((sug) => (
+                  <button
+                    key={sug}
+                    type="button"
+                    onClick={() => {
+                      setName(sug);
+                      if (!brand || brand === 'Mahindra') setBrand(currentExample.brand);
+                      if (!model) setModel(currentExample.model);
+                      if (currentExample.hp) setHp(currentExample.hp);
+                    }}
+                    className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-[#166534] hover:border-emerald-300 border border-slate-200 transition-colors text-[10px] cursor-pointer"
+                  >
+                    + {sug.split('(')[0].trim()}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div>
@@ -230,8 +262,8 @@ export const AddEquipmentPage: React.FC = () => {
                 type="text"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                placeholder="Mahindra / John Deere"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs"
+                placeholder={`e.g. ${currentExample.brand}`}
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs placeholder:text-slate-400"
                 required
               />
             </div>
@@ -242,8 +274,8 @@ export const AddEquipmentPage: React.FC = () => {
                 type="text"
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
-                placeholder="575 DI PowerPlus"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs"
+                placeholder={`e.g. ${currentExample.model}`}
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs placeholder:text-slate-400"
               />
             </div>
 
@@ -253,7 +285,8 @@ export const AddEquipmentPage: React.FC = () => {
                 type="number"
                 value={hp}
                 onChange={(e) => setHp(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs"
+                placeholder={`e.g. ${currentExample.hp}`}
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs placeholder:text-slate-400"
                 required
               />
             </div>
