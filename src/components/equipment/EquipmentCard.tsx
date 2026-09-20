@@ -6,7 +6,7 @@ import { MapPin, Zap, UserCheck, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { TranslatedText } from '../common/TranslatedText';
-import { resolveImageUrl } from '../../services/api';
+import { resolveImageUrl, getCategoryFallbackImage } from '../../services/api';
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -46,12 +46,10 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
       <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
         <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
           <img
-            src={resolveImageUrl(equipment.images?.[0])}
+            src={resolveImageUrl(equipment.images?.[0], equipment.category)}
             alt={equipment.name}
             onError={(e) => {
-              const t = e.target as HTMLImageElement;
-              t.onerror = null;
-              t.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='48%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'%3E🚜 No image available%3C/text%3E%3C/svg%3E";
+              (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
             }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

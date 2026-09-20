@@ -40,10 +40,12 @@ const bookingSchema = new mongoose_1.Schema({
     completionOtp: { type: String, default: '' },
     transactionRef: { type: String, default: '' },
     bankDetails: {
-        bankName: { type: String, default: 'State Bank of India' },
-        accountNumber: { type: String, default: '39482019482' },
-        ifscCode: { type: String, default: 'SBIN0004829' },
-        upiId: { type: String, default: 'owner@upipay' }
+        bankName: { type: String, default: '' },
+        accountHolderName: { type: String, default: '' },
+        accountNumber: { type: String, default: '' },
+        ifscCode: { type: String, default: '' },
+        upiId: { type: String, default: '' },
+        qrCodeUrl: { type: String, default: '' }
     }
 }, { timestamps: true });
 bookingSchema.set('toJSON', {

@@ -1,6 +1,11 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
+import path from 'path';
+import dns from 'dns';
 import cloudinary from '../config/cloudinary';
+
+// Ensure IPv4 first to avoid DNS delays with Cloudinary
+dns.setDefaultResultOrder('verbatim');
 
 const router = Router();
 
@@ -19,49 +24,57 @@ const upload = multer({
   }
 });
 
-// Helper function to upload buffer to Cloudinary or encode as base64 data URL as fallback
-// Base64 is stored directly in MongoDB and never lost on server restarts (unlike local disk)
+// Helper function to upload buffer directly to Cloudinary in folder 'krushi_connect'
 const uploadBufferToCloudinary = (buffer: Buffer, originalname: string): Promise<string> => {
-  return new Promise((resolve) => {
-    const mimeType = originalname.match(/\.(png)$/i)
-      ? 'image/png'
-      : originalname.match(/\.(gif)$/i)
-      ? 'image/gif'
-      : originalname.match(/\.(webp)$/i)
-      ? 'image/webp'
-      : 'image/jpeg';
+  return new Promise((resolve, reject) => {
+    if (!process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_SECRET) {
+      return reject(
+        new Error(
+          'Cloudinary is not configured. Please set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in server/.env.'
+        )
+      );
+    }
 
-    const saveAsBase64 = () => {
-      // Store as base64 data URL — persists in MongoDB, no disk dependency
-      const base64 = buffer.toString('base64');
-      const dataUrl = `data:${mimeType};base64,${base64}`;
-      console.log(`Saving image as base64 data URL (${Math.round(buffer.length / 1024)}KB)`);
-      return resolve(dataUrl);
+    const ext = path.extname(originalname).replace('.', '').toLowerCase() || 'jpg';
+    const cleanExt = ['jpg', 'jpeg', 'png', 'webp'].includes(ext) ? ext : 'jpg';
+    const publicId = `eq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    const uploadOptions: any = {
+      folder: 'krushi_connect',
+      resource_type: 'image',
+      public_id: publicId,
+      format: cleanExt
     };
 
-    // Try Cloudinary if keys exist
-    if (process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_CLOUD_NAME) {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          resource_type: 'image',
-          public_id: `krushiconnect/eq_${Date.now()}_${Math.random().toString(36).substring(7)}`
-        },
-        (error, result) => {
-          if (error || !result || !result.secure_url) {
-            console.warn('Cloudinary upload failed, falling back to base64:', error?.message || 'Upload failed');
-            return saveAsBase64();
-          }
-          console.log('Image uploaded to Cloudinary:', result.secure_url);
-          resolve(result.secure_url);
-        }
-      );
-
-      uploadStream.on('error', () => saveAsBase64());
-      uploadStream.end(buffer);
-    } else {
-      console.log('Cloudinary not configured, saving as base64 data URL');
-      saveAsBase64();
+    if (process.env.CLOUDINARY_UPLOAD_PRESET) {
+      uploadOptions.upload_preset = process.env.CLOUDINARY_UPLOAD_PRESET;
     }
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      uploadOptions,
+      (error, result) => {
+        if (error || !result || !result.secure_url) {
+          console.error('Cloudinary upload error:', error);
+          const errorMsg = error?.message || 'Failed to upload image to Cloudinary';
+          if (errorMsg.includes('missing permissions') || error?.http_code === 403) {
+            return reject(
+              new Error(
+                'Cloudinary Permission Error: Your API key is missing "create" permissions. In Cloudinary Console > Settings > Access Keys, edit your key and check "Create" permission, or use your Master API Key.'
+              )
+            );
+          }
+          return reject(new Error(errorMsg));
+        }
+        resolve(result.secure_url);
+      }
+    );
+
+    uploadStream.on('error', (err) => {
+      console.error('Cloudinary stream network error:', err);
+      reject(err);
+    });
+
+    uploadStream.end(buffer);
   });
 };
 
@@ -85,7 +98,7 @@ router.post('/', upload.array('images', 5), async (req: Request, res: Response):
     });
   } catch (error: any) {
     console.error('Image upload error:', error);
-    res.status(500).json({ message: error.message || 'Image upload failed.' });
+    res.status(500).json({ message: error.message || 'Image upload to Cloudinary failed.' });
   }
 });
 

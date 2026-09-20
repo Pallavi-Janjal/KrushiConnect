@@ -11,7 +11,7 @@ import { MapPin, UserCheck, ShieldCheck, Zap, Fuel, ArrowLeft, MessageSquare, Ph
 import { useDynamicTranslation } from '../../hooks/useDynamicTranslation';
 import { TranslatedText } from '../../components/common/TranslatedText';
 import { EditEquipmentModal } from '../../components/equipment/EditEquipmentModal';
-import { resolveImageUrl } from '../../services/api';
+import { resolveImageUrl, getCategoryFallbackImage } from '../../services/api';
 
 export const EquipmentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -150,12 +150,10 @@ export const EquipmentDetailPage: React.FC = () => {
           <div className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs relative">
             <div className="h-96 w-full bg-slate-100">
               <img
-                src={resolveImageUrl(equipment.images[activeImageIndex] || equipment.images[0])}
+                src={resolveImageUrl(equipment.images[activeImageIndex] || equipment.images[0], equipment.category)}
                 alt={equipment.name}
                 onError={(e) => {
-                  const t = e.target as HTMLImageElement;
-                  t.onerror = null;
-                  t.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='48%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='18' fill='%2394a3b8'%3E🚜 No image available%3C/text%3E%3C/svg%3E";
+                  (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
                 }}
                 className="w-full h-full object-cover"
               />
@@ -181,12 +179,10 @@ export const EquipmentDetailPage: React.FC = () => {
                   }`}
                 >
                   <img
-                    src={resolveImageUrl(img)}
+                    src={resolveImageUrl(img, equipment.category)}
                     alt=""
                     onError={(e) => {
-                      const t = e.target as HTMLImageElement;
-                      t.onerror = null;
-                      t.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='12' fill='%2394a3b8'%3E🚜%3C/text%3E%3C/svg%3E";
+                      (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
                     }}
                     className="w-full h-full object-cover"
                   />

@@ -101,6 +101,23 @@ export const getOwnerEquipment = async (req: Request, res: Response): Promise<vo
   }
 };
 
+const getDefaultCategoryImage = (category: string = ''): string => {
+  const cat = category.toLowerCase();
+  if (cat.includes('harvester')) {
+    return 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=800&q=80';
+  }
+  if (cat.includes('spray')) {
+    return 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80';
+  }
+  if (cat.includes('seed') || cat.includes('drill') || cat.includes('planter')) {
+    return 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80';
+  }
+  if (cat.includes('rotavator') || cat.includes('cultivator') || cat.includes('tiller') || cat.includes('vakar') || cat.includes('plough')) {
+    return 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80';
+  }
+  return 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80';
+};
+
 export const createEquipment = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     if (!req.user) {
@@ -174,7 +191,7 @@ export const createEquipment = async (req: AuthRequest, res: Response): Promise<
       rating: 0,
       reviewCount: 0,
       isAvailable: true,
-      images: images && Array.isArray(images) && images.length > 0 ? images : ['https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80'],
+      images: images && Array.isArray(images) && images.length > 0 ? images : [getDefaultCategoryImage(category)],
       specifications: specifications || { Horsepower: `${hp || 45} HP`, Fuel: fuelType || 'Diesel' }
     });
 

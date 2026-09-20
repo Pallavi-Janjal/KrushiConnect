@@ -103,6 +103,7 @@ export const authService = {
     location?: string;
     role?: UserRole;
     avatar?: string;
+    paymentDetails?: import('../types').UserPaymentDetails;
   }): Promise<User> => {
     const response = await apiRequest<{ success: boolean; message: string; user: User }>('/auth/profile', {
       method: 'PUT',

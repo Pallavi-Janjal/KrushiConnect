@@ -144,6 +144,69 @@ The report highlights the adoption of farm machinery, digital tools, drones and 
 The article includes an actual Express Photo of a farmer and describes a CHC operated by small and marginal farmers, with machinery available through an affordable rental model. 
  https://indianexpress.com/article/cities/chandigarh/for-small-farmers-custom-hiring-game-changer-10354952/?utm_source=whatsapp&utm_medium=social&utm_campaign=WhatsappShare
 
+
+ ## 🛠️ Technology Stack
+
+### 🎨 Frontend
+
+- **React 19** – Frontend UI development
+- **TypeScript** – Type-safe development
+- **Vite 8** – Build tool and development server
+- **React Router DOM v7** – Client-side routing
+- **Tailwind CSS v4** – Responsive and modern UI styling
+- **Lucide React** – Icons and UI elements
+- **Recharts** – Agricultural data visualization and analytics
+- **React Context API** – Authentication, application state, and language management
+- **Custom Multilingual Translation Engine** – Supports 10 Indian languages:
+  English, Hindi, Marathi, Gujarati, Punjabi, Bengali, Telugu, Tamil, Kannada, and Malayalam
+
+### ⚙️ Backend
+
+- **Node.js** – Backend runtime environment
+- **Express.js v4** – REST API and server-side framework
+- **TypeScript** – Backend development
+- **tsx & tsc** – TypeScript execution and production build
+- **JWT (JSON Web Token)** – Authentication and authorization
+- **bcryptjs** – Secure password hashing
+- **CORS** – Cross-Origin Resource Sharing
+- **Multer** – File upload and image processing
+- **dotenv** – Environment variable management
+- **Nodemailer** – Email and OTP verification
+- **Resend API** – Transactional email delivery and OTP verification
+
+### 🗄️ Database
+
+- **MongoDB Atlas** – Cloud NoSQL database
+- **Mongoose v8** – MongoDB ODM
+
+#### Main Collections / Schemas
+
+- **User** – Farmers and equipment owners with role-based access
+- **Equipment** – Agricultural machinery details, pricing, location, availability, and images
+- **Booking** – Equipment rental bookings, dates, OTP verification, and payment status
+- **Review** – Ratings and user feedback
+- **Notification** – Booking, OTP, and payment notifications
+- **Maintenance** – Equipment maintenance records
+- **UsageLog** – Equipment usage and service tracking
+- **Receipt** – Payment receipts and transaction records
+
+### 🔌 APIs & Integrations
+
+- **Internal REST API** – Authentication, equipment, bookings, reviews, notifications, maintenance, usage, planning, analytics, receipts, smart matching, mandi prices, and file uploads
+- **data.gov.in API** – Agricultural commodity market prices and APMC/Mandi information
+- **Cloudinary API** – Cloud image upload, storage, and CDN delivery
+- **Resend API** – Email and OTP verification
+- **Translation API** – Dynamic translation of equipment titles and descriptions into regional languages
+
+### 🧰 Tools & Development
+
+- **Git & GitHub** – Version control and source code management
+- **npm (Node Package Manager)** – Package and dependency management
+- **Visual Studio Code** – Development environment
+- **PowerShell** – Command-line development and server management
+- **Oxlint & ESLint** – Code quality and linting
+- **Render** – Full-stack deployment and hosting
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
