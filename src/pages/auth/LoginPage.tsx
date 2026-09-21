@@ -97,11 +97,9 @@ export const LoginPage: React.FC = () => {
         
         {/* Brand Logo & Title */}
         <div className="text-center space-y-2">
-          <img
-            src="/logo.png"
-            alt="KrushiConnect Logo"
-            className="h-16 w-auto mx-auto object-contain drop-shadow-sm"
-          />
+          <div className="w-12 h-12 rounded-2xl bg-[#166534] text-white flex items-center justify-center mx-auto shadow-md">
+            <Tractor className="w-7 h-7" />
+          </div>
           <h2 className="text-2xl font-extrabold text-slate-900">{t('auth.login.title')}</h2>
           <p className="text-xs text-slate-500">{t('auth.login.subtitle')}</p>
         </div>

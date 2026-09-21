@@ -20,11 +20,9 @@ export const ReceiptCard: React.FC<ReceiptCardProps> = ({ receipt }) => {
       {/* Receipt Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-slate-900 pb-5 gap-4">
         <div className="flex items-center gap-3">
-          <img
-            src="/logo.png"
-            alt="KrushiConnect Logo"
-            className="h-12 w-auto object-contain"
-          />
+          <div className="w-12 h-12 rounded-2xl bg-[#166534] text-white flex items-center justify-center font-bold shadow-md">
+            <Tractor className="w-7 h-7" />
+          </div>
           <div>
             <span className="text-xl font-extrabold text-[#166534] block leading-tight tracking-tight">
               KRUSHI CONNECT

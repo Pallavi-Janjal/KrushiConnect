@@ -24,13 +24,11 @@ export const Footer: React.FC = () => {
           
           {/* Brand Info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
-                alt="KrushiConnect Logo"
-                className="h-10 w-auto object-contain bg-white/95 rounded-lg p-1"
-              />
-              <span className="text-xl font-extrabold text-white tracking-tight">KRUSHI CONNECT</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-lg bg-[#166534] flex items-center justify-center text-white">
+                <Tractor className="w-5 h-5" />
+              </div>
+              <span className="text-lg font-bold text-white tracking-tight">KRUSHI CONNECT</span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
               "{t('hero.tagline')}"
