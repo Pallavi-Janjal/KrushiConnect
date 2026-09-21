@@ -51,9 +51,7 @@ The platform also provides crop market price information to help farmers access 
 
 
 
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/c59eabdb-357b-4cdc-8c00-892e0d8f5741" />
-
-
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/862334ed-56e6-4fc4-a6d7-6ccc582b2889" />
 
 
 
@@ -339,7 +337,11 @@ Equipment Owner → List Equipment → Set Availability & Rental Details → Mak
 
 
 
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/3825295f-ea54-4770-a7d6-186fb6267d6a" />
+
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/8e1a24dc-12cd-4ad3-910e-3ad75cf64b92" />
+
+
+
 
 
 
