@@ -166,9 +166,11 @@ export const RegisterPage: React.FC = () => {
         
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-[#166534] text-white flex items-center justify-center mx-auto shadow-md">
-            <Tractor className="w-7 h-7" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="KrushiConnect Logo"
+            className="h-16 w-auto mx-auto object-contain drop-shadow-sm"
+          />
           <h2 className="text-2xl font-extrabold text-slate-900">{t('auth.register.title')}</h2>
           <p className="text-xs text-slate-500">{t('auth.register.subtitle')}</p>
         </div>

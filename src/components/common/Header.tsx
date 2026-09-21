@@ -46,10 +46,12 @@ export const Header: React.FC = () => {
           
           {/* Top-Left Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-[#166534] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-              <Tractor className="w-6 h-6" />
-            </div>
-            <div>
+            <img
+              src="/logo.png"
+              alt="KrushiConnect Logo"
+              className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform"
+            />
+            <div className="hidden xs:block">
               <span className="text-xl font-extrabold tracking-tight text-[#166534] block leading-none">
                 KRUSHI CONNECT
               </span>

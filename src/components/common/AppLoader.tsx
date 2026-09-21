@@ -105,12 +105,12 @@ export function AppLoader({ onReady }: AppLoaderProps) {
       />
 
       {/* Logo icon */}
-      <div
-        className="text-6xl mb-4"
+      <img
+        src="/logo.png"
+        alt="KrushiConnect"
+        className="w-20 h-20 object-contain mb-3 bg-white/95 rounded-2xl p-2 shadow-lg"
         style={{ animation: 'kc-bounce 1.4s ease-in-out infinite' }}
-      >
-        🌾
-      </div>
+      />
 
       {/* App name */}
       <h1 className="text-white text-3xl font-extrabold tracking-tight mb-1 transition-all duration-300">
