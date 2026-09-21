@@ -348,6 +348,19 @@ Equipment Owner → List Equipment → Set Availability & Rental Details → Mak
 ##
 
 
+
+## 🌐 Website Preview
+
+
+https://krushiconnect-6y3q.onrender.com
+
+
+## 📋 Survey List
+
+https://docs.google.com/spreadsheets/d/1q_zD3lWZktFzfC5N8dttoCfVmDUM-tIx6aGbz5-riXY/edit?usp=sharing
+
+
+
 ## 🖥️ Screenshots
 
 ## 🏠 Home Page
