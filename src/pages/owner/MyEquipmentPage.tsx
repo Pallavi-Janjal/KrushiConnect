@@ -85,8 +85,8 @@ export const MyEquipmentPage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map((n) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {[1, 2, 3, 4].map((n) => (
             <EquipmentSkeleton key={n} />
           ))}
         </div>
@@ -100,35 +100,37 @@ export const MyEquipmentPage: React.FC = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {ownerEquipment.map(item => (
-            <div key={item.id} className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs space-y-3 flex flex-col justify-between">
+            <div key={item.id} className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md transition-shadow space-y-3 flex flex-col justify-between group">
               
               <div>
-                <div className="relative h-44 w-full bg-slate-100">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
                   <img
-                    src={resolveImageUrl(item.images?.[0])}
+                    src={resolveImageUrl(item.images?.[0], item.category)}
                     alt={item.name}
+                    loading="lazy"
                     onError={(e) => {
                       const t = e.target as HTMLImageElement;
                       t.onerror = null;
                       t.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='48%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'%3E🚜 No image available%3C/text%3E%3C/svg%3E";
                     }}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#166534] text-white">
+                  <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/35 via-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#166534]/95 text-white shadow-xs">
                       {t(`cat.${item.category}`) || item.category}
                     </span>
                   </div>
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-2.5 right-2.5">
                     <button
                       onClick={() => handleToggle(item.id)}
-                      className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1 shadow-xs ${
-                        item.isAvailable ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'
+                      className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold transition-all flex items-center gap-1 shadow-xs ${
+                        item.isAvailable ? 'bg-emerald-100/95 text-emerald-800 border border-emerald-300' : 'bg-rose-100/95 text-rose-800 border border-rose-300'
                       }`}
                     >
-                      {item.isAvailable ? <ToggleRight className="w-4 h-4 text-emerald-600" /> : <ToggleLeft className="w-4 h-4 text-rose-600" />}
+                      {item.isAvailable ? <ToggleRight className="w-3.5 h-3.5 text-emerald-600" /> : <ToggleLeft className="w-3.5 h-3.5 text-rose-600" />}
                       <span>{item.isAvailable ? t('myEq.available') : t('myEq.unavailable')}</span>
                     </button>
                   </div>

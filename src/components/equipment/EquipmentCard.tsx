@@ -40,24 +40,28 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
   const translatedCategory = t(`cat.${equipment.category}`) || equipment.category;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden group agri-card-hover">
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group">
       
       {/* Equipment Image & Badge Overlay */}
-      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200/80">
         <Link to={`/equipment/${equipment.id}`} className="block w-full h-full cursor-pointer" title={equipment.name}>
           <img
             src={resolveImageUrl(equipment.images?.[0], equipment.category)}
             alt={equipment.name}
+            loading="lazy"
             onError={(e) => {
               (e.target as HTMLImageElement).src = getCategoryFallbackImage(equipment.category);
             }}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
           />
         </Link>
         
+        {/* Subtle top dark gradient for badge readability */}
+        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/35 via-black/10 to-transparent pointer-events-none" />
+
         {/* Category Pill Badge */}
         <div className="absolute top-2.5 left-2.5 pointer-events-none">
-          <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#166534] text-white shadow-xs tracking-wide">
+          <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#166534]/95 text-white shadow-xs tracking-wide">
             {translatedCategory}
           </span>
         </div>
@@ -65,11 +69,11 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
         {/* Availability Badge */}
         <div className="absolute top-2.5 right-2.5 pointer-events-none">
           {equipment.isAvailable ? (
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100/95 text-emerald-800 border border-emerald-300 shadow-xs">
               {t('market.available')}
             </span>
           ) : (
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-300">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100/95 text-rose-800 border border-rose-300 shadow-xs">
               {t('market.booked')}
             </span>
           )}
@@ -89,8 +93,8 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
 
           <div className="flex items-center justify-between mb-2">
             <RatingStars rating={equipment.rating} reviewCount={equipment.reviewCount} />
-            <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <span className="text-xs font-semibold text-slate-600 flex items-center gap-1">
+              <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
               {equipment.hp} {t('common.hp')}
             </span>
           </div>
@@ -118,38 +122,38 @@ export const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, onRentC
         </div>
 
         {/* Card Footer Price & Buttons */}
-        <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between mt-1.5">
-          <div>
-            <div className="text-[11px] text-slate-500 font-medium leading-none mb-0.5">{t('market.rentalRate')}</div>
+        <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2 mt-2">
+          <div className="min-w-0 flex-1">
+            <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider leading-none mb-1">{t('market.rentalRate')}</div>
             {equipment.pricingUnit === 'BOTH' || (equipment.pricePerHectare && equipment.pricePerHour) ? (
-              <div className="text-xs font-extrabold text-[#166534] leading-tight">
+              <div className="text-xs font-black text-[#166534] leading-tight truncate">
                 <span>₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}<span className="text-[10px] font-normal text-slate-500">/ha</span></span>
-                <span className="text-slate-400 mx-1">•</span>
+                <span className="text-slate-300 mx-1">•</span>
                 <span>₹{equipment.pricePerHour!.toLocaleString('en-IN')}<span className="text-[10px] font-normal text-slate-500">/hr</span></span>
               </div>
             ) : equipment.pricingUnit === 'PER_HOUR' ? (
-              <div className="text-base sm:text-lg font-extrabold text-[#166534]">
+              <div className="text-sm sm:text-base font-black text-[#166534] truncate">
                 ₹{(equipment.pricePerHour || equipment.pricePerDay).toLocaleString('en-IN')}
-                <span className="text-[11px] font-normal text-slate-500"> /hr</span>
+                <span className="text-[10px] sm:text-xs font-normal text-slate-500"> /hr</span>
               </div>
             ) : (
-              <div className="text-base sm:text-lg font-extrabold text-[#166534]">
+              <div className="text-sm sm:text-base font-black text-[#166534] truncate">
                 ₹{(equipment.pricePerHectare || equipment.pricePerDay).toLocaleString('en-IN')}
-                <span className="text-[11px] font-normal text-slate-500"> /ha</span>
+                <span className="text-[10px] sm:text-xs font-normal text-slate-500"> /ha</span>
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 shrink-0">
             <Link
               to={`/equipment/${equipment.id}`}
-              className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors whitespace-nowrap"
             >
               {t('market.details')}
             </Link>
             <button
               onClick={handleRentNow}
-              className="px-3 py-1.5 rounded-lg bg-[#166534] hover:bg-[#004C22] text-white text-xs font-bold transition-all shadow-xs hover:shadow-md cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-[#166534] hover:bg-[#004C22] text-white text-xs font-bold transition-all shadow-xs hover:shadow-md cursor-pointer whitespace-nowrap"
             >
               {t('market.rentNow')}
             </button>

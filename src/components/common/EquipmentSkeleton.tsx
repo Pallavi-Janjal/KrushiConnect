@@ -1,11 +1,11 @@
-﻿import React from 'react';
+import React from 'react';
 import { Tractor, Loader2 } from 'lucide-react';
 
 export const EquipmentSkeleton: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col animate-pulse">
+    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col animate-pulse">
       {/* Image Skeleton */}
-      <div className="relative h-48 w-full bg-slate-200">
+      <div className="relative aspect-[16/10] w-full bg-slate-200">
         <div className="absolute top-3 left-3 w-20 h-6 bg-slate-300 rounded-md"></div>
         <div className="absolute top-3 right-3 w-16 h-5 bg-slate-300 rounded-full"></div>
       </div>
@@ -46,7 +46,7 @@ export const EquipmentSkeleton: React.FC = () => {
 };
 
 export const LoadingEquipmentSection: React.FC<{ count?: number; message?: string }> = ({
-  count = 6,
+  count = 8,
   message = 'Loading agricultural machinery from MongoDB Atlas...'
 }) => {
   return (
@@ -68,7 +68,7 @@ export const LoadingEquipmentSection: React.FC<{ count?: number; message?: strin
       </div>
 
       {/* Grid of Skeleton Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {Array.from({ length: count }).map((_, i) => (
           <EquipmentSkeleton key={i} />
         ))}
