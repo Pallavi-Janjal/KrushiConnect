@@ -5,7 +5,7 @@ import { AuthRequest } from '../middleware/auth';
 
 export const getAllEquipment = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { query, category, state, location, minPrice, maxPrice, hp, isAvailable, sortBy } = req.query;
+    const { query, category, activity, state, district, taluka, village, location, minPrice, maxPrice, hp, isAvailable, sortBy } = req.query;
 
     const conditions: any[] = [];
 
@@ -18,13 +18,33 @@ export const getAllEquipment = async (req: Request, res: Response): Promise<void
           { model: searchRegex },
           { description: searchRegex },
           { location: searchRegex },
-          { state: searchRegex }
+          { state: searchRegex },
+          { district: searchRegex },
+          { taluka: searchRegex },
+          { village: searchRegex }
         ]
       });
     }
 
     if (category && category !== 'All' && category !== 'all') {
       conditions.push({ category: new RegExp(`^${category}$`, 'i') });
+    }
+
+    if (activity && String(activity).trim() !== '' && activity !== 'All') {
+      const act = String(activity).toLowerCase();
+      if (act.includes('plow') || act.includes('tilling') || act.includes('prep')) {
+        conditions.push({ category: { $in: [/^tractor$/i, /^rotavator$/i, /^cultivator$/i, /^tiller$/i] } });
+      } else if (act.includes('sow') || act.includes('seed') || act.includes('plant')) {
+        conditions.push({ category: { $in: [/^seeder$/i, /^tractor$/i] } });
+      } else if (act.includes('spray') || act.includes('chemical')) {
+        conditions.push({ category: { $in: [/^sprayer$/i, /^tractor$/i] } });
+      } else if (act.includes('harvest') || act.includes('thresh')) {
+        conditions.push({ category: { $in: [/^harvester$/i, /^thresher$/i, /^tractor$/i] } });
+      } else if (act.includes('weed')) {
+        conditions.push({ category: { $in: [/^cultivator$/i, /^tiller$/i, /^rotavator$/i] } });
+      } else if (act.includes('bale')) {
+        conditions.push({ category: { $in: [/^balers$/i, /^tractor$/i] } });
+      }
     }
 
     if (state && state !== 'All' && state !== 'all') {
@@ -37,12 +57,45 @@ export const getAllEquipment = async (req: Request, res: Response): Promise<void
       });
     }
 
+    if (district && district !== 'All' && district !== 'all') {
+      const distRegex = new RegExp(String(district).trim(), 'i');
+      conditions.push({
+        $or: [
+          { district: distRegex },
+          { location: distRegex }
+        ]
+      });
+    }
+
+    if (taluka && String(taluka).trim() !== '' && taluka !== 'All' && taluka !== 'All Talukas' && taluka !== 'OTHER') {
+      const talukaRegex = new RegExp(String(taluka).trim(), 'i');
+      conditions.push({
+        $or: [
+          { taluka: talukaRegex },
+          { location: talukaRegex }
+        ]
+      });
+    }
+
+    if (village && String(village).trim() !== '') {
+      const villageRegex = new RegExp(String(village).trim(), 'i');
+      conditions.push({
+        $or: [
+          { village: villageRegex },
+          { location: villageRegex }
+        ]
+      });
+    }
+
     if (location && location !== 'All' && location !== 'all') {
       const locRegex = new RegExp(String(location).trim(), 'i');
       conditions.push({
         $or: [
           { location: locRegex },
-          { state: locRegex }
+          { state: locRegex },
+          { district: locRegex },
+          { taluka: locRegex },
+          { village: locRegex }
         ]
       });
     }

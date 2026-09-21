@@ -56,8 +56,12 @@ export const equipmentService = {
   searchAndFilter: async (params: {
     query?: string;
     category?: string;
+    activity?: string;
     location?: string;
     state?: string;
+    district?: string;
+    taluka?: string;
+    village?: string;
     minPrice?: number;
     maxPrice?: number;
     sortBy?: string;
@@ -65,8 +69,12 @@ export const equipmentService = {
     const searchParams = new URLSearchParams();
     if (params.query && params.query.trim()) searchParams.append('query', params.query.trim());
     if (params.category && params.category !== 'All' && params.category !== 'all') searchParams.append('category', params.category);
+    if (params.activity && params.activity !== 'All' && params.activity !== 'all') searchParams.append('activity', params.activity);
     if (params.location && params.location !== 'All' && params.location !== 'all') searchParams.append('location', params.location);
     if (params.state && params.state !== 'All' && params.state !== 'all') searchParams.append('state', params.state);
+    if (params.district && params.district !== 'All' && params.district !== 'all') searchParams.append('district', params.district);
+    if (params.taluka && params.taluka !== 'All' && params.taluka !== 'all' && params.taluka !== 'All Talukas' && params.taluka !== 'OTHER') searchParams.append('taluka', params.taluka);
+    if (params.village && params.village.trim()) searchParams.append('village', params.village.trim());
     if (params.minPrice) searchParams.append('minPrice', String(params.minPrice));
     if (params.maxPrice && params.maxPrice > 0) searchParams.append('maxPrice', String(params.maxPrice));
     if (params.sortBy) searchParams.append('sortBy', params.sortBy);
