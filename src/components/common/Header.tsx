@@ -3,15 +3,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { useTheme } from '../../context/ThemeContext';
 import { Language } from '../../i18n/translations';
-import { Tractor, Bell, PlusCircle, LogOut, LayoutDashboard, Sparkles, TrendingUp, Menu, X, Sun, Moon } from 'lucide-react';
+import { Tractor, Bell, PlusCircle, LogOut, LayoutDashboard, Sparkles, TrendingUp, Menu, X } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { user, logout, saveReturnIntent } = useAuth();
   const { unreadNotifsCount } = useApp();
   const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,20 +40,20 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs print:hidden transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Top-Left Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-[#166534] dark:bg-emerald-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-[#166534] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
               <Tractor className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xl font-extrabold tracking-tight text-[#166534] dark:text-emerald-400 block leading-none">
+              <span className="text-xl font-extrabold tracking-tight text-[#166534] block leading-none">
                 KRUSHI CONNECT
               </span>
-              <span className="text-[10px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+              <span className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
                 Smart Farming
               </span>
             </div>
@@ -65,7 +63,7 @@ export const Header: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-5 text-sm font-medium">
             <Link 
               to="/equipment" 
-              className={`transition-colors ${location.pathname === '/equipment' ? 'text-[#166534] dark:text-emerald-400 font-bold border-b-2 border-[#166534] dark:border-emerald-400 pb-1' : 'text-slate-600 dark:text-slate-300 hover:text-[#166534] dark:hover:text-emerald-400'}`}
+              className={`transition-colors hover:text-[#166534] ${location.pathname === '/equipment' ? 'text-[#166534] font-bold border-b-2 border-[#166534] pb-1' : 'text-slate-600'}`}
             >
               {t('nav.browse')}
             </Link>
@@ -73,7 +71,7 @@ export const Header: React.FC = () => {
             <Link 
               to="/farmer/smart-match" 
               onClick={(e) => handleProtectedNavClick(e, '/farmer/smart-match')}
-              className={`flex items-center gap-1 transition-colors ${location.pathname === '/farmer/smart-match' ? 'text-[#166534] dark:text-emerald-400 font-bold border-b-2 border-[#166534] dark:border-emerald-400 pb-1' : 'text-slate-600 dark:text-slate-300 hover:text-[#166534] dark:hover:text-emerald-400'}`}
+              className={`flex items-center gap-1 transition-colors hover:text-[#166534] ${location.pathname === '/farmer/smart-match' ? 'text-[#166534] font-bold border-b-2 border-[#166534] pb-1' : 'text-slate-600'}`}
             >
               <Sparkles className="w-4 h-4 text-amber-500" />
               {t('nav.smartMatch')}
@@ -82,9 +80,9 @@ export const Header: React.FC = () => {
             <Link 
               to="/mandi" 
               onClick={(e) => handleProtectedNavClick(e, '/mandi')}
-              className={`flex items-center gap-1 transition-colors ${location.pathname === '/mandi' || location.pathname === '/farmer/mandi' ? 'text-[#166534] dark:text-emerald-400 font-bold border-b-2 border-[#166534] dark:border-emerald-400 pb-1' : 'text-slate-600 dark:text-slate-300 hover:text-[#166534] dark:hover:text-emerald-400'}`}
+              className={`flex items-center gap-1 transition-colors hover:text-[#166534] ${location.pathname === '/mandi' || location.pathname === '/farmer/mandi' ? 'text-[#166534] font-bold border-b-2 border-[#166534] pb-1' : 'text-slate-600'}`}
             >
-              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="w-4 h-4 text-emerald-600" />
               {t('nav.mandi')}
             </Link>
           </nav>
@@ -96,19 +94,19 @@ export const Header: React.FC = () => {
             {(!user || user.role === 'EQUIPMENT_OWNER') && (
               <button
                 onClick={handleAddEquipmentClick}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-[#166534] dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-xs font-bold border border-emerald-200/80 dark:border-emerald-800/80 transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-[#166534] hover:bg-emerald-100 text-xs font-bold border border-emerald-200/80 transition-colors shadow-xs"
               >
-                <PlusCircle className="w-4 h-4 text-[#166534] dark:text-emerald-400" />
+                <PlusCircle className="w-4 h-4 text-[#166534]" />
                 <span>{t('nav.addEquipment')}</span>
               </button>
             )}
 
             {/* Language Selector Dropdown */}
-            <div className="flex items-center border-l border-slate-200 dark:border-slate-800 pl-3">
+            <div className="flex items-center border-l border-slate-200 pl-3">
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as Language)}
-                className="px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-extrabold text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#166534] dark:focus:ring-emerald-500 focus:outline-none cursor-pointer"
+                className="px-2 py-1 rounded-lg border border-slate-200 text-xs font-extrabold text-slate-800 bg-slate-50 focus:ring-2 focus:ring-[#166534] focus:outline-none cursor-pointer"
               >
                 <option value="en">🇬🇧 EN</option>
                 <option value="hi">🇮🇳 हिंदी</option>
@@ -116,33 +114,18 @@ export const Header: React.FC = () => {
               </select>
             </div>
 
-            {/* Dark / Light Mode Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              type="button"
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-[#166534] dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400 fill-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-slate-600" />
-              )}
-            </button>
-
             {!user ? (
               /* Unauthenticated State */
               <div className="flex items-center gap-2 pl-2">
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-[#166534] dark:hover:text-emerald-400 transition-colors"
+                  className="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-[#166534] transition-colors"
                 >
                   {t('nav.signIn')}
                 </Link>
                 <Link
                   to="/register"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#166534] hover:bg-[#004C22] dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#166534] hover:bg-[#004C22] text-white text-xs font-bold shadow-sm transition-all"
                 >
                   {t('nav.register')}
                 </Link>
@@ -154,7 +137,7 @@ export const Header: React.FC = () => {
                 {/* Notifications Bell */}
                 <Link
                   to={user.role === 'FARMER' ? '/farmer/notifications' : '/owner/notifications'}
-                  className="relative p-1.5 text-slate-600 dark:text-slate-300 hover:text-[#166534] dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+                  className="relative p-1.5 text-slate-600 hover:text-[#166534] hover:bg-slate-100 rounded-full transition-colors"
                   title="Notifications"
                 >
                   <Bell className="w-5 h-5" />
@@ -168,17 +151,17 @@ export const Header: React.FC = () => {
                 {/* Dashboard Shortcut — icon only */}
                 <Link
                   to={user.role === 'FARMER' ? '/farmer/dashboard' : '/owner/dashboard'}
-                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                  className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors"
                   title={t('nav.dashboard')}
                 >
-                  <LayoutDashboard className="w-5 h-5 text-[#166534] dark:text-emerald-400" />
+                  <LayoutDashboard className="w-5 h-5 text-[#166534]" />
                 </Link>
 
                 {/* User Avatar & Profile Link */}
-                <div className="flex items-center gap-1 pl-2 border-l border-slate-200 dark:border-slate-800">
+                <div className="flex items-center gap-1 pl-2 border-l border-slate-200">
                   <Link
                     to="/profile"
-                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group cursor-pointer"
+                    className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors group cursor-pointer"
                     title="View & Edit Profile"
                   >
                     <div className="relative w-8 h-8 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all">
@@ -196,14 +179,14 @@ export const Header: React.FC = () => {
                       )}
                     </div>
                     <div className="hidden lg:block text-xs text-left">
-                      <span className="font-semibold text-slate-900 dark:text-slate-100 block leading-tight truncate max-w-[100px] group-hover:text-[#166534] dark:group-hover:text-emerald-400 transition-colors">{user.name}</span>
-                      <span className="text-[9px] text-slate-500 dark:text-slate-400 uppercase font-medium">{user.role.replace('_', ' ')}</span>
+                      <span className="font-semibold text-slate-900 block leading-tight truncate max-w-[100px] group-hover:text-[#166534] transition-colors">{user.name}</span>
+                      <span className="text-[9px] text-slate-500 uppercase font-medium">{user.role.replace('_', ' ')}</span>
                     </div>
                   </Link>
 
                   <button
                     onClick={handleLogout}
-                    className="p-1.5 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors ml-0.5 cursor-pointer"
+                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-0.5"
                     title={t('nav.logout')}
                   >
                     <LogOut className="w-4 h-4" />
@@ -215,20 +198,12 @@ export const Header: React.FC = () => {
 
           </div>
 
-          {/* Mobile Controls */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              type="button"
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400 fill-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
-            </button>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
-              className="px-2 py-1 rounded-md text-xs font-bold bg-slate-100 dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+              className="px-2 py-1 rounded-md text-xs font-bold bg-slate-100 border border-slate-200"
             >
               <option value="en">EN</option>
               <option value="hi">हिंदी</option>
@@ -236,7 +211,7 @@ export const Header: React.FC = () => {
             </select>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -247,11 +222,11 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-3 pb-6 space-y-3 shadow-lg">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg">
           <Link
             to="/equipment"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50"
           >
             {t('nav.browse')}
           </Link>
@@ -261,7 +236,7 @@ export const Header: React.FC = () => {
               setMobileMenuOpen(false);
               handleProtectedNavClick(e, '/farmer/smart-match');
             }}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50"
           >
             {t('nav.smartMatch')}
           </Link>
@@ -271,36 +246,36 @@ export const Header: React.FC = () => {
               setMobileMenuOpen(false);
               handleProtectedNavClick(e, '/farmer/mandi');
             }}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50"
           >
             {t('nav.mandi')}
           </Link>
 
           {!user ? (
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+            <div className="pt-4 border-t border-slate-200 flex flex-col gap-2">
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 text-center font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200"
+                className="w-full py-2.5 text-center font-semibold rounded-lg bg-slate-100 text-slate-800"
               >
                 {t('nav.signIn')}
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 text-center font-semibold rounded-lg bg-[#166534] dark:bg-emerald-600 text-white"
+                className="w-full py-2.5 text-center font-semibold rounded-lg bg-[#166534] text-white"
               >
                 {t('nav.register')}
               </Link>
             </div>
           ) : (
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+            <div className="pt-4 border-t border-slate-200 space-y-2">
               <Link
                 to="/profile"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2.5 flex items-center gap-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 transition-colors border border-slate-200/80 dark:border-slate-700/80"
+                className="px-3 py-2.5 flex items-center gap-3 rounded-xl bg-slate-50 hover:bg-emerald-50/50 transition-colors border border-slate-200/80"
               >
-                <div className="w-10 h-10 rounded-full bg-[#166534] dark:bg-emerald-700 text-white flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-emerald-500/20 shrink-0">
+                <div className="w-10 h-10 rounded-full bg-[#166534] text-white flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-emerald-500/20 shrink-0">
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -315,8 +290,8 @@ export const Header: React.FC = () => {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-slate-900 dark:text-slate-100 truncate">{user.name}</div>
-                  <div className="text-xs text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                  <div className="font-bold text-slate-900 truncate">{user.name}</div>
+                  <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
                     <span>View & Edit Profile</span>
                     <span>→</span>
                   </div>
@@ -325,7 +300,7 @@ export const Header: React.FC = () => {
               <Link
                 to={user.role === 'FARMER' ? '/farmer/dashboard' : '/owner/dashboard'}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50"
               >
                 {t('nav.dashboard')}
               </Link>
@@ -334,7 +309,7 @@ export const Header: React.FC = () => {
                   setMobileMenuOpen(false);
                   handleLogout();
                 }}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
+                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
               >
                 {t('nav.logout')}
               </button>

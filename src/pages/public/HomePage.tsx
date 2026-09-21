@@ -72,21 +72,21 @@ export const HomePage: React.FC = () => {
     <div className="space-y-8 pb-16">
       
       {/* Hero Section */}
-      <section className="hero-glow-border relative bg-gradient-to-r from-[#f7faf5] via-[#fcfefb] to-[#edf4ea] dark:from-[#0c1a12] dark:via-[#09150d] dark:to-[#051108] text-slate-900 dark:text-slate-100 min-h-[580px] lg:min-h-[620px] flex flex-col justify-center px-4 sm:px-8 lg:px-14 overflow-hidden rounded-2xl mx-2 sm:mx-4 my-3 shadow-xl">
+      <section className="hero-glow-border relative bg-gradient-to-r from-[#f7faf5] via-[#fcfefb] to-[#edf4ea] text-slate-900 min-h-[580px] lg:min-h-[620px] flex flex-col justify-center px-4 sm:px-8 lg:px-14 overflow-hidden rounded-2xl mx-2 sm:mx-4 my-3 shadow-xl">
         
         {/* Seamless Full-Width Background Tractor */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <img
             src="/hero-tractor-smooth.png"
             alt="Modern Farm Tractor"
-            className="absolute inset-0 w-full h-full object-cover object-right opacity-90 dark:opacity-40"
+            className="absolute inset-0 w-full h-full object-cover object-right"
           />
           {/* Full-width continuous gradient overlay - completely eliminates any vertical seam or white line */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f7faf5] via-[#f7faf5]/90 via-35% to-transparent to-80% dark:from-[#0c1a12] dark:via-[#0c1a12]/95 dark:via-40% dark:to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f7faf5] via-[#f7faf5]/90 via-35% to-transparent to-80%"></div>
         </div>
 
         {/* Bottom Left Decorative Hill & Sprout */}
-        <div className="absolute -bottom-1 -left-1 pointer-events-none z-10 w-36 sm:w-44 h-24 sm:h-32 opacity-90 dark:opacity-40">
+        <div className="absolute -bottom-1 -left-1 pointer-events-none z-10 w-36 sm:w-44 h-24 sm:h-32">
           <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M-10 150 C 40 95, 110 120, 170 150 Z" fill="#65a30d" opacity="0.85" />
             <path d="M-10 150 C 20 75, 80 100, 130 150 Z" fill="#15803d" />
@@ -99,7 +99,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* Bottom Right Decorative Sprout */}
-        <div className="absolute -bottom-1 -right-1 pointer-events-none z-10 w-24 sm:w-32 h-20 sm:h-28 opacity-90 dark:opacity-40">
+        <div className="absolute -bottom-1 -right-1 pointer-events-none z-10 w-24 sm:w-32 h-20 sm:h-28">
           <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M85 125 C 75 90, 95 60, 115 55 C 120 80, 108 110, 85 125 Z" fill="#84cc16" opacity="0.9" />
             <path d="M88 123 C 98 105, 104 85, 115 55" stroke="#15803d" strokeWidth="1.5" strokeLinecap="round" />
@@ -111,42 +111,42 @@ export const HomePage: React.FC = () => {
         <div className="max-w-xl lg:max-w-2xl relative z-10 py-12 sm:py-16 space-y-6 text-left">
           
           {/* Tagline Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#e8f5e5] dark:bg-emerald-950/70 border border-[#cde8c9] dark:border-emerald-800 text-[#15803d] dark:text-emerald-300 text-xs sm:text-sm font-semibold shadow-xs">
-            <div className="w-6 h-6 rounded-full bg-[#15803d]/15 dark:bg-emerald-400/20 flex items-center justify-center shrink-0">
-              <Tractor className="w-3.5 h-3.5 text-[#15803d] dark:text-emerald-400" />
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#e8f5e5] border border-[#cde8c9] text-[#15803d] text-xs sm:text-sm font-semibold shadow-xs">
+            <div className="w-6 h-6 rounded-full bg-[#15803d]/15 flex items-center justify-center shrink-0">
+              <Tractor className="w-3.5 h-3.5 text-[#15803d]" />
             </div>
             <span>{t('hero.tagline')}</span>
           </div>
 
           {/* Headlines */}
           <div className="space-y-1">
-            <h1 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#111827] dark:text-white leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#111827] leading-[1.12]">
               {t('hero.headline')}
             </h1>
-            <h2 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#15803d] dark:text-emerald-400 leading-[1.12]">
+            <h2 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#15803d] leading-[1.12]">
               {t('hero.headlineSpan')}
             </h2>
           </div>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-lg">
+          <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-lg">
             {t('hero.subtitle')}
           </p>
 
           {/* Hero Search Box */}
           <form onSubmit={handleHeroSearch} className="max-w-lg pt-1">
-            <div className="bg-white dark:bg-slate-900 rounded-full p-1.5 sm:p-2 shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2 border border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-100">
-              <Search className="w-5 h-5 text-slate-400 dark:text-slate-500 ml-3 shrink-0" />
+            <div className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2 border border-slate-200/90 text-slate-800">
+              <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('hero.searchPlaceholder')}
-                className="w-full py-2 px-1 sm:px-2 focus:outline-none text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-transparent"
+                className="w-full py-2 px-1 sm:px-2 focus:outline-none text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 bg-transparent"
               />
               <button
                 type="submit"
-                className="bg-[#15803d] hover:bg-[#166534] dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all shrink-0 flex items-center gap-2 group cursor-pointer"
+                className="bg-[#15803d] hover:bg-[#166534] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all shrink-0 flex items-center gap-2 group cursor-pointer"
               >
                 <span>{t('hero.findBtn')}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -171,12 +171,12 @@ export const HomePage: React.FC = () => {
                   onClick={() => handleQuickCategorySelect(cat.id)}
                   className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#15803d] dark:bg-emerald-600 text-white shadow-md'
-                      : 'bg-[#eef7ec] dark:bg-slate-800 hover:bg-[#e2f2e0] dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-[#d6ebd2] dark:border-slate-700'
+                      ? 'bg-[#15803d] text-white shadow-md'
+                      : 'bg-[#eef7ec] hover:bg-[#e2f2e0] text-slate-800 border border-[#d6ebd2]'
                   }`}
                 >
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-[#15803d]/15 dark:bg-emerald-400/20 text-[#15803d] dark:text-emerald-400'
+                    isSelected ? 'bg-white/20 text-white' : 'bg-[#15803d]/15 text-[#15803d]'
                   }`}>
                     <IconComp className="w-3.5 h-3.5" />
                   </div>
@@ -187,11 +187,11 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Value Propositions / Trust Badges */}
-          <div className="pt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-700 dark:text-slate-300">
+          <div className="pt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
             <GreenCheckBadge text="Verified Owners" />
-            <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
+            <span className="hidden sm:inline text-slate-300">|</span>
             <GreenCheckBadge text="Flexible Rentals" />
-            <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
+            <span className="hidden sm:inline text-slate-300">|</span>
             <GreenCheckBadge text="Fair Prices" />
           </div>
 
@@ -201,15 +201,15 @@ export const HomePage: React.FC = () => {
       {/* Available Equipment Marketplace */}
       <section id="marketplace-section" className="w-full px-4 sm:px-6 lg:px-10 space-y-6">
         
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#166534] dark:text-emerald-400">{t('market.badge')}</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">{t('market.title')}</h2>
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#166534]">{t('market.badge')}</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{t('market.title')}</h2>
           </div>
           
           <Link
             to="/equipment"
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#166534] dark:text-emerald-400 hover:text-[#004C22] dark:hover:text-emerald-300 group"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[#166534] hover:text-[#004C22] group"
           >
             <span>{t('market.catalogBtn')}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -222,10 +222,10 @@ export const HomePage: React.FC = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 selectedCategory.toLowerCase() === cat.toLowerCase()
-                  ? 'bg-[#166534] dark:bg-emerald-600 text-white shadow-md'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
+                  ? 'bg-[#166534] text-white shadow-md'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
             >
               {cat === 'All' ? t('cat.all') : t(`cat.${cat}`) || cat}

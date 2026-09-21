@@ -26,28 +26,28 @@ export const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({
   const { t } = useLanguage();
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 p-5 mb-8 shadow-xs space-y-4">
+    <div className="bg-white rounded-xl border border-slate-200/80 p-5 mb-8 shadow-xs space-y-4">
       
       {/* Top Search Bar & Sort Dropdown */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         
         <div className="relative flex-1 w-full">
-          <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
+          <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('market.searchPlaceholder')}
-            className="w-full pl-11 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-[#166534] dark:focus:ring-emerald-500 text-sm text-slate-900 dark:text-slate-100 bg-slate-50/50 dark:bg-slate-900 placeholder:text-slate-400 dark:placeholder:text-slate-500"
+            className="w-full pl-11 pr-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#166534] text-sm text-slate-900 bg-slate-50/50"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap">{t('filter.sortBy')}</span>
+          <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">{t('filter.sortBy')}</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] dark:focus:ring-emerald-500"
+            className="px-3 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]"
           >
             <option value="rating">{t('market.highestRated')}</option>
             <option value="priceAsc">{t('market.priceLowToHigh')}</option>
@@ -59,18 +59,18 @@ export const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({
       </div>
 
       {/* Category Pills & Filters Bar */}
-      <div className="pt-3 border-t border-slate-100 dark:border-slate-700/60 flex flex-wrap items-center justify-between gap-4">
+      <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
         
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mr-1 hidden sm:inline">{t('filter.category')}:</span>
+          <span className="text-xs font-bold text-slate-500 mr-1 hidden sm:inline">{t('filter.category')}:</span>
           {CATEGORY_KEYS.map(cat => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 category.toLowerCase() === cat.toLowerCase()
-                  ? 'bg-[#166534] dark:bg-emerald-600 text-white shadow-xs'
-                  : 'bg-slate-100 dark:bg-slate-700/70 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                  ? 'bg-[#166534] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
               {cat === 'All' ? t('cat.all') : t(`cat.${cat}`) || cat}
@@ -81,11 +81,11 @@ export const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({
         <div className="flex items-center gap-4 flex-wrap">
           
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t('filter.state')}:</span>
+            <span className="text-xs font-semibold text-slate-500">{t('filter.state')}:</span>
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900"
+              className="px-2.5 py-1 rounded-md border border-slate-200 text-xs font-semibold text-slate-800 bg-white"
             >
               {LOCATIONS.map(loc => (
                 <option key={loc} value={loc}>{loc === 'All' ? t('filter.all') : loc}</option>
@@ -95,7 +95,7 @@ export const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({
 
           <button
             onClick={onReset}
-            className="flex items-center gap-1 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
+            className="flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-red-600 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>{t('filter.reset')}</span>

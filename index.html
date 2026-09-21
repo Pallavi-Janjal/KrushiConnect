@@ -11,18 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
-    <!-- Pre-init Dark/Light Mode to prevent flash -->
-    <script>
-      try {
-        const savedTheme = localStorage.getItem('krushi_theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      } catch (e) {}
-    </script>
-
     <style>
       /* ── HTML-level splash loader (visible before React JS loads) ── */
       #html-splash {

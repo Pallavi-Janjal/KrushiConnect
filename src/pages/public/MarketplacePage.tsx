@@ -57,8 +57,8 @@ export const MarketplacePage: React.FC = () => {
 
       {/* Results Count & Grid */}
       <div className="space-y-4">
-        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-          {loadingEq ? 'Loading...' : <>{t('market.showing')} <span className="text-slate-900 dark:text-white font-bold">{filteredEquipment.length}</span> {t('market.machineryListings')}</>}
+        <div className="text-xs font-semibold text-slate-500">
+          {loadingEq ? 'Loading...' : <>{t('market.showing')} <span className="text-slate-900 font-bold">{filteredEquipment.length}</span> {t('market.machineryListings')}</>}
         </div>
 
         <EquipmentGrid
