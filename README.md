@@ -348,6 +348,51 @@ Equipment Owner → List Equipment → Set Availability & Rental Details → Mak
 ##
 
 
+## 🖥️ Screenshots
+
+## 🏠 Home Page
+
+<img width="1600" height="757" alt="image" src="https://github.com/user-attachments/assets/6c023209-2c0b-4977-9065-b8a2d2da29d6" />
+
+
+
+##
+
+## 🚜 Equipment Search
+
+<img width="1497" height="912" alt="image" src="https://github.com/user-attachments/assets/3822c25b-57d1-4c52-bb81-9397a32d1108" />
+
+
+
+##
+
+## 🤖 AI Smart Match Engine
+
+<img width="1241" height="907" alt="image" src="https://github.com/user-attachments/assets/2f8cfc98-7130-4ff6-9b5c-38e519d50d35" />
+
+
+##
+
+
+## 📊 Mandi Price
+
+<img width="1193" height="913" alt="image" src="https://github.com/user-attachments/assets/1471c31b-b48d-4265-ba05-be575aef20d8" />
+
+##
+
+
+## 📈 Dashboard
+
+
+<img width="1217" height="916" alt="image" src="https://github.com/user-attachments/assets/30889658-ace1-480c-9933-eb9ba88d692b" />
+
+
+
+
+##
+
+
+
 ## 🚀 Future Scope
 
 - 📍 GPS-Based Equipment Tracking
