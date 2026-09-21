@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
@@ -29,19 +30,21 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <LanguageProvider>
-        <AuthProvider>
-          <AppProvider>
-            {/* Show React loader until server responds */}
-            {!appReady && <AppLoader onReady={handleReady} />}
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <AppProvider>
+              {/* Show React loader until server responds */}
+              {!appReady && <AppLoader onReady={handleReady} />}
 
-            {/* Render routes immediately so they can pre-fetch in background */}
-            <div style={{ visibility: appReady ? 'visible' : 'hidden' }}>
-              <AppRoutes />
-            </div>
-          </AppProvider>
-        </AuthProvider>
-      </LanguageProvider>
+              {/* Render routes immediately so they can pre-fetch in background */}
+              <div style={{ visibility: appReady ? 'visible' : 'hidden' }}>
+                <AppRoutes />
+              </div>
+            </AppProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
