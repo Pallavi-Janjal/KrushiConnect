@@ -59,6 +59,146 @@ The platform also provides crop market price information to help farmers access 
 ##
 
 
+## 🌐 Website Preview
+
+
+https://krushiconnect-6y3q.onrender.com
+
+
+## 📋 Survey List
+
+https://docs.google.com/spreadsheets/d/1q_zD3lWZktFzfC5N8dttoCfVmDUM-tIx6aGbz5-riXY/edit?usp=sharing
+
+
+
+## 🖥️ Screenshots
+
+## 🏠 Home Page
+
+<img width="1600" height="757" alt="image" src="https://github.com/user-attachments/assets/6c023209-2c0b-4977-9065-b8a2d2da29d6" />
+
+
+
+##
+
+## 🚜 Equipment Search
+
+<img width="1497" height="912" alt="image" src="https://github.com/user-attachments/assets/3822c25b-57d1-4c52-bb81-9397a32d1108" />
+
+
+
+##
+
+## 🤖 AI Smart Match Engine
+
+<img width="1241" height="907" alt="image" src="https://github.com/user-attachments/assets/2f8cfc98-7130-4ff6-9b5c-38e519d50d35" />
+
+
+##
+
+
+## 📊 Mandi Price
+
+<img width="1193" height="913" alt="image" src="https://github.com/user-attachments/assets/1471c31b-b48d-4265-ba05-be575aef20d8" />
+
+##
+
+
+## 📈 Dashboard
+
+
+<img width="1217" height="916" alt="image" src="https://github.com/user-attachments/assets/30889658-ace1-480c-9933-eb9ba88d692b" />
+
+
+
+
+##
+
+
+
+
+ ## 🛠️ Technology Stack
+
+### 🎨 Frontend
+
+- **React 19** – Frontend UI development
+- **TypeScript** – Type-safe development
+- **Vite 8** – Build tool and development server
+- **React Router DOM v7** – Client-side routing
+- **Tailwind CSS v4** – Responsive and modern UI styling
+- **Lucide React** – Icons and UI elements
+- **Recharts** – Agricultural data visualization and analytics
+- **React Context API** – Authentication, application state, and language management
+- **Custom Multilingual Translation Engine** – Supports 10 Indian languages:
+  English, Hindi, Marathi, Gujarati, Punjabi, Bengali, Telugu, Tamil, Kannada, and Malayalam
+
+### ⚙️ Backend
+
+- **Node.js** – Backend runtime environment
+- **Express.js v4** – REST API and server-side framework
+- **TypeScript** – Backend development
+- **tsx & tsc** – TypeScript execution and production build
+- **JWT (JSON Web Token)** – Authentication and authorization
+- **bcryptjs** – Secure password hashing
+- **CORS** – Cross-Origin Resource Sharing
+- **Multer** – File upload and image processing
+- **dotenv** – Environment variable management
+- **Nodemailer** – Email and OTP verification
+- **Resend API** – Transactional email delivery and OTP verification
+
+### 🗄️ Database
+
+- **MongoDB Atlas** – Cloud NoSQL database
+- **Mongoose v8** – MongoDB ODM
+
+#### Main Collections / Schemas
+
+- **User** – Farmers and equipment owners with role-based access
+- **Equipment** – Agricultural machinery details, pricing, location, availability, and images
+- **Booking** – Equipment rental bookings, dates, OTP verification, and payment status
+- **Review** – Ratings and user feedback
+- **Notification** – Booking, OTP, and payment notifications
+- **Maintenance** – Equipment maintenance records
+- **UsageLog** – Equipment usage and service tracking
+- **Receipt** – Payment receipts and transaction records
+
+### 🔌 APIs & Integrations
+
+- **Internal REST API** – Authentication, equipment, bookings, reviews, notifications, maintenance, usage, planning, analytics, receipts, smart matching, mandi prices, and file uploads
+- **data.gov.in API** – Agricultural commodity market prices and APMC/Mandi information
+- **Cloudinary API** – Cloud image upload, storage, and CDN delivery
+- **Resend API** – Email and OTP verification
+- **Translation API** – Dynamic translation of equipment titles and descriptions into regional languages
+
+### 🧰 Tools & Development
+
+- **Git & GitHub** – Version control and source code management
+- **npm (Node Package Manager)** – Package and dependency management
+- **Visual Studio Code** – Development environment
+- **PowerShell** – Command-line development and server management
+- **Oxlint & ESLint** – Code quality and linting
+- **Render** – Full-stack deployment and hosting
+
+
+##
+
+
+
+
+<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/8e1a24dc-12cd-4ad3-910e-3ad75cf64b92" />
+
+
+
+
+
+
+##
+
+
+
+
+
+
 
 ## 📊 Market Price Information
 
@@ -270,142 +410,7 @@ Equipment Owner → List Equipment → Set Availability & Rental Details → Mak
 
 
 
- ## 🛠️ Technology Stack
-
-### 🎨 Frontend
-
-- **React 19** – Frontend UI development
-- **TypeScript** – Type-safe development
-- **Vite 8** – Build tool and development server
-- **React Router DOM v7** – Client-side routing
-- **Tailwind CSS v4** – Responsive and modern UI styling
-- **Lucide React** – Icons and UI elements
-- **Recharts** – Agricultural data visualization and analytics
-- **React Context API** – Authentication, application state, and language management
-- **Custom Multilingual Translation Engine** – Supports 10 Indian languages:
-  English, Hindi, Marathi, Gujarati, Punjabi, Bengali, Telugu, Tamil, Kannada, and Malayalam
-
-### ⚙️ Backend
-
-- **Node.js** – Backend runtime environment
-- **Express.js v4** – REST API and server-side framework
-- **TypeScript** – Backend development
-- **tsx & tsc** – TypeScript execution and production build
-- **JWT (JSON Web Token)** – Authentication and authorization
-- **bcryptjs** – Secure password hashing
-- **CORS** – Cross-Origin Resource Sharing
-- **Multer** – File upload and image processing
-- **dotenv** – Environment variable management
-- **Nodemailer** – Email and OTP verification
-- **Resend API** – Transactional email delivery and OTP verification
-
-### 🗄️ Database
-
-- **MongoDB Atlas** – Cloud NoSQL database
-- **Mongoose v8** – MongoDB ODM
-
-#### Main Collections / Schemas
-
-- **User** – Farmers and equipment owners with role-based access
-- **Equipment** – Agricultural machinery details, pricing, location, availability, and images
-- **Booking** – Equipment rental bookings, dates, OTP verification, and payment status
-- **Review** – Ratings and user feedback
-- **Notification** – Booking, OTP, and payment notifications
-- **Maintenance** – Equipment maintenance records
-- **UsageLog** – Equipment usage and service tracking
-- **Receipt** – Payment receipts and transaction records
-
-### 🔌 APIs & Integrations
-
-- **Internal REST API** – Authentication, equipment, bookings, reviews, notifications, maintenance, usage, planning, analytics, receipts, smart matching, mandi prices, and file uploads
-- **data.gov.in API** – Agricultural commodity market prices and APMC/Mandi information
-- **Cloudinary API** – Cloud image upload, storage, and CDN delivery
-- **Resend API** – Email and OTP verification
-- **Translation API** – Dynamic translation of equipment titles and descriptions into regional languages
-
-### 🧰 Tools & Development
-
-- **Git & GitHub** – Version control and source code management
-- **npm (Node Package Manager)** – Package and dependency management
-- **Visual Studio Code** – Development environment
-- **PowerShell** – Command-line development and server management
-- **Oxlint & ESLint** – Code quality and linting
-- **Render** – Full-stack deployment and hosting
-
-
-##
-
-
-
-
-<img width="1312" height="1199" alt="image" src="https://github.com/user-attachments/assets/8e1a24dc-12cd-4ad3-910e-3ad75cf64b92" />
-
-
-
-
-
-
-##
-
-
-
-## 🌐 Website Preview
-
-
-https://krushiconnect-6y3q.onrender.com
-
-
-## 📋 Survey List
-
-https://docs.google.com/spreadsheets/d/1q_zD3lWZktFzfC5N8dttoCfVmDUM-tIx6aGbz5-riXY/edit?usp=sharing
-
-
-
-## 🖥️ Screenshots
-
-## 🏠 Home Page
-
-<img width="1600" height="757" alt="image" src="https://github.com/user-attachments/assets/6c023209-2c0b-4977-9065-b8a2d2da29d6" />
-
-
-
-##
-
-## 🚜 Equipment Search
-
-<img width="1497" height="912" alt="image" src="https://github.com/user-attachments/assets/3822c25b-57d1-4c52-bb81-9397a32d1108" />
-
-
-
-##
-
-## 🤖 AI Smart Match Engine
-
-<img width="1241" height="907" alt="image" src="https://github.com/user-attachments/assets/2f8cfc98-7130-4ff6-9b5c-38e519d50d35" />
-
-
-##
-
-
-## 📊 Mandi Price
-
-<img width="1193" height="913" alt="image" src="https://github.com/user-attachments/assets/1471c31b-b48d-4265-ba05-be575aef20d8" />
-
-##
-
-
-## 📈 Dashboard
-
-
-<img width="1217" height="916" alt="image" src="https://github.com/user-attachments/assets/30889658-ace1-480c-9933-eb9ba88d692b" />
-
-
-
-
-##
-
-
-
+ 
 ## 🚀 Future Scope
 
 - 📍 GPS-Based Equipment Tracking
