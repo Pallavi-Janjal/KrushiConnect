@@ -69,6 +69,10 @@ https://krushiconnect-6y3q.onrender.com
 
 https://docs.google.com/spreadsheets/d/1q_zD3lWZktFzfC5N8dttoCfVmDUM-tIx6aGbz5-riXY/edit?usp=sharing
 
+## Youtube video link 
+
+https://youtu.be/uiN85uDc3q0?si=k2sTJbgz-yRvlY5O
+
 
 
 ## 🖥️ Screenshots
